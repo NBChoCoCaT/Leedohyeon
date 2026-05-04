@@ -1,45 +1,53 @@
-# CLAUDE.MD -- Academic Project Development with Claude Code
+# CLAUDE.md — Public-Interest Direct Payment Scheme (PIDPS) Research
 
-<!-- HOW TO USE: Replace [BRACKETED PLACEHOLDERS] with your project info.
-     Customize Beamer environments and CSS classes for your theme.
-     Keep this file under ~150 lines — Claude loads it every session.
-     See the guide at docs/workflow-guide.html for full documentation. -->
-
-**Project:** [YOUR PROJECT NAME]
-**Institution:** [YOUR INSTITUTION]
+**Project:** 공익직불제 소농직불금이 농가 투입 행태에 미치는 효과 — DiD-RD evidence at the 0.5 ha cutoff
+**Target journals:** ① *American Journal of Agricultural Economics* (AJAE) → ② *Food Policy* → ③ *Journal of Agricultural Economics* (JAE)
+**Author:** Lee, Dohyeon (Korea University, Dept. of Food and Resource Economics) — single-authored
+**Workflow:** Korean draft (`paper/ko/`) → English translation (`paper/en/`), 2-track (no simultaneous edits)
 **Branch:** main
 
 ---
 
 ## Core Principles
 
-- **Plan first** -- enter plan mode before non-trivial tasks; save plans to `quality_reports/plans/`
-- **Verify after** -- compile/render and confirm output at the end of every task
-- **Single source of truth** -- Beamer `.tex` is authoritative; Quarto `.qmd` derives from it
-- **Quality gates** -- nothing ships below 80/100
-- **[LEARN] tags** -- when corrected, save `[LEARN:category] wrong → right` to [MEMORY.md](MEMORY.md)
+- **Plan first** — enter plan mode before non-trivial tasks; save to `quality_reports/plans/`. See [`plan-first-workflow.md`](.claude/rules/plan-first-workflow.md).
+- **Verify after** — compile/render and confirm output at the end of every task.
+- **Replicate before extend** — [`replication-protocol.md`](.claude/rules/replication-protocol.md) Phase 3 tolerance is non-negotiable (estimate < 0.01, SE < 0.05). No `/replicate-paper` skill — the rule + `/data-analysis` cover it.
+- **Korean → English, never both at once** — stabilize argument in `paper/ko/`, then translate. Drift kills bilingual papers.
+- **Quality gates** — 80(commit) / 90(first submission) / 95(R&R response). Advisory; enforced inside `/commit`. See [`quality-gates.md`](.claude/rules/quality-gates.md).
+- **[LEARN] tags** — when corrected, append `[LEARN:category] wrong → right` to [MEMORY.md](MEMORY.md).
 
-Cross-session context lives in [MEMORY.md](MEMORY.md); past plans, specs, and session logs are in [quality_reports/](quality_reports/).
+---
+
+## Identification Strategy (DiD-RD)
+
+- **Running variable:** 경지면적 (cultivated land area, ㎡), measured in **2018 (pre-policy)** to block manipulation.
+- **Cutoff:** 0.5 ha = 5,000 ㎡ — eligibility threshold for Small-Farmer Flat Payment (SFFP, 소농직불금).
+- **Post:** 2020 onward (PIDPS effective 2020-05-01); pre-period 2018–2019.
+- **Treatment dummy:** `D_treat = 1` if `rv_2018 ≤ 5000` — fixed at 2018 baseline.
+- **Bandwidths (parallel reporting, never single-bandwidth):** T1 ±500 ㎡ / T2 ±1,000 ㎡ / T3 MSE-optimal (`rdrobust`).
+- **Inference:** Wild cluster bootstrap at the household level + Holm step-down across multiple outcomes.
+- **Primary outcomes:** farm operating cost (lumpy investment), off-farm income (precautionary labor), consumption (smoothing), farm income (omnibus).
+- **Theory:** Caballero & Engel (1999) (S,s) — primary; Sandmo (1971) — auxiliary 1; Blundell & Pistaferri (2003) — auxiliary 2.
+- **Differentiation:** vs. Choi & Jodlowski (2025) — they study **land-ownership regulation**, we study **price subsidy at a cutoff**. vs. 최민영·문한필 (2025) — they use off-farm-income RDD only, we combine area cutoff + DiD.
+- **Data:** Statistics Korea MDIS, Farm Household Economic Survey (FHES) Wave 1, 2018–2022 (3,614 farms, 14,474 farm-years). APCS linkage TBD.
 
 ---
 
 ## Folder Structure
 
 ```
-[YOUR-PROJECT]/
-├── CLAUDE.MD                    # This file
-├── .claude/                     # Rules, skills, agents, hooks
-├── Bibliography_base.bib        # Centralized bibliography
-├── Figures/                     # Figures and images
-├── Preambles/header.tex         # LaTeX headers
-├── Slides/                      # Beamer .tex files
-├── Quarto/                      # RevealJS .qmd files + theme
-├── docs/                        # GitHub Pages (auto-generated)
-├── scripts/                     # Utility scripts + R code
-├── quality_reports/             # Plans, session logs, merge reports, decision records
-├── explorations/                # Research sandbox (see rules)
-├── templates/                   # Session log, quality report templates
-└── master_supporting_docs/      # Papers and existing slides
+01_dissertation_PBDP/
+├── CLAUDE.md, MEMORY.md, Bibliography_base.bib
+├── .claude/                    # Rules, skills, agents, hooks, references
+├── paper/{ko,en}/              # (TBC) Korean draft → English translation
+├── scripts/R/                  # FHES pipeline (numbered 01_clean → 05_robust); _outputs/ has RDS/figures
+├── data/                       # (TBC, gitignored) FHES microdata; APCS later
+├── master_supporting_docs/     # supporting_papers/, supporting_slides/
+├── quality_reports/            # plans/, specs/, session_logs/, peer_review_*/
+├── explorations/               # Sandbox (60/100 threshold)
+├── templates/                  # Spec, log, journal-profile templates
+└── Slides/, Quarto/, Figures/, Preambles/, docs/   # Defense/conference (dormant)
 ```
 
 ---
@@ -47,102 +55,79 @@ Cross-session context lives in [MEMORY.md](MEMORY.md); past plans, specs, and se
 ## Commands
 
 ```bash
-# LaTeX (3-pass, XeLaTeX only)
-cd Slides && TEXINPUTS=../Preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
-BIBINPUTS=..:$BIBINPUTS bibtex file
-TEXINPUTS=../Preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
-TEXINPUTS=../Preambles:$TEXINPUTS xelatex -interaction=nonstopmode file.tex
+# R analysis — set.seed(20260504), see r-code-conventions.md
+Rscript scripts/R/01_clean.R   &&   Rscript scripts/R/03_did_rd.R
 
-# Deploy Quarto to GitHub Pages
-./scripts/sync_to_docs.sh LectureN
+# Compile manuscripts (XeLaTeX; Korean uses fontspec)
+cd paper/en && latexmk -xelatex -interaction=nonstopmode main.tex
+cd paper/ko && latexmk -xelatex -interaction=nonstopmode main.tex
 
-# Quality score
-python scripts/quality_score.py Quarto/file.qmd
+# Quality score + reproducibility audit (or /audit-reproducibility skill)
+python scripts/quality_score.py paper/en/main.tex
 
-# Palette sync (LaTeX ↔ SCSS)
-./scripts/check-palette-sync.sh
-
-# Surface-count sync (README ↔ CLAUDE.md ↔ guide ↔ landing page)
-./scripts/check-surface-sync.sh
+# (Dormant) defense slide deploy: ./scripts/sync_to_docs.sh DefenseDeck
 ```
-
-**Palette contract:** color names in `Preambles/header.tex` must match SCSS variables in `Quarto/theme-template.scss`. See [`Preambles/README.md`](Preambles/README.md).
 
 ---
 
-## Quality Thresholds (advisory)
+## Quality Thresholds (advisory, enforced inside `/commit`)
 
-| Score | Checkpoint | Meaning |
-|-------|------|---------|
-| 80 | Commit | Good enough to save |
-| 90 | PR | Ready for deployment |
-| 95 | Excellence | Aspirational |
+| Score | Stage | Meaning |
+|-------|-------|---------|
+| 80 | Commit | Replication-protocol Phase 3 tolerance holds for every numeric claim |
+| 90 | First submission | Passes `/seven-pass-review` and `/audit-reproducibility`; ready to send to AJAE/Food Policy/JAE |
+| 95 | R&R response | Referee concerns systematically resolved via `/respond-to-referees` |
 
-Enforced by `/commit` (halts + asks for override); not enforced by a git pre-commit hook.
+Direct `git commit` bypasses the gate; `/commit` halts on score < 80 and asks for explicit override + reason.
 
 ---
 
 ## Skills Quick Reference
 
-| Command | What It Does |
-|---------|-------------|
-| `/compile-latex [file]` | 3-pass XeLaTeX + bibtex |
-| `/deploy [LectureN]` | Render Quarto + sync to docs/ |
-| `/extract-tikz [LectureN]` | TikZ → PDF → SVG |
-| `/new-diagram [snippet] [output.tex]` | Scaffold a TikZ diagram from the gallery with prevention + review |
-| `/proofread [file]` | Grammar/typo/overflow review |
-| `/visual-audit [file]` | Slide layout audit |
-| `/pedagogy-review [file]` | Narrative, notation, pacing review |
-| `/review-r [file]` | R code quality review |
-| `/qa-quarto [LectureN]` | Adversarial Quarto vs Beamer QA |
-| `/slide-excellence [file]` | Combined multi-agent review |
-| `/translate-to-quarto [file]` | Beamer → Quarto translation |
-| `/validate-bib` | Cross-reference citations |
-| `/devils-advocate` | Challenge slide design |
-| `/create-lecture` | Full lecture creation |
-| `/commit [msg]` | Stage, commit, PR, merge |
-| `/lit-review [topic]` | Literature search + synthesis |
-| `/research-ideation [topic]` | Research questions + strategies |
-| `/interview-me [topic]` | Interactive research interview |
-| `/review-paper [file]` | Manuscript review (single-pass / `--adversarial` / `--peer <journal>` simulated pipeline) |
-| `/respond-to-referees [report] [manuscript]` | R&R cross-reference + response draft |
-| `/data-analysis [dataset]` | End-to-end R analysis |
-| `/audit-reproducibility [paper]` | Enforce replication tolerance thresholds on paper ↔ code |
-| `/learn [skill-name]` | Extract discovery into persistent skill |
-| `/context-status` | Show session health + context usage |
-| `/deep-audit` | Repository-wide consistency audit |
-| `/permission-check` | Diagnose permission layers when prompts fire unexpectedly |
-| `/seven-pass-review` | Seven-pass adversarial manuscript review (parallel forked subagents) |
-| `/verify-claims [file]` | Chain-of-Verification fact-check (forked verifier, fresh context) |
-| `/checkpoint [topic]` | Save a structured state snapshot (active plan, decisions, file pointers, next actions) before stopping or handing off |
-| `/preregister [--style osf|aspredicted|aea-rct]` | Draft a preregistration document (OSF / AsPredicted / AEA RCT Registry) from a research spec |
+**Research front-end**
+- `/lit-review [topic]` — literature search + synthesis (BibTeX-ready)
+- `/research-ideation [topic]` — hypotheses + identification strategies
+- `/interview-me [topic]` — multi-turn idea formalization → spec
+- `/preregister [--style aea-rct]` — preregistration draft
+
+**Analysis (R)**
+- `/data-analysis [dataset]` — end-to-end pipeline (clean → estimate → table/figure)
+- `/did-rd-analysis` — *(Step 4 — TBC)* DiD-RD with 3-Tier bandwidth + Wild bootstrap + Holm
+- `/lumpy-investment-check` — *(Step 4 — TBC)* (S,s) calibration check
+- `/review-r [file]` — R code quality review
+- `/audit-reproducibility [paper]` — numeric tolerance check (paper ↔ outputs)
+
+**Writing (Korean → English)**
+- `/translate-paper-ko-en` — *(Step 4 — TBC)* Korean section → English with policy glossary
+- `/verify-claims [file]` — CoVe fact-check (citations, policy details, numbers)
+- `/validate-bib`, `/proofread [file]` — bibliography cross-ref / grammar+typo
+
+**Review & submission**
+- `/review-paper [file] [--peer ajae|food-policy|jae]` — single-pass / `--adversarial` / journal-calibrated pipeline
+- `/seven-pass-review` — 7-lens parallel review (submission-ready)
+- `/respond-to-referees [report] [paper]` — R&R response draft
+- `/agent-debate [topic]` — *(Step 4 — TBC)* 5-persona stress-test before writing
+
+**Workflow infra:** `/commit`, `/checkpoint`, `/learn`, `/context-status`, `/permission-check`, `/deep-audit`.
+
+**Slide skills (dormant — reactivate at qualifying exam / conference / defense):** `/compile-latex`, `/extract-tikz`, `/new-diagram`, `/visual-audit`, `/pedagogy-review`, `/qa-quarto`, `/slide-excellence`, `/translate-to-quarto`, `/devils-advocate`, `/create-lecture`, `/deploy`.
 
 ---
 
-<!-- CUSTOMIZE: Replace placeholder rows ([your-env], [.your-class]) with your own.
-     Delete the rows marked "(example — delete)" once you've added yours. -->
+## Korean Policy Glossary
 
-## Beamer Custom Environments
-
-| Environment | Effect | Use Case |
-| --- | --- | --- |
-| `[your-env]` | [Description] | [When to use] |
-| `keybox` | Gold background box | Key points *(example — delete)* |
-| `definitionbox[Title]` | Blue-bordered titled box | Formal definitions *(example — delete)* |
-
-## Quarto CSS Classes
-
-| Class | Effect | Use Case |
-| --- | --- | --- |
-| `[.your-class]` | [Description] | [When to use] |
-| `.smaller` | 85% font | Dense content *(example — delete)* |
-| `.positive` | Green bold | Good annotations *(example — delete)* |
+When citing Korean institutions or policy details in English drafts, use the canonical translations in `.claude/references/policy-glossary-ko-en.md` *(to be created in Step 5)*. Do not improvise — institutional names (**Public-Interest Direct Payment Scheme**, **Small-Farmer Flat Payment**) and statute references (**Act on Public-Interest Direct Payments to Farmers and Fishers, Article 10**) must match the glossary exactly. CoVe (`/verify-claims`) checks against this file.
 
 ---
 
 ## Current Project State
 
-| Lecture | Beamer | Quarto | Key Content |
-| --- | --- | --- | --- |
-| HelloWorld *(sample — delete when ready)* | `HelloWorld.tex` | `HelloWorld.qmd` | Minimal deck to verify setup |
-| 1: [Topic] | `Lecture01_Topic.tex` | `Lecture1_Topic.qmd` | [Brief description] |
+| Stage | Artifact | Status |
+|-------|----------|--------|
+| Draft v1 (Korean) | NRD553 term paper (Spring 2026) | ✅ Complete (`master_supporting_docs/`) |
+| Replication baseline | Choi & Jodlowski (2025), Kirwan (2009) | ⏳ Pending |
+| Analysis pipeline | `scripts/R/01_clean.R` → `05_robust.R` | ⏳ Pending |
+| Korean draft v2 → English translation | `paper/ko/main.tex` → `paper/en/main.tex` | ⏳ Pending |
+| First submission target | AJAE | ⏳ Pending |
+
+Defense slides (`Slides/`, `Quarto/`) and `HelloWorld` samples remain in repo for later reactivation.
