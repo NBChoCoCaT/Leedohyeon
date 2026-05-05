@@ -79,3 +79,18 @@ scripts/R/_outputs/
 # Output artifacts — uncomment lines below based on your preference
 # *.rds
 # output/**/*.rds
+
+# ==============================================================================
+# Raw research data + STATA analysis (PIDPS dissertation, 2026-05-04)
+# ==============================================================================
+# Raw microdata (FHES, APCS, etc.) — privacy + size protection.
+# Directory structure ships via .gitkeep; contents stay local.
+master_supporting_docs/own_drafts/rawdata/*
+!master_supporting_docs/own_drafts/rawdata/.gitkeep
+
+# STATA do-files + logs from term-paper analysis.
+# Directory structure ships via .gitkeep; .do/.log decision pending Dohyeon review.
+# (Note: *.log is already ignored at line 11 as a LaTeX/STATA build artifact —
+#  remove that pattern or whitelist if you decide to commit STATA logs.)
+master_supporting_docs/own_drafts/stata_analysis/*
+!master_supporting_docs/own_drafts/stata_analysis/.gitkeep
