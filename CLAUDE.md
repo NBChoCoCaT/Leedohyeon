@@ -3,8 +3,21 @@
 **Project:** 공익직불제 소농직불금이 농가 투입 행태에 미치는 효과 — DiD-RD evidence at the 0.5 ha cutoff
 **Target journals:** ① *American Journal of Agricultural Economics* (AJAE) → ② *Food Policy* → ③ *Journal of Agricultural Economics* (JAE)
 **Author:** Lee, Dohyeon (Korea University, Dept. of Food and Resource Economics) — single-authored
-**Workflow:** Korean draft (`paper/ko/`) → English translation (`paper/en/`), 2-track (no simultaneous edits)
+**Workflow:** Canonical `paper/en/main.tex` (AJAE submission target); auxiliary `paper/ko/main.tex` derived post-stabilization (KAEA presentation + future thesis chapter base). Bootstrap once from existing Korean v1 (`master_supporting_docs/own_drafts/초안.md`).
 **Branch:** main
+
+---
+
+## Goal
+
+Single-author empirical paper for international peer-review submission, with thesis-chapter compatibility maintained.
+
+- **Primary track:** `paper/en/main.tex` — direct journal submission (AJAE → Food Policy → JAE).
+- **Auxiliary track:** `paper/ko/main.tex` — derived from `paper/en/` post-stabilization. Dual purpose: (i) future PhD thesis chapter base (Korea University Dept. of Food and Resource Economics; advisor: Lee Sangheon; currently enrolled), (ii) KAEA / 한국농경제학회 conference presentation.
+- **Bootstrap:** existing Korean v1 (`master_supporting_docs/own_drafts/초안.md`, 36 KB) → `paper/en/main.tex` (one-time port). After this, `paper/en/` is canonical; `paper/ko/` re-syncs from `paper/en/` once stable.
+- **Replication standard:** AEA Data Editor checklist — full reproducibility package (`scripts/R/`, `_outputs/`, `data/var_dictionary.csv`, README) at first submission.
+- **Theoretical generality:** maintained at general (S,s) lumpy-investment level (Caballero & Engel 1999) so the same identification supports both journal-article framing and future thesis-chapter expansion. Korean policy specifics (PIDPS, SFFP) live in identification + data sections, not in the theoretical core.
+- **Paper length:** 30–50 pages (journal-article scale, AJAE ≤ 50 pages double-spaced including references). Robustness in online appendix; main text carries headline + 1–2 robustness hints only.
 
 ---
 
@@ -13,7 +26,7 @@
 - **Plan first** — enter plan mode before non-trivial tasks; save to `quality_reports/plans/`. See [`plan-first-workflow.md`](.claude/rules/plan-first-workflow.md).
 - **Verify after** — compile/render and confirm output at the end of every task.
 - **Replicate before extend** — [`replication-protocol.md`](.claude/rules/replication-protocol.md) Phase 3 tolerance is non-negotiable (estimate < 0.01, SE < 0.05). No `/replicate-paper` skill — the rule + `/data-analysis` cover it.
-- **Korean → English, never both at once** — stabilize argument in `paper/ko/`, then translate. Drift kills bilingual papers.
+- **English canonical, paper/ko derived** — primary edits to `paper/en/main.tex`; `paper/ko/main.tex` re-syncs from `paper/en/` post-stabilization. Never simultaneous bilingual edits. Drift kills bilingual papers.
 - **Quality gates** — 80(commit) / 90(first submission) / 95(R&R response). Advisory; enforced inside `/commit`. See [`quality-gates.md`](.claude/rules/quality-gates.md).
 - **[LEARN] tags** — when corrected, append `[LEARN:category] wrong → right` to [MEMORY.md](MEMORY.md).
 
@@ -124,10 +137,11 @@ When citing Korean institutions or policy details in English drafts, use the can
 
 | Stage | Artifact | Status |
 |-------|----------|--------|
-| Draft v1 (Korean) | NRD553 term paper (Spring 2026) | ✅ Complete (`master_supporting_docs/`) |
+| Draft v1 (Korean) | NRD553 term paper (Spring 2026) | ✅ Complete (`master_supporting_docs/own_drafts/초안.md`) |
 | Replication baseline | Choi & Jodlowski (2025), Kirwan (2009) | ⏳ Pending |
 | Analysis pipeline | `scripts/R/01_clean.R` → `05_robust.R` | ⏳ Pending |
-| Korean draft v2 → English translation | `paper/ko/main.tex` → `paper/en/main.tex` | ⏳ Pending |
+| **English draft v1** (primary, paper/en) | `paper/en/main.tex` (bootstrapped from Korean v1) | ⏳ Pending |
+| Korean derived (auxiliary, paper/ko) | `paper/ko/main.tex` (re-synced from `paper/en/` post-stabilization; KAEA + thesis chapter) | ⏳ Deferred until paper/en stable |
 | First submission target | AJAE | ⏳ Pending |
 
 Defense slides (`Slides/`, `Quarto/`) and `HelloWorld` samples remain in repo for later reactivation.
