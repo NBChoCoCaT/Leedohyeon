@@ -21,16 +21,16 @@
 
 ## Identification Strategy (DiD-RD)
 
-- **Running variable:** 경지면적 (cultivated land area, ㎡), measured in **2018 (pre-policy)** to block manipulation.
-- **Cutoff:** 0.5 ha = 5,000 ㎡ — eligibility threshold for Small-Farmer Flat Payment (SFFP, 소농직불금).
+- **Running variable:** `rv_2018 = area_2018 − 5000` — 2018 baseline cultivated area (㎡) **centered at the 0.5 ha cutoff** (observed range −4,986 to +521,696 ㎡; pre-policy measurement blocks manipulation).
+- **Cutoff:** 0.5 ha = 5,000 ㎡ raw area, equivalently `rv_2018 = 0` centered — eligibility threshold for Small-Farmer Flat Payment (SFFP, 소농직불금, 1,200,000 KRW/year flat).
 - **Post:** 2020 onward (PIDPS effective 2020-05-01); pre-period 2018–2019.
-- **Treatment dummy:** `D_treat = 1` if `rv_2018 ≤ 5000` — fixed at 2018 baseline.
+- **Treatment dummy:** `D = 1` if `rv_2018 ≤ 0` ↔ `area_2018 ≤ 5000` — fixed at 2018 baseline. Raw-data variable is **`D`** (R-conventions standardizes to `D_treat` via rename in `01_clean.R`; see `r-code-conventions.md` §10). Verified on `panel_2018_2022.dta` (2026-05-06): 14,474/14,474 obs match; `D` time-invariant per household (0/3,614 change across years); mean `D` = 0.349.
 - **Bandwidths (parallel reporting, never single-bandwidth):** T1 ±500 ㎡ / T2 ±1,000 ㎡ / T3 MSE-optimal (`rdrobust`).
 - **Inference:** Wild cluster bootstrap at the household level + Holm step-down across multiple outcomes.
-- **Primary outcomes:** farm operating cost (lumpy investment), off-farm income (precautionary labor), consumption (smoothing), farm income (omnibus).
+- **Primary outcomes (raw-data names → R-conventions names):** `y_farm_cost → op_cost` (농업경영비 전체, lumpy investment, primary), `y_off_income → off_farm_income` (농외소득, precautionary labor), `y_consump → consumption` (가계소비지출, smoothing), `y_farm_income → farm_income` (농가소득, omnibus). Auxiliary for robustness: `y_farm_cost_ex_rent`, `y_rent_cost` (임차료 controls; reserved for Kirwan channel decomposition). Renames defined in `r-code-conventions.md` §10.
 - **Theory:** Caballero & Engel (1999) (S,s) — primary; Sandmo (1971) — auxiliary 1; Blundell & Pistaferri (2003) — auxiliary 2.
 - **Differentiation:** vs. Choi & Jodlowski (2025) — they study **land-ownership regulation**, we study **price subsidy at a cutoff**. vs. 최민영·문한필 (2025) — they use off-farm-income RDD only, we combine area cutoff + DiD.
-- **Data:** Statistics Korea MDIS, Farm Household Economic Survey (FHES) Wave 1, 2018–2022 (3,614 farms, 14,474 farm-years). APCS linkage TBD.
+- **Data:** Statistics Korea MDIS, Farm Household Economic Survey (FHES) Wave 1, 2018–2022 (3,614 farms, 14,474 farm-years; verified on `master_supporting_docs/own_drafts/rawdata/panel_2018_2022.dta` 2026-05-06). APCS linkage TBD.
 
 ---
 

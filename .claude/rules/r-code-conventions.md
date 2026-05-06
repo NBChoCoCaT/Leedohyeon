@@ -141,7 +141,7 @@ See [`r-reviewer.md`](../agents/r-reviewer.md) Category 11 ("Numerical Disciplin
 | 농외소득 | `off_farm_income` | numeric (KRW) | Auxiliary outcome 1 (Sandmo) |
 | 가계소비지출 | `consumption` | numeric (KRW) | Auxiliary outcome 2 (Blundell-Pistaferri) |
 | 농업소득 | `farm_income` | numeric (KRW) | Omnibus outcome |
-| 처치 더미 | `D_treat` | logical | `rv_2018 ≤ 5000` |
+| 처치 더미 | `D_treat` | logical | `rv_2018 ≤ 0` (raw col `D`; centered) |
 | 시점 더미 | `Post` | logical | `year ≥ 2020` |
 | 표본가중치 | `weight_national` | numeric | National-rep weight (see §6 stage rule) |
 
