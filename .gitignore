@@ -94,3 +94,7 @@ master_supporting_docs/own_drafts/rawdata/*
 #  remove that pattern or whitelist if you decide to commit STATA logs.)
 master_supporting_docs/own_drafts/stata_analysis/*
 !master_supporting_docs/own_drafts/stata_analysis/.gitkeep
+
+# Supporting papers (출판사 저작권 PDFs — replication package에 미포함)
+master_supporting_docs/supporting_papers/*.pdf
+!master_supporting_docs/supporting_papers/.gitkeep
