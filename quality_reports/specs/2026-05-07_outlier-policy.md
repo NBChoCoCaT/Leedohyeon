@@ -1,11 +1,16 @@
 # Requirements Specification: Outlier Policy for PIDPS DiD-RD
 
-**Date:** 2026-05-07
-**Status:** APPROVED (Dohyeon, 2026-05-07)
+**Date:** 2026-05-07 (refined 2026-05-07b)
+**Status:** APPROVED (Dohyeon, 2026-05-07; refined Option A 2026-05-07b)
 **Plan:** `quality_reports/plans/playful-popping-badger.md` (sister: `2026-05-07_outlier-policy.md`)
 **Predecessor session log:** `quality_reports/session_logs/2026-05-06_step-3-3-plan.md`
 **EDA evidence:** `explorations/2026-05-07_outlier-eda/_outputs/`
 **Author:** Lee, Dohyeon (Claude assist)
+
+## Revision History
+
+- **v1 (2026-05-07, APPROVED):** Initial spec — 7 MUST + 4 SHOULD (S1 pcost-implausibility + S2 winsor 0.5/99.5 + S3 EDA evidence + S4 robustness ladder) + 3 MAY + 5 REJECTED.
+- **v1.1 (2026-05-07b, REFINED — Option A):** S1 (pcost-implausibility) **retracted**. Reason: STATA `10_highvalue_checks.do:96` 사용 사례 misattribution — `pcost`는 그 자체가 DiD-RD outcome (생산성 비율 분석)이지 plausibility filter 아님. `y_farm_revenue` 또한 panel.dta에 없고 5개 연도별 CSV merge 필요. AJAE robustness는 S2 (winsor 0.5/99.5)만 유지 — winsor 1/99 + 0.5/99.5 2-step ladder가 "outlier sensitivity?" 질문에 충분한 답. SHOULD 4 → 3개. REJECTED에 R6 추가.
 
 ---
 
@@ -31,14 +36,15 @@ PIDPS DiD-RD 분석의 5개 변수 (4 outcomes + `imputed_payment`)에 대한 ou
 
 ### SHOULD Have (Preferred)
 
-- [ ] **S1.** AJAE robustness E'' (Domain implausibility, ratio-based): `pcost = y_farm_revenue / y_farm_cost`. 임시 임계값 `pcost < 0.1 OR pcost > 100` → 4 outcomes 모두 NA 처리 후 재추정. (Source 정합: `10_highvalue_checks.do:96` 동일 변수 사용.) 구체 임계값은 별도 pcost 분포 EDA (1회) 후 refinement.
 - [ ] **S2.** AJAE robustness F (Conservative winsorize): `winsor 0.5/99.5` for 4 outcomes × 3 bandwidths — 별도 table. Term-paper Winsorize p1/p99 (M3)에 더해 더 보수적인 추가 robustness.
 - [ ] **S3.** EDA 분포 근거 첨부 (`explorations/2026-05-07_outlier-eda/_outputs/`).
-- [ ] **S4.** AJAE-style "robustness ladder" 별도 table 출력 (baseline → IHS → winsor99 → winsor99.5 → pcost-implausibility) — main text는 baseline + 1-2 hint, online appendix에 ladder 전체.
+- [ ] **S4.** AJAE-style "robustness ladder" 별도 table 출력 (baseline → IHS → winsor99 → winsor99.5) — main text는 baseline + 1-2 hint, online appendix에 ladder 전체.
+
+> **Note:** v1의 S1 (pcost-implausibility, ratio-based)은 v1.1에서 retract됨. R6 참조.
 
 ### MAY Have (Optional, If Time)
 
-- [ ] **A1.** Bandwidth × outlier 정책 cross-tab (e.g., T1+winsor99 vs T1+winsor99.5+pcost) — referee 추가 robustness 요청 대비.
+- [ ] **A1.** Bandwidth × outlier 정책 cross-tab (e.g., T1+winsor99 vs T1+winsor99.5) — referee 추가 robustness 요청 대비.
 - [ ] **A2.** Heterogeneity (5 dim × 4 outcome) 추정에서도 동일 outlier 정책 일관 적용 (Step 4 P3 위임).
 - [ ] **A3.** Sub-district `sgg_cd` cluster robustness 시 동일 outlier 정책 (dissertation extension).
 
@@ -48,7 +54,8 @@ PIDPS DiD-RD 분석의 5개 변수 (4 outcomes + `imputed_payment`)에 대한 ou
 - [x] **R2.** Candidate D (Drop top 1% 실제 drop) 폐기. **이유:** sample size 변경 → RDD identification 손상 + replication-protocol Phase 3 보고 부담.
 - [x] **R3.** Candidate A (Asinh) AJAE 추가 채택 폐기. **이유:** M2 (텀페이퍼 robustness B)에 이미 포함, 중복.
 - [x] **R4.** Candidate C (Winsor 1/99) AJAE 추가 채택 폐기. **이유:** M3 (텀페이퍼 robustness C)에 이미 포함, 중복.
-- [x] **R5.** Candidate E (도현님 원본: `y_farm_cost > 10×y_farm_income`) 재정의 후 폐기. **이유:** `y_farm_income < 0` 일 때 (23.55%) 비교 misfire → `y_farm_revenue` 기반 ratio (E'')로 대체.
+- [x] **R5.** Candidate E (도현님 원본: `y_farm_cost > 10×y_farm_income`) 재정의 후 폐기. **이유:** `y_farm_income < 0` 일 때 (23.55%) 비교 misfire → 한때 `y_farm_revenue` 기반 ratio (E'')로 대체했으나 R6에서 다시 retract.
+- [x] **R6 (2026-05-07b retraction).** Candidate E'' (pcost = `y_farm_revenue / y_farm_cost` ratio implausibility) 폐기 — v1 S1 retract. **이유:** (a) `y_farm_revenue` 변수가 `panel_2018_2022.dta`에 부재 — 5개 연도별 CSV (`*_집계_농가수지_*.csv`)에 `농가소득_농업총수입금액` 컬럼으로만 존재, merge infrastructure 추가 필요. (b) STATA `10_highvalue_checks.do:96`에서 `pcost`는 그 자체가 DiD-RD outcome (생산성 비율 분석, "축소 vs 효율화" 가설), plausibility filter 아님 — v1 spec의 "텀페이퍼 정합성" 클레임은 misattribution. (c) "0.1 / 100" 임계값은 텀페이퍼 precedent 없는 임의값. AJAE robustness는 S2 (winsor 0.5/99.5)만 유지로 충분 — referee "outlier sensitivity?" 질문에 winsor99 + winsor99.5 2-step ladder로 답.
 
 ---
 
@@ -60,12 +67,12 @@ PIDPS DiD-RD 분석의 5개 변수 (4 outcomes + `imputed_payment`)에 대한 ou
 | `area_2018` 제외 정당성 | CLEAR | DiD-RD running variable identification 보호 (Plan LN-5) |
 | Term-paper baseline 정의 | CLEAR | `02_analysis.do:268-275` raw 4 outcomes (Plan LN-1) |
 | Term-paper robustness 정의 | CLEAR | `06_robustness_aux.do` (B) IHS + (C) winsor99 (Plan LN-2) |
-| AJAE additions 선택 | CLEAR | E'' (pcost ratio) + F (winsor 0.5/99.5) (Q-A 답변) |
-| pcost 임계값 (`< 0.1` / `> 100`) | ASSUMED | 임시값. 별도 pcost 분포 EDA 1회 후 refinement (Q-A 답변) |
+| AJAE additions 선택 | CLEAR (v1.1 refined) | F (winsor 0.5/99.5)만. v1 E'' (pcost ratio)는 R6 retract |
 | outlier 제외 R 패턴 | CLEAR | `dplyr::mutate(y = if_else(cond, NA_real_, y))` (Q-2 답변) |
 | imputed_payment formula audit | CLEAR (cross-ref) | 본 spec 결정 사항 아님; Step 4 별도 task 위임 (Q-C 답변) |
 | 결과 export 구조 | CLEAR | main spec 변수 불변 + robustness별 별도 table (M7) |
 | log(y+1) 채택 여부 | CLEAR | 폐기 (R1, EDA H3 23.55% 음수) |
+| pcost-implausibility (S1) 채택 여부 | CLEAR (v1.1) | 폐기 (R6, STATA 사용 사례 misattribution) |
 
 ---
 
@@ -75,16 +82,16 @@ PIDPS DiD-RD 분석의 5개 변수 (4 outcomes + `imputed_payment`)에 대한 ou
 
 | Variable | Tier 1 (baseline, MUST) | Tier 2 (term-paper robustness, MUST) | Tier 3 (AJAE additions, SHOULD) |
 |---|---|---|---|
-| `y_farm_cost` | raw, no transform | `asinh(y_farm_cost)` AND `winsor2(y_farm_cost, c(0.01, 0.99))` 별도 table | `winsor2(y_farm_cost, c(0.005, 0.995))` AND pcost-implausible→NA 별도 table |
-| `y_off_income` | raw, no transform | `asinh(y_off_income)` AND `winsor2(y_off_income, c(0.01, 0.99))` 별도 table | `winsor2(y_off_income, c(0.005, 0.995))` AND pcost-implausible→NA 별도 table |
-| `y_consump` | raw, no transform | `asinh(y_consump)` AND `winsor2(y_consump, c(0.01, 0.99))` 별도 table | `winsor2(y_consump, c(0.005, 0.995))` AND pcost-implausible→NA 별도 table |
-| `y_farm_income` | raw, no transform (음수 보존) | `asinh(y_farm_income)` AND `winsor2(y_farm_income, c(0.01, 0.99))` 별도 table | `winsor2(y_farm_income, c(0.005, 0.995))` AND pcost-implausible→NA 별도 table |
+| `y_farm_cost` | raw, no transform | `asinh(y_farm_cost)` AND `winsor2(y_farm_cost, c(0.01, 0.99))` 별도 table | `winsor2(y_farm_cost, c(0.005, 0.995))` 별도 table |
+| `y_off_income` | raw, no transform | `asinh(y_off_income)` AND `winsor2(y_off_income, c(0.01, 0.99))` 별도 table | `winsor2(y_off_income, c(0.005, 0.995))` 별도 table |
+| `y_consump` | raw, no transform | `asinh(y_consump)` AND `winsor2(y_consump, c(0.01, 0.99))` 별도 table | `winsor2(y_consump, c(0.005, 0.995))` 별도 table |
+| `y_farm_income` | raw, no transform (음수 보존) | `asinh(y_farm_income)` AND `winsor2(y_farm_income, c(0.01, 0.99))` 별도 table | `winsor2(y_farm_income, c(0.005, 0.995))` 별도 table |
 | `imputed_payment` | formula 그대로 (`01_cleaning.do:420-426`) | (해당 없음 — outlier 변수 아님) | (해당 없음 — formula audit은 Step 4 별도 task) |
 
 **Notation:**
 - `winsor2(x, c(a, b))` = R `DescTools::Winsorize(x, probs = c(a, b))` 또는 동등 함수.
-- `pcost-implausible→NA` = `y_farm_revenue / y_farm_cost < 0.1` OR `> 100` 인 행에 대해 4개 outcome 모두 NA 처리 (S1).
 - `asinh()` = R base `asinh()`.
+- v1.1 retraction: pcost-implausibility (`y_farm_revenue / y_farm_cost`) cell은 R6에서 폐기됨.
 
 ---
 
@@ -100,7 +107,6 @@ PIDPS DiD-RD 분석의 5개 변수 (4 outcomes + `imputed_payment`)에 대한 ou
 
 **Tier 3 (AJAE additions, SHOULD):**
 - (F) Winsor 0.5/99.5: `DescTools::Winsorize(y_farm_cost, probs = c(0.005, 0.995))` → table_rob_winsor995.
-- (E'') pcost-implausibility: `mutate(across(c(y_farm_cost, y_off_income, y_consump, y_farm_income), ~ if_else(pcost < 0.1 | pcost > 100, NA_real_, .x)))` where `pcost = y_farm_revenue / y_farm_cost` → table_rob_pcost.
 
 **EDA 근거:** EDA full N=14,474 — y_farm_cost: min=32,456 (양수만), median=10.04M, p99=350M, max=1.93B. mean/median = 3.27 (heavy right-tail) → IHS 정당성. 음수/0 비율 0% → log(y+1) 비교 무의미하지만 채택 안 함 (정책 일관성).
 
@@ -237,21 +243,9 @@ df <- df |> dplyr::mutate(across(all_of(c("op_cost","off_farm_income","consumpti
                                   .names = "{.col}_w995"))
 ```
 
-### 6.6 pcost Implausibility (S1, AJAE addition)
+### 6.6 (Removed in v1.1)
 
-**R (텀페이퍼 부분 사용 `10_highvalue_checks.do:96`):**
-```r
-df <- df |> dplyr::mutate(
-  pcost = dplyr::if_else(y_farm_cost > 0, y_farm_revenue / y_farm_cost, NA_real_),
-  pcost_implausible = !is.na(pcost) & (pcost < 0.1 | pcost > 100)
-)
-df_pcost <- df |> dplyr::mutate(across(
-  all_of(c("op_cost","off_farm_income","consumption","farm_income")),
-  ~ dplyr::if_else(pcost_implausible, NA_real_, .x)
-))
-```
-
-> **Note (S1 임시 임계값):** `0.1` / `100`은 plausibility 가설 1차 통과값. 별도 pcost 분포 EDA 1회 (e.g., `explorations/2026-05-XX_pcost-eda/`) 후 refinement — Step 4 P1 진입 직전.
+원래 v1의 6.6 "pcost Implausibility (S1)"는 R6에서 retract됨. 사유 (요약): (a) `y_farm_revenue` panel.dta 부재 + 5 CSV merge 부담; (b) STATA `10_highvalue_checks.do:96` `pcost`는 outcome이지 filter 아님 (misattribution); (c) 0.1/100 임계값 텀페이퍼 precedent 없음.
 
 ---
 
@@ -291,7 +285,7 @@ df_pcost <- df |> dplyr::mutate(across(
 - **EDA evidence:** `explorations/2026-05-07_outlier-eda/_outputs/`.
 - **Step 4 P1 위임:** `imputed_payment` formula audit (rate-tier vs 정부 고시 정확성 cross-check) — 본 spec 외 별도 task. (OQ-3 답변 per Q-C.)
 - **STATA source files:** `master_supporting_docs/own_drafts/stata_analysis/{01_cleaning.do, 02_analysis.do, 06_robustness_aux.do, 10_highvalue_checks.do}` — `.gitignore` 보호.
-- **MEMORY.md cross-ref:** [LEARN:methods] 텀페이퍼 outlier 정책 (Phase 5 신규 추가); [LEARN:methods] 음수 비율 사전 확인 (Phase 5 신규 추가); [LEARN:audit] STATA `replace v = .` ↔ R NA 동등 (Phase 5 신규 추가).
+- **MEMORY.md cross-ref:** [LEARN:methods] 음수 비율 사전 확인 (Phase 5); [LEARN:audit] STATA 변수 인용 시 outcome/filter/covariate 구분 (v1.1 추가, Section 6.6 misattribution 사례).
 
 ---
 
@@ -310,13 +304,11 @@ df_pcost <- df |> dplyr::mutate(across(
 1. ☐ Term-paper baseline 추정값 ≡ R baseline 추정값 (replication-protocol Phase 3 tolerance: estimate <0.01, SE <0.05).
 2. ☐ Term-paper IHS robustness 추정값 ≡ R asinh() 추정값 (동일 tolerance).
 3. ☐ Term-paper Winsor99 추정값 ≡ R Winsorize() 추정값 (동일 tolerance).
-4. ☐ AJAE additions (S1, S2) 별도 table 출력 — 부호/유의성 main 결과와 비교 보고.
-5. ☐ Sample size 변경 사항 보고: pcost-implausibility로 N → N-? 명시.
+4. ☐ AJAE addition (S2) 별도 table 출력 — 부호/유의성 main 결과와 비교 보고.
 
 **spec 안정화 (1-2 R 사용 사이클 후):**
 
 1. ☐ `r-code-conventions.md` §12 "Outlier Policy" promotion (별도 commit).
-2. ☐ pcost 임계값 0.1 / 100 → 데이터 기반 refinement.
 
 ---
 
@@ -324,10 +316,12 @@ df_pcost <- df |> dplyr::mutate(across(
 
 - **Drafted:** 2026-05-07 (Claude assist)
 - **Reviewed:** Lee, Dohyeon — 4 phases incrementally (Q1-Q4 + Q-A/Q-B/Q-C)
-- **Status:** **APPROVED** (Dohyeon, 2026-05-07).
-- **Next gate:** Step 4 P1 진입 직전 pcost 분포 EDA 추가 → S1 임계값 refinement → spec re-approval (별도 commit).
+- **Refined:** 2026-05-07b — Option A retraction of S1 (pcost-implausibility) per misattribution finding.
+- **Status:** **APPROVED** (Dohyeon, 2026-05-07; refined Option A 2026-05-07b).
+- **Next gate:** Step 4 P1 진입 시 본 spec verbatim 적용 — 추가 사전 EDA 없음.
 
-[x] User approved (date): 2026-05-07
+[x] User approved v1 (date): 2026-05-07
+[x] User approved v1.1 refinement (date): 2026-05-07b
 
 ---
 
@@ -335,11 +329,13 @@ df_pcost <- df |> dplyr::mutate(across(
 
 | OQ | Resolution | Source |
 |---|---|---|
-| OQ-1 | E + F 둘 다 채택 | Q-A 답변 (Phase 3) |
+| OQ-1 (v1) | E + F 둘 다 채택 | Q-A 답변 (Phase 3) |
+| OQ-1 (v1.1) | F (winsor 0.5/99.5)만; E'' retract | Option A (2026-05-07b) — R6 |
 | OQ-2 | `dplyr::mutate + NA_real_` (M6) | Q-2 답변 (Plan) |
 | OQ-3 | imputed_payment formula audit cross-ref Section 5.5 + Section 8 (Step 4 위임) | Q-C 답변 (Phase 3) |
 | OQ-4 | log(y+1) 폐기 (R1) — y_farm_income 23.55% 음수 → NaN 손실 | Q-B 답변 (Phase 3) |
-| Q-A | E (원본) → E'' (`pcost` ratio 기반) 재정의 | Phase 3 EDA-driven |
+| Q-A (v1) | E (원본) → E'' (`pcost` ratio 기반) 재정의 | Phase 3 EDA-driven |
+| Q-A (v1.1) | E'' retract — STATA misattribution + y_farm_revenue 부재 | Option A pre-flight verification (2026-05-07b) |
 
 ## Appendix B — STATA File Coverage
 
@@ -349,6 +345,5 @@ df_pcost <- df |> dplyr::mutate(across(
 | `02_analysis.do` | 268-275 | M1 (baseline) |
 | `06_robustness_aux.do` | 90-121 | M2 (IHS) |
 | `06_robustness_aux.do` | 136-184 | M3 (Winsor99) |
-| `10_highvalue_checks.do` | 96 | S1 (pcost ratio source pattern) |
 
-(나머지 12 .do 파일은 본 spec 결정 사항과 무관 — Step 4 P1 진입 시 코드 작성 참조용으로만 사용.)
+(v1.1 retraction: `10_highvalue_checks.do:96` 행 제거됨 — R6 사유. 나머지 13 .do 파일은 본 spec 결정 사항과 무관 — Step 4 P1 진입 시 코드 작성 참조용으로만 사용.)
