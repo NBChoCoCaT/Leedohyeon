@@ -1,25 +1,31 @@
 # =============================================================================
-# 00_run_all.R — Orchestrator. Run this, not the individual scripts.
+# 00_run_all.R — PIDPS DiD-RD pipeline orchestrator.
+#
+# Run this, not the individual scripts. First-time setup: run
+#   Rscript scripts/R/_setup_packages.R
+# once to install the CRAN dependencies, then this orchestrator any number
+# of times.
 #
 # Reproducibility contract (enforced by /review-r and /audit-reproducibility):
-#   - Fixed seed set below.
+#   - Fixed seed (PROJECT_SEED below).
 #   - Project root resolved via here::here() — no setwd().
-#   - Every package loaded under a renv (or DESCRIPTION) lockfile.
-#   - Outputs written to scripts/R/_outputs/ and listed at the end.
+#   - Outputs written to scripts/R/_outputs/.
 #   - sessionInfo() captured so reviewers can verify the environment.
+#   - Stub stops are graceful (P2/P3 boundary), not pipeline failures.
 # =============================================================================
 
 # ---- Bootstrap -------------------------------------------------------------
 suppressPackageStartupMessages({
   if (!requireNamespace("here", quietly = TRUE)) {
-    stop("Install 'here' first: install.packages('here')")
+    stop("Install 'here' first: Rscript scripts/R/_setup_packages.R")
   }
   library(here)
 })
 
 # Seed applies to everything downstream. Change ONLY with a reason in the
 # session log — this is load-bearing for identical numerical outputs.
-PROJECT_SEED <- 20260413L
+# 20260504 = bootstrap session date for the dissertation pipeline (CLAUDE.md).
+PROJECT_SEED <- 20260504L
 set.seed(PROJECT_SEED)
 
 # Output directory (create if missing; treat as ephemeral).
@@ -33,35 +39,58 @@ dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 # script using `exists("varname", inherits = FALSE)` to check ONLY the
 # pipeline env, never the user's global state.
 #
-# 01_load.R produces raw_main; 02_clean.R consumes it and produces df;
-# 03_analyze.R consumes df and writes results.rds; 04 and 05 read from disk.
+# 01_clean.R produces clean.rds; 02_descriptive.R / 03_did_rd.R / 04_robust.R /
+# 05_figures.R each read from clean.rds and write their own RDS + tex / pdf.
 pipeline_env <- new.env(parent = globalenv())
-# Propagate the orchestrator's seed + OUT_DIR into the shared env so scripts
-# can reference them without re-computing.
 pipeline_env$PROJECT_SEED <- PROJECT_SEED
 pipeline_env$OUT_DIR      <- OUT_DIR
 
 pipeline <- c(
-  "01_load.R",
-  "02_clean.R",
-  "03_analyze.R",
-  "04_tables.R",
-  "05_figures.R"
+  "01_clean.R",        # P1 — implemented
+  "02_descriptive.R",  # P2 — stub
+  "03_did_rd.R",       # P2 — stub
+  "04_robust.R",       # P3 — stub
+  "05_figures.R"       # P3 — stub
 )
 
-message("Running reproducibility pipeline with seed ", PROJECT_SEED, "...")
+message("Running PIDPS DiD-RD pipeline with seed ", PROJECT_SEED, "...")
 
-timings <- vapply(pipeline, function(script) {
+# Stub stops are intentional boundary signals (P1 → P2 → P3), not failures.
+# Detect them by message prefix and continue gracefully so sessionInfo still
+# gets captured and the user sees a summary of what ran.
+is_stub_stop <- function(cond) {
+  grepl("is a stub", conditionMessage(cond), fixed = TRUE)
+}
+
+timings <- numeric(0)
+hit_stub <- FALSE
+stub_at  <- NA_character_
+
+for (script in pipeline) {
   path <- here("scripts", "R", script)
   if (!file.exists(path)) {
     stop("Missing pipeline script: ", path)
   }
   start <- Sys.time()
-  source(path, local = pipeline_env)
+  res <- tryCatch(
+    source(path, local = pipeline_env),
+    error = function(e) e
+  )
   elapsed <- as.numeric(Sys.time() - start, units = "secs")
+  timings[script] <- elapsed
+
+  if (inherits(res, "error")) {
+    if (is_stub_stop(res)) {
+      message(sprintf("  %s -> STUB (P2/P3 boundary)", script))
+      hit_stub <- TRUE
+      stub_at  <- script
+      break
+    }
+    message(sprintf("  %s -> FAILED after %.2fs", script, elapsed))
+    stop(res)
+  }
   message(sprintf("  %s -> %.2fs", script, elapsed))
-  elapsed
-}, numeric(1))
+}
 
 # ---- Session capture -------------------------------------------------------
 writeLines(
@@ -72,8 +101,13 @@ writeLines(
 # ---- Report ----------------------------------------------------------------
 outputs <- list.files(OUT_DIR, full.names = FALSE)
 message("")
-message("Pipeline complete. Total time: ", sprintf("%.2fs", sum(timings)))
+if (hit_stub) {
+  message("Pipeline halted at stub: ", stub_at, " (expected — Step 4 P2/P3 boundary).")
+} else {
+  message("Pipeline complete. Total time: ", sprintf("%.2fs", sum(timings)))
+}
 message("Outputs in ", OUT_DIR, ":")
 for (f in outputs) message("  - ", f)
 
-invisible(list(timings = timings, outputs = outputs))
+invisible(list(timings = timings, outputs = outputs,
+               hit_stub = hit_stub, stub_at = stub_at))

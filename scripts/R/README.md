@@ -1,72 +1,73 @@
-# `scripts/R/` — Reproducibility-first analysis template
+# `scripts/R/` — PIDPS DiD-RD analysis pipeline
 
-This directory ships a numbered-script template for **reproducible** data analysis. Every script has one responsibility; all orchestration happens through `00_run_all.R`.
+R pipeline for the dissertation paper "공익직불제 소농직불금이 농가 투입 행태에 미치는 효과 — DiD-RD evidence at the 0.5 ha cutoff." See `CLAUDE.md` for project context, identification strategy, and journal-submission cascade.
 
 ## Conventions
 
-- **Run everything from `00_run_all.R`** — never source mid-pipeline scripts individually unless you're debugging.
-- **Paths via [`here::here()`](https://here.r-lib.org/)** — never `setwd()`. The project root is the git repo root.
-- **Fixed seed** set once in `00_run_all.R`: `set.seed(20260413)`. Stochastic scripts (`01_load.R`, `05_figures.R`) also re-seed locally from `PROJECT_SEED` so running them directly for debugging still produces deterministic outputs. Change only with a recorded reason in the session log.
-- **`sessionInfo()` written to `scripts/R/_outputs/sessionInfo.txt`** at the end of `00_run_all.R` so reviewers can verify the environment.
-- **Outputs to `scripts/R/_outputs/`** — tables (`*.tex`), figures (`*.pdf`, `*.svg`), and RDS snapshots (`*.rds`). Directory is `.gitignore`d in most setups; decide per-project.
-- **No hardcoded absolute paths anywhere.** `/review-r` enforces this.
-- **Log package versions** either via `renv` (recommended) or a `DESCRIPTION` file at repo root.
+- **Run everything from `00_run_all.R`** — do not source mid-pipeline scripts individually unless debugging.
+- **Paths via [`here::here()`](https://here.r-lib.org/)** — never `setwd()`. Project root = git repo root.
+- **Fixed seed** set once in `00_run_all.R`: `set.seed(20260504)` (= bootstrap session date for the dissertation pipeline; matches `CLAUDE.md` *Commands* section). Change only with a recorded reason in the session log.
+- **`sessionInfo()` → `scripts/R/_outputs/sessionInfo.txt`** at the end of `00_run_all.R`.
+- **Outputs to `scripts/R/_outputs/`** — RDS (`clean.rds`, `*_results.rds`), tables (`tab_*.tex`), figures (`fig_*.{pdf,png}`). Directory is `.gitignore`d.
+- **No hardcoded absolute paths.** Enforced by `/review-r`.
+- **Variable convention** — `r-code-conventions.md §10`. Korean source labels preserved as `attr(x, "label")` from `haven::read_dta`. See `_outputs/var_dictionary.csv` after first run.
+- **Outlier policy** — `quality_reports/specs/2026-05-07_outlier-policy.md` v1.1. `01_clean.R` pre-computes 16 outcome columns (raw 4 + ihs 4 + winsor99 4 + winsor995 4); estimation scripts swap LHS in identical specs.
 
-## Files
+## Pipeline
 
-| Script | Responsibility |
-| --- | --- |
-| `00_run_all.R` | Orchestrator. Sources 01–05 in order, writes `sessionInfo()`, prints timing. |
-| `01_load.R` | Read raw data into data frames. No transformations. |
-| `02_clean.R` | Type coercion, missingness handling, join logic, derived columns. |
-| `03_analyze.R` | Regressions, tests, any model fits. Save results to RDS. |
-| `04_tables.R` | Regression tables → `.tex` via `fixest::etable` / `modelsummary`. |
-| `05_figures.R` | `ggplot2` figures → PDF + SVG. |
+| Script | Responsibility | Status |
+| --- | --- | --- |
+| `00_run_all.R` | Orchestrator (graceful stub-stop at P2/P3 boundary) | ✅ |
+| `_setup_packages.R` | One-time idempotent CRAN install (13 packages) | ✅ |
+| `01_clean.R` | Load `panel_2018_2022.dta` → rename (§10) → derive interactions + outlier cols → save `clean.rds`, `var_dictionary.csv`, `clean_log.txt` | ✅ Step 4 P1 |
+| `02_descriptive.R` | Table 1 (weighted, Solon-Haider-Wooldridge stage rule) + first-stage take-up paragraph | 🔧 Step 4 P2 (stub) |
+| `03_did_rd.R` | DiD-RD main estimation: T1/T2/T3 bandwidth × 4 outcomes + Wild cluster bootstrap + Holm step-down | 🔧 Step 4 P2 (stub) |
+| `04_robust.R` | Outlier robustness ladder + heterogeneity (5 dim × 4 outcome) | 🔧 Step 4 P3 (stub) |
+| `05_figures.R` | RD scatter, McCrary density, event study (PDF + PNG) | 🔧 Step 4 P3 (stub) |
+| `synthetic/` | AEA DCAS code-only verification generator (Step 4 P5) — independent | ✅ |
+
+Stub scripts call `stop("... is a stub — implement in Step 4 P{2,3}.")`. `00_run_all.R` detects this and halts the pipeline gracefully (logs `STUB (P2/P3 boundary)`, still writes `sessionInfo.txt`).
 
 ## First-time setup
 
-Hard dependencies (pipeline fails loudly if missing):
-
-```r
-# From the R console, at the repo root
-install.packages(c("here", "ggplot2"))       # required — pipeline won't run without these
+```bash
+Rscript scripts/R/_setup_packages.R          # one-time, idempotent
 ```
 
-Optional but recommended:
+Required (auto-installed): `haven, dplyr, tidyr, tibble, readr, DescTools, fs, here, fixest, modelsummary, sandwich, rdrobust, broom`.
 
-```r
-install.packages(c("svglite", "renv"))        # svglite = SVG figures for Quarto; renv = version pinning
-renv::init()                                  # capture current package versions if you want a lockfile
+**Not on CRAN (intentional omission):** `fwildclusterboot`, `wildrwolf`. Both require gfortran from source on R 4.5+. Wild cluster bootstrap uses `sandwich::vcovBS(type = "wild", cluster = ~hh_id)` instead — same procedure, no compilation. See `MEMORY.md` `[LEARN:env]` 2026-05-06.
+
+## Run
+
+```bash
+Rscript scripts/R/00_run_all.R
 ```
 
-Why the split? `here` + `ggplot2` are load-bearing: without them the pipeline either can't resolve paths or can't build the documented `fig_main.pdf`. `svglite` is optional — if absent, `05_figures.R` emits a **warning** and skips `fig_main.svg`. Quarto slides that reference the SVG will fail to render that figure; Beamer slides (PDF only) are unaffected.
+After P1 completes, expected `scripts/R/_outputs/`:
 
-Then run:
-
-```r
-source("scripts/R/00_run_all.R")
-```
-
-Expected outputs in `scripts/R/_outputs/`:
-
-| File | Condition |
+| File | Source |
 | --- | --- |
-| `fig_main.pdf` | Always |
-| `fig_main.svg` | Only if `svglite` is installed |
-| `table_main.tex` | Always |
-| `results.rds` | Always |
-| `sessionInfo.txt` | Always |
+| `clean.rds` | `01_clean.R` (14,474 obs × ~50 cols) |
+| `var_dictionary.csv` | `01_clean.R` (3-col Korean ↔ English lookup) |
+| `clean_log.txt` | `01_clean.R` (sample-size waterfall + sanity-check ledger) |
+| `sessionInfo.txt` | `00_run_all.R` |
 
 Verify:
 
 ```r
-list.files("scripts/R/_outputs/")
+df <- readRDS("scripts/R/_outputs/clean.rds")
+stopifnot(nrow(df) == 14474, dplyr::n_distinct(df$hh_id) == 3614)
 ```
 
 ## Reviewing
 
-`/review-r scripts/R/03_analyze.R` runs the R code-review agent. `/audit-reproducibility` (when shipped) will verify fixed seeds, no absolute paths, sessionInfo capture, and that `00_run_all.R` actually regenerates all outputs.
+- `/review-r scripts/R/01_clean.R` — code-quality review (R conventions, reproducibility, domain correctness)
+- `/audit-reproducibility paper/en/main.tex scripts/R/_outputs/` — paper ↔ code numeric tolerance check (Phase 3 contract: estimate < 0.01, SE < 0.05)
 
-## Removing this template
+## Plan + spec references
 
-Once you have your own analysis, the scripts 01–05 become yours. Delete this README (or rewrite it for your project). Keep `00_run_all.R` — the convention is the part that matters.
+- Plan: `quality_reports/plans/2026-05-07_p1-clean-r.md` (sister: `memoized-herding-duckling.md`)
+- Spec: `quality_reports/specs/2026-05-07_outlier-policy.md` v1.1
+- Conventions: `.claude/rules/r-code-conventions.md` §6 / §10 / §11 / §12 / §13
+- Replication contract: `.claude/rules/replication-protocol.md` Phase 1–3
