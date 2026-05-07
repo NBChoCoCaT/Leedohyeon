@@ -1,0 +1,1054 @@
+{
+  "schema_version": "1.0",
+  "extraction_date": "2026-05-07",
+  "source": {
+    "description": "panel_2018_2022.dta (Statistics Korea MDIS, FHES Wave 1, 2018-2022)",
+    "sha256": "02fb47f6b626f3111e9810ff800a384567cd6726859000f734268ba146aeda40",
+    "extracted_by": "explorations/2026-05-07_p5-calibration/extract_calibration.R",
+    "plan": "quality_reports/plans/gleaming-juggling-frost.md"
+  },
+  "privacy": {
+    "krw_unit_rounding_won": 10000,
+    "area_unit_rounding_m2": 100,
+    "significant_figures": 4,
+    "small_cell_threshold": 10,
+    "individual_ids_stored": false
+  },
+  "panel": {
+    "n_households": 3614,
+    "n_obs": 14474,
+    "years": [2018, 2019, 2020, 2021, 2022],
+    "balanced_fraction": 0.6134,
+    "obs_per_household_distribution": {
+      "y1": 382,
+      "y2": 363,
+      "y3": 327,
+      "y4": 325,
+      "y5": 2217
+    }
+  },
+  "rv_2018": {
+    "mean": 9700,
+    "sd": 23900,
+    "min": -5000,
+    "max": 521700,
+    "quantiles": {
+      "q01": -4200,
+      "q05": -3600,
+      "q10": -3100,
+      "q25": -1500,
+      "q50": 2900,
+      "q75": 12000,
+      "q90": 27600,
+      "q95": 43200,
+      "q99": 98100
+    },
+    "fraction_treated": 0.3495,
+    "cutoff_density": {
+      "left_window_m2": 200,
+      "right_window_m2": 200,
+      "left_density_in_window": 0.03064,
+      "right_density_in_window": 0.01922,
+      "n_left": 5058,
+      "n_right": 9416
+    }
+  },
+  "outcomes": {
+    "y_farm_cost": {
+      "n": 14474,
+      "fraction_zero": 0,
+      "fraction_negative": 0,
+      "overall": {
+        "mean": 32810000,
+        "sd": 78810000
+      },
+      "by_treat_year": {
+        "D0_y2018": {
+          "n": 1813,
+          "mean": 39800000,
+          "sd": 74450000
+        },
+        "D0_y2019": {
+          "n": 1865,
+          "mean": 42390000,
+          "sd": 84340000
+        },
+        "D0_y2020": {
+          "n": 1895,
+          "mean": 42060000,
+          "sd": 86690000
+        },
+        "D0_y2021": {
+          "n": 1911,
+          "mean": 43630000,
+          "sd": 88960000
+        },
+        "D0_y2022": {
+          "n": 1932,
+          "mean": 44650000,
+          "sd": 97480000
+        },
+        "D1_y2018": {
+          "n": 1010,
+          "mean": 14200000,
+          "sd": 59670000
+        },
+        "D1_y2019": {
+          "n": 1009,
+          "mean": 14830000,
+          "sd": 57800000
+        },
+        "D1_y2020": {
+          "n": 1013,
+          "mean": 13590000,
+          "sd": 48420000
+        },
+        "D1_y2021": {
+          "n": 1011,
+          "mean": 14180000,
+          "sd": 49130000
+        },
+        "D1_y2022": {
+          "n": 1015,
+          "mean": 16720000,
+          "sd": 66930000
+        }
+      },
+      "mixture": {}
+    },
+    "y_off_income": {
+      "n": 14474,
+      "fraction_zero": 0.04021,
+      "fraction_negative": 0.009673,
+      "overall": {
+        "mean": 16760000,
+        "sd": 26800000
+      },
+      "by_treat_year": {
+        "D0_y2018": {
+          "n": 1813,
+          "mean": 13710000,
+          "sd": 23560000,
+          "mixture": {
+            "fraction_negative": 0.009928,
+            "negative_branch": {
+              "n": 18,
+              "mean_abs": 13380000,
+              "sd_abs": 38810000
+            },
+            "positive_branch": {
+              "n": 1795,
+              "mean": 13980000,
+              "sd": 23210000
+            }
+          }
+        },
+        "D0_y2019": {
+          "n": 1865,
+          "mean": 15240000,
+          "sd": 27170000,
+          "mixture": {
+            "fraction_negative": 0.008579,
+            "negative_branch": {
+              "n": 16,
+              "mean_abs": 1800000,
+              "sd_abs": 2860000
+            },
+            "positive_branch": {
+              "n": 1849,
+              "mean": 15390000,
+              "sd": 27240000
+            }
+          }
+        },
+        "D0_y2020": {
+          "n": 1895,
+          "mean": 14800000,
+          "sd": 25260000,
+          "mixture": {
+            "fraction_negative": 0.01266,
+            "negative_branch": {
+              "n": 24,
+              "mean_abs": 7050000,
+              "sd_abs": 12370000
+            },
+            "positive_branch": {
+              "n": 1871,
+              "mean": 15080000,
+              "sd": 25260000
+            }
+          }
+        },
+        "D0_y2021": {
+          "n": 1911,
+          "mean": 15300000,
+          "sd": 25700000,
+          "mixture": {
+            "fraction_negative": 0.008896,
+            "negative_branch": {
+              "n": 17,
+              "mean_abs": 5340000,
+              "sd_abs": 10730000
+            },
+            "positive_branch": {
+              "n": 1894,
+              "mean": 15490000,
+              "sd": 25720000
+            }
+          }
+        },
+        "D0_y2022": {
+          "n": 1932,
+          "mean": 16630000,
+          "sd": 29850000,
+          "mixture": {
+            "fraction_negative": 0.007246,
+            "negative_branch": {
+              "n": 14,
+              "mean_abs": 9240000,
+              "sd_abs": 17470000
+            },
+            "positive_branch": {
+              "n": 1918,
+              "mean": 16820000,
+              "sd": 29840000
+            }
+          }
+        },
+        "D1_y2018": {
+          "n": 1010,
+          "mean": 18560000,
+          "sd": 26230000
+        },
+        "D1_y2019": {
+          "n": 1009,
+          "mean": 19540000,
+          "sd": 26280000,
+          "mixture": {
+            "fraction_negative": 0.01388,
+            "negative_branch": {
+              "n": 14,
+              "mean_abs": 3720000,
+              "sd_abs": 7820000
+            },
+            "positive_branch": {
+              "n": 995,
+              "mean": 19860000,
+              "sd": 26300000
+            }
+          }
+        },
+        "D1_y2020": {
+          "n": 1013,
+          "mean": 19510000,
+          "sd": 26590000
+        },
+        "D1_y2021": {
+          "n": 1011,
+          "mean": 19800000,
+          "sd": 26820000
+        },
+        "D1_y2022": {
+          "n": 1015,
+          "mean": 21370000,
+          "sd": 29960000,
+          "mixture": {
+            "fraction_negative": 0.01281,
+            "negative_branch": {
+              "n": 13,
+              "mean_abs": 2380000,
+              "sd_abs": 3700000
+            },
+            "positive_branch": {
+              "n": 1002,
+              "mean": 21680000,
+              "sd": 30030000
+            }
+          }
+        }
+      },
+      "mixture": {
+        "fraction_negative": 0.009673,
+        "negative_branch": {
+          "n": 140,
+          "mean_abs": 6580000,
+          "sd_abs": 17200000
+        },
+        "positive_branch": {
+          "n": 14334,
+          "mean": 16990000,
+          "sd": 26780000
+        }
+      }
+    },
+    "y_consump": {
+      "n": 14474,
+      "fraction_zero": 0,
+      "fraction_negative": 0,
+      "overall": {
+        "mean": 27310000,
+        "sd": 14280000
+      },
+      "by_treat_year": {
+        "D0_y2018": {
+          "n": 1813,
+          "mean": 26910000,
+          "sd": 13480000
+        },
+        "D0_y2019": {
+          "n": 1865,
+          "mean": 28550000,
+          "sd": 14350000
+        },
+        "D0_y2020": {
+          "n": 1895,
+          "mean": 28170000,
+          "sd": 14490000
+        },
+        "D0_y2021": {
+          "n": 1911,
+          "mean": 28900000,
+          "sd": 15810000
+        },
+        "D0_y2022": {
+          "n": 1932,
+          "mean": 28990000,
+          "sd": 14110000
+        },
+        "D1_y2018": {
+          "n": 1010,
+          "mean": 24440000,
+          "sd": 13640000
+        },
+        "D1_y2019": {
+          "n": 1009,
+          "mean": 25350000,
+          "sd": 13510000
+        },
+        "D1_y2020": {
+          "n": 1013,
+          "mean": 25240000,
+          "sd": 13290000
+        },
+        "D1_y2021": {
+          "n": 1011,
+          "mean": 25930000,
+          "sd": 14360000
+        },
+        "D1_y2022": {
+          "n": 1015,
+          "mean": 26140000,
+          "sd": 13490000
+        }
+      },
+      "mixture": {}
+    },
+    "y_farm_income": {
+      "n": 14474,
+      "fraction_zero": 0,
+      "fraction_negative": 0.2355,
+      "overall": {
+        "mean": 14720000,
+        "sd": 42950000
+      },
+      "by_treat_year": {
+        "D0_y2018": {
+          "n": 1813,
+          "mean": 22530000,
+          "sd": 45610000,
+          "mixture": {
+            "fraction_negative": 0.1594,
+            "negative_branch": {
+              "n": 289,
+              "mean_abs": 9200000,
+              "sd_abs": 15820000
+            },
+            "positive_branch": {
+              "n": 1524,
+              "mean": 28550000,
+              "sd": 46910000
+            }
+          }
+        },
+        "D0_y2019": {
+          "n": 1865,
+          "mean": 19140000,
+          "sd": 46720000,
+          "mixture": {
+            "fraction_negative": 0.2129,
+            "negative_branch": {
+              "n": 397,
+              "mean_abs": 9660000,
+              "sd_abs": 16930000
+            },
+            "positive_branch": {
+              "n": 1468,
+              "mean": 26930000,
+              "sd": 49100000
+            }
+          }
+        },
+        "D0_y2020": {
+          "n": 1895,
+          "mean": 21060000,
+          "sd": 51670000,
+          "mixture": {
+            "fraction_negative": 0.1726,
+            "negative_branch": {
+              "n": 327,
+              "mean_abs": 12040000,
+              "sd_abs": 27290000
+            },
+            "positive_branch": {
+              "n": 1568,
+              "mean": 27960000,
+              "sd": 52880000
+            }
+          }
+        },
+        "D0_y2021": {
+          "n": 1911,
+          "mean": 21830000,
+          "sd": 46460000,
+          "mixture": {
+            "fraction_negative": 0.1528,
+            "negative_branch": {
+              "n": 292,
+              "mean_abs": 14300000,
+              "sd_abs": 29800000
+            },
+            "positive_branch": {
+              "n": 1619,
+              "mean": 28350000,
+              "sd": 45940000
+            }
+          }
+        },
+        "D0_y2022": {
+          "n": 1932,
+          "mean": 15950000,
+          "sd": 52330000,
+          "mixture": {
+            "fraction_negative": 0.2402,
+            "negative_branch": {
+              "n": 464,
+              "mean_abs": 15340000,
+              "sd_abs": 29880000
+            },
+            "positive_branch": {
+              "n": 1468,
+              "mean": 25840000,
+              "sd": 53990000
+            }
+          }
+        },
+        "D1_y2018": {
+          "n": 1010,
+          "mean": 6120000,
+          "sd": 30590000,
+          "mixture": {
+            "fraction_negative": 0.2921,
+            "negative_branch": {
+              "n": 295,
+              "mean_abs": 3300000,
+              "sd_abs": 6530000
+            },
+            "positive_branch": {
+              "n": 715,
+              "mean": 10000000,
+              "sd": 35400000
+            }
+          }
+        },
+        "D1_y2019": {
+          "n": 1009,
+          "mean": 3660000,
+          "sd": 19740000,
+          "mixture": {
+            "fraction_negative": 0.33,
+            "negative_branch": {
+              "n": 333,
+              "mean_abs": 4610000,
+              "sd_abs": 11270000
+            },
+            "positive_branch": {
+              "n": 676,
+              "mean": 7730000,
+              "sd": 21660000
+            }
+          }
+        },
+        "D1_y2020": {
+          "n": 1013,
+          "mean": 4180000,
+          "sd": 25420000,
+          "mixture": {
+            "fraction_negative": 0.3396,
+            "negative_branch": {
+              "n": 344,
+              "mean_abs": 5170000,
+              "sd_abs": 16470000
+            },
+            "positive_branch": {
+              "n": 669,
+              "mean": 8980000,
+              "sd": 27780000
+            }
+          }
+        },
+        "D1_y2021": {
+          "n": 1011,
+          "mean": 6890000,
+          "sd": 29920000,
+          "mixture": {
+            "fraction_negative": 0.2967,
+            "negative_branch": {
+              "n": 300,
+              "mean_abs": 3940000,
+              "sd_abs": 10010000
+            },
+            "positive_branch": {
+              "n": 711,
+              "mean": 11460000,
+              "sd": 34070000
+            }
+          }
+        },
+        "D1_y2022": {
+          "n": 1015,
+          "mean": 2970000,
+          "sd": 25440000,
+          "mixture": {
+            "fraction_negative": 0.3616,
+            "negative_branch": {
+              "n": 367,
+              "mean_abs": 7340000,
+              "sd_abs": 21900000
+            },
+            "positive_branch": {
+              "n": 648,
+              "mean": 8800000,
+              "sd": 25470000
+            }
+          }
+        }
+      },
+      "mixture": {
+        "fraction_negative": 0.2355,
+        "negative_branch": {
+          "n": 3408,
+          "mean_abs": 8770000,
+          "sd_abs": 21070000
+        },
+        "positive_branch": {
+          "n": 11066,
+          "mean": 21950000,
+          "sd": 45310000
+        }
+      }
+    }
+  },
+  "outcomes_local_to_cutoff": {
+    "bandwidth_m2": 5000,
+    "description": "Per-cell stats restricted to |rv_2018| ≤ 5000 ㎡; covers all 4 outcome MSE-optimal bws.",
+    "by_outcome": {
+      "y_farm_cost": {
+        "n": 8473,
+        "fraction_zero": 0,
+        "fraction_negative": 0,
+        "overall": {
+          "mean": 17080000,
+          "sd": 54840000
+        },
+        "by_treat_year": {
+          "D0_y2018": {
+            "n": 655,
+            "mean": 20620000,
+            "sd": 54150000
+          },
+          "D0_y2019": {
+            "n": 675,
+            "mean": 22280000,
+            "sd": 62260000
+          },
+          "D0_y2020": {
+            "n": 686,
+            "mean": 20020000,
+            "sd": 47890000
+          },
+          "D0_y2021": {
+            "n": 696,
+            "mean": 20090000,
+            "sd": 48010000
+          },
+          "D0_y2022": {
+            "n": 703,
+            "mean": 20020000,
+            "sd": 44440000
+          },
+          "D1_y2018": {
+            "n": 1010,
+            "mean": 14200000,
+            "sd": 59670000
+          },
+          "D1_y2019": {
+            "n": 1009,
+            "mean": 14830000,
+            "sd": 57800000
+          },
+          "D1_y2020": {
+            "n": 1013,
+            "mean": 13590000,
+            "sd": 48420000
+          },
+          "D1_y2021": {
+            "n": 1011,
+            "mean": 14180000,
+            "sd": 49130000
+          },
+          "D1_y2022": {
+            "n": 1015,
+            "mean": 16720000,
+            "sd": 66930000
+          }
+        },
+        "mixture": {}
+      },
+      "y_off_income": {
+        "n": 8473,
+        "fraction_zero": 0.04355,
+        "fraction_negative": 0.01039,
+        "overall": {
+          "mean": 18400000,
+          "sd": 27080000
+        },
+        "by_treat_year": {
+          "D0_y2018": {
+            "n": 655,
+            "mean": 15570000,
+            "sd": 24780000
+          },
+          "D0_y2019": {
+            "n": 675,
+            "mean": 16400000,
+            "sd": 26090000
+          },
+          "D0_y2020": {
+            "n": 686,
+            "mean": 15830000,
+            "sd": 24790000,
+            "mixture": {
+              "fraction_negative": 0.01749,
+              "negative_branch": {
+                "n": 12,
+                "mean_abs": 4360000,
+                "sd_abs": 8430000
+              },
+              "positive_branch": {
+                "n": 674,
+                "mean": 16190000,
+                "sd": 24840000
+              }
+            }
+          },
+          "D0_y2021": {
+            "n": 696,
+            "mean": 16240000,
+            "sd": 26000000
+          },
+          "D0_y2022": {
+            "n": 703,
+            "mean": 17790000,
+            "sd": 31370000
+          },
+          "D1_y2018": {
+            "n": 1010,
+            "mean": 18560000,
+            "sd": 26230000
+          },
+          "D1_y2019": {
+            "n": 1009,
+            "mean": 19540000,
+            "sd": 26280000,
+            "mixture": {
+              "fraction_negative": 0.01388,
+              "negative_branch": {
+                "n": 14,
+                "mean_abs": 3720000,
+                "sd_abs": 7820000
+              },
+              "positive_branch": {
+                "n": 995,
+                "mean": 19860000,
+                "sd": 26300000
+              }
+            }
+          },
+          "D1_y2020": {
+            "n": 1013,
+            "mean": 19510000,
+            "sd": 26590000
+          },
+          "D1_y2021": {
+            "n": 1011,
+            "mean": 19800000,
+            "sd": 26820000
+          },
+          "D1_y2022": {
+            "n": 1015,
+            "mean": 21370000,
+            "sd": 29960000,
+            "mixture": {
+              "fraction_negative": 0.01281,
+              "negative_branch": {
+                "n": 13,
+                "mean_abs": 2380000,
+                "sd_abs": 3700000
+              },
+              "positive_branch": {
+                "n": 1002,
+                "mean": 21680000,
+                "sd": 30030000
+              }
+            }
+          }
+        },
+        "mixture": {
+          "fraction_negative": 0.01039,
+          "negative_branch": {
+            "n": 88,
+            "mean_abs": 4500000,
+            "sd_abs": 8710000
+          },
+          "positive_branch": {
+            "n": 8385,
+            "mean": 18640000,
+            "sd": 27110000
+          }
+        }
+      },
+      "y_consump": {
+        "n": 8473,
+        "fraction_zero": 0,
+        "fraction_negative": 0,
+        "overall": {
+          "mean": 25370000,
+          "sd": 13260000
+        },
+        "by_treat_year": {
+          "D0_y2018": {
+            "n": 655,
+            "mean": 24170000,
+            "sd": 12780000
+          },
+          "D0_y2019": {
+            "n": 675,
+            "mean": 25350000,
+            "sd": 12890000
+          },
+          "D0_y2020": {
+            "n": 686,
+            "mean": 25090000,
+            "sd": 12520000
+          },
+          "D0_y2021": {
+            "n": 696,
+            "mean": 25540000,
+            "sd": 12300000
+          },
+          "D0_y2022": {
+            "n": 703,
+            "mean": 26210000,
+            "sd": 12580000
+          },
+          "D1_y2018": {
+            "n": 1010,
+            "mean": 24440000,
+            "sd": 13640000
+          },
+          "D1_y2019": {
+            "n": 1009,
+            "mean": 25350000,
+            "sd": 13510000
+          },
+          "D1_y2020": {
+            "n": 1013,
+            "mean": 25240000,
+            "sd": 13290000
+          },
+          "D1_y2021": {
+            "n": 1011,
+            "mean": 25930000,
+            "sd": 14360000
+          },
+          "D1_y2022": {
+            "n": 1015,
+            "mean": 26140000,
+            "sd": 13490000
+          }
+        },
+        "mixture": {}
+      },
+      "y_farm_income": {
+        "n": 8473,
+        "fraction_zero": 0,
+        "fraction_negative": 0.2846,
+        "overall": {
+          "mean": 6300000,
+          "sd": 26680000
+        },
+        "by_treat_year": {
+          "D0_y2018": {
+            "n": 655,
+            "mean": 9260000,
+            "sd": 21300000,
+            "mixture": {
+              "fraction_negative": 0.2,
+              "negative_branch": {
+                "n": 131,
+                "mean_abs": 5720000,
+                "sd_abs": 11720000
+              },
+              "positive_branch": {
+                "n": 524,
+                "mean": 13000000,
+                "sd": 21510000
+              }
+            }
+          },
+          "D0_y2019": {
+            "n": 675,
+            "mean": 8040000,
+            "sd": 24500000,
+            "mixture": {
+              "fraction_negative": 0.2593,
+              "negative_branch": {
+                "n": 175,
+                "mean_abs": 5910000,
+                "sd_abs": 11740000
+              },
+              "positive_branch": {
+                "n": 500,
+                "mean": 12930000,
+                "sd": 25890000
+              }
+            }
+          },
+          "D0_y2020": {
+            "n": 686,
+            "mean": 8460000,
+            "sd": 20430000,
+            "mixture": {
+              "fraction_negative": 0.2259,
+              "negative_branch": {
+                "n": 155,
+                "mean_abs": 5340000,
+                "sd_abs": 7060000
+              },
+              "positive_branch": {
+                "n": 531,
+                "mean": 12480000,
+                "sd": 21290000
+              }
+            }
+          },
+          "D0_y2021": {
+            "n": 696,
+            "mean": 9350000,
+            "sd": 26130000,
+            "mixture": {
+              "fraction_negative": 0.1796,
+              "negative_branch": {
+                "n": 125,
+                "mean_abs": 9510000,
+                "sd_abs": 29360000
+              },
+              "positive_branch": {
+                "n": 571,
+                "mean": 13480000,
+                "sd": 23460000
+              }
+            }
+          },
+          "D0_y2022": {
+            "n": 703,
+            "mean": 7770000,
+            "sd": 37240000,
+            "mixture": {
+              "fraction_negative": 0.2646,
+              "negative_branch": {
+                "n": 186,
+                "mean_abs": 10890000,
+                "sd_abs": 28700000
+              },
+              "positive_branch": {
+                "n": 517,
+                "mean": 14480000,
+                "sd": 37700000
+              }
+            }
+          },
+          "D1_y2018": {
+            "n": 1010,
+            "mean": 6120000,
+            "sd": 30590000,
+            "mixture": {
+              "fraction_negative": 0.2921,
+              "negative_branch": {
+                "n": 295,
+                "mean_abs": 3300000,
+                "sd_abs": 6530000
+              },
+              "positive_branch": {
+                "n": 715,
+                "mean": 10000000,
+                "sd": 35400000
+              }
+            }
+          },
+          "D1_y2019": {
+            "n": 1009,
+            "mean": 3660000,
+            "sd": 19740000,
+            "mixture": {
+              "fraction_negative": 0.33,
+              "negative_branch": {
+                "n": 333,
+                "mean_abs": 4610000,
+                "sd_abs": 11270000
+              },
+              "positive_branch": {
+                "n": 676,
+                "mean": 7730000,
+                "sd": 21660000
+              }
+            }
+          },
+          "D1_y2020": {
+            "n": 1013,
+            "mean": 4180000,
+            "sd": 25420000,
+            "mixture": {
+              "fraction_negative": 0.3396,
+              "negative_branch": {
+                "n": 344,
+                "mean_abs": 5170000,
+                "sd_abs": 16470000
+              },
+              "positive_branch": {
+                "n": 669,
+                "mean": 8980000,
+                "sd": 27780000
+              }
+            }
+          },
+          "D1_y2021": {
+            "n": 1011,
+            "mean": 6890000,
+            "sd": 29920000,
+            "mixture": {
+              "fraction_negative": 0.2967,
+              "negative_branch": {
+                "n": 300,
+                "mean_abs": 3940000,
+                "sd_abs": 10010000
+              },
+              "positive_branch": {
+                "n": 711,
+                "mean": 11460000,
+                "sd": 34070000
+              }
+            }
+          },
+          "D1_y2022": {
+            "n": 1015,
+            "mean": 2970000,
+            "sd": 25440000,
+            "mixture": {
+              "fraction_negative": 0.3616,
+              "negative_branch": {
+                "n": 367,
+                "mean_abs": 7340000,
+                "sd_abs": 21900000
+              },
+              "positive_branch": {
+                "n": 648,
+                "mean": 8800000,
+                "sd": 25470000
+              }
+            }
+          }
+        },
+        "mixture": {
+          "fraction_negative": 0.2846,
+          "negative_branch": {
+            "n": 2411,
+            "mean_abs": 5800000,
+            "sd_abs": 16710000
+          },
+          "positive_branch": {
+            "n": 6062,
+            "mean": 11110000,
+            "sd": 28330000
+          }
+        }
+      }
+    }
+  },
+  "treatment_effects_known_att": {
+    "spec_description": "reghdfe y D_Post rv_Post Drv_Post if abs(rv_2018)<=h, absorb(hhid_num year) vce(cluster hhid_num)",
+    "source": "stata_analysis/02_analysis.log (Spec A, MSE-optimal per outcome)",
+    "by_outcome": {
+      "y_farm_income": {
+        "bandwidth_m2": 3268,
+        "coef": -3580000,
+        "se": 2370000,
+        "n_obs": 6072,
+        "n_clusters": 1415
+      },
+      "y_off_income": {
+        "bandwidth_m2": 3718,
+        "coef": 220000,
+        "se": 1950000,
+        "n_obs": 6894,
+        "n_clusters": 1607
+      },
+      "y_consump": {
+        "bandwidth_m2": 3929,
+        "coef": 1260000,
+        "se": 790000,
+        "n_obs": 7334,
+        "n_clusters": 1710
+      },
+      "y_farm_cost": {
+        "bandwidth_m2": 3304,
+        "coef": 260000,
+        "se": 1460000,
+        "n_obs": 6135,
+        "n_clusters": 1429
+      }
+    },
+    "by_outcome_spec_b_no_2020": {
+      "y_farm_income": {
+        "bandwidth_m2": 4219,
+        "coef": -3910000,
+        "se": 2710000
+      },
+      "y_off_income": {
+        "bandwidth_m2": 3833,
+        "coef": 30000,
+        "se": 2270000
+      },
+      "y_consump": {
+        "bandwidth_m2": 3815,
+        "coef": 1240000,
+        "se": 920000
+      },
+      "y_farm_cost": {
+        "bandwidth_m2": 3634,
+        "coef": -30000,
+        "se": 1860000
+      }
+    }
+  }
+}

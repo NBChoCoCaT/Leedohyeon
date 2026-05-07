@@ -83,3 +83,12 @@ master_supporting_docs/own_drafts/stata_analysis/*
 # Supporting papers (출판사 저작권 PDFs — replication package에 미포함)
 master_supporting_docs/supporting_papers/*.pdf
 !master_supporting_docs/supporting_papers/.gitkeep
+
+# data/ — FHES microdata + synthetic generator outputs.
+# Directory structure ships via .gitkeep; data files stay local
+# (synthetic_panel.{dta,csv,rds} regenerate via scripts/R/synthetic/synthetic_data_gen.R).
+data/*
+!data/.gitkeep
+!data/synthetic/
+data/synthetic/*
+!data/synthetic/.gitkeep
