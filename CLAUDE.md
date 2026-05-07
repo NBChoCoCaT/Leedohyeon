@@ -15,7 +15,7 @@ Single-author empirical paper for international peer-review submission, with the
 - **Primary track:** `paper/en/main.tex` — direct journal submission (AJAE → Food Policy → JAE).
 - **Auxiliary track:** `paper/ko/main.tex` — derived from `paper/en/` post-stabilization. Dual purpose: (i) future PhD thesis chapter base (Korea University Dept. of Food and Resource Economics; advisor: Lee Sangheon; currently enrolled), (ii) KAEA / 한국농경제학회 conference presentation.
 - **Bootstrap:** existing Korean v1 (`master_supporting_docs/own_drafts/초안.md`, 36 KB) → `paper/en/main.tex` (one-time port). After this, `paper/en/` is canonical; `paper/ko/` re-syncs from `paper/en/` once stable.
-- **Replication standard:** AEA Data Editor checklist — full reproducibility package (`scripts/R/`, `_outputs/`, `data/var_dictionary.csv`, README) at first submission.
+- **Replication standard:** AEA Data Editor checklist (DCAS v1.0) — full reproducibility package (`scripts/R/`, `_outputs/`, `data/var_dictionary.csv`, README) at first submission. **Restricted FHES microdata 4-요건:** (i) 5+ year preservation commit, (ii) replication assistance commit, (iii) public code + `scripts/R/synthetic_data_gen.R` (Step 4 P5 deliverable — synthetic FHES generator preserving covariate moments + cutoff density for code-only verification), (iv) MDIS application URL + step-by-step in README. See `domain-reviewer.md` E-7 for editor/referee perspective.
 - **Theoretical generality:** maintained at general (S,s) lumpy-investment level (Caballero & Engel 1999) so the same identification supports both journal-article framing and future thesis-chapter expansion. Korean policy specifics (PIDPS, SFFP) live in identification + data sections, not in the theoretical core.
 - **Paper length:** 30–50 pages (journal-article scale, AJAE ≤ 50 pages double-spaced including references). Robustness in online appendix; main text carries headline + 1–2 robustness hints only.
 
@@ -54,7 +54,7 @@ Single-author empirical paper for international peer-review submission, with the
 ├── CLAUDE.md, MEMORY.md, Bibliography_base.bib
 ├── .claude/                    # Rules, skills, agents, hooks, references
 ├── paper/{ko,en}/              # (TBC) Korean draft → English translation
-├── scripts/R/                  # FHES pipeline (numbered 01_clean → 05_robust); _outputs/ has RDS/figures
+├── scripts/R/                  # FHES pipeline (numbered 01_clean → 05_robust) + synthetic_data_gen.R (Step 4 P5 AEA DCAS); _outputs/ has RDS/figures
 ├── data/                       # (TBC, gitignored) FHES microdata; APCS later
 ├── master_supporting_docs/     # supporting_papers/, supporting_slides/
 ├── quality_reports/            # plans/, specs/, session_logs/, peer_review_*/
