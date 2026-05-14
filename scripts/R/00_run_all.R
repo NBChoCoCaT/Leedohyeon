@@ -46,13 +46,13 @@ pipeline_env$PROJECT_SEED <- PROJECT_SEED
 pipeline_env$OUT_DIR      <- OUT_DIR
 
 pipeline <- c(
-  "01_clean.R",        # P1 — implemented
-  "02_descriptive.R",  # P2 — implemented
-  "03_did_rd.R",       # P2 — implemented
-  "04_robust.R",       # P3a — implemented (Wild bootstrap skipped, deferred to P3b-6)
-  "05_figures.R",      # P3a — implemented (Korean PDF deferred to P3b)
-  "06_channels.R"      # P3b-1 + P3b-3 — CH4 + CH3
-  # 07_heterogeneity.R — P3b-2 + P3b-4 (NEXT SESSION)
+  "01_clean.R",         # P1 — implemented
+  "02_descriptive.R",   # P2 — implemented
+  "03_did_rd.R",        # P2 — implemented
+  "04_robust.R",        # P3a — implemented (Wild bootstrap skipped, deferred to P3b-6)
+  "05_figures.R",       # P3a — implemented (Korean PDF deferred to P3b)
+  "06_channels.R",      # P3b-1 + P3b-3 (initial) — CH4 + CH3 channel decomposition
+  "07_heterogeneity.R"  # P3b-2 expanded — own_share × 4 outcomes × 5 bins
   # 08_iv.R — P3b-5 (NEXT SESSION)
 )
 

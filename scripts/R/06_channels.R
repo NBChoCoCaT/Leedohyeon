@@ -234,28 +234,31 @@ ch3_exit <- tibble::tibble(
   est = exit_est, se = exit_se, p = exit_p, h_mse = exit_h, n_obs = exit_n
 )
 
-# (b) area_total event-study — panel feols with year × D_treat interactions.
+# (b) Area event-study — 3 outcomes (area_total / area_own / area_rent) × 3 bw.
+# Decomposition supports the "tenant-driven land transition" narrative
+# (P3b-2 finding 2026-05-17): treated farms RETAIN total area + expand own_area
+# + reduce rented area, primarily concentrated in non-pure-owner subgroups.
 bw_grid <- c(T1 = 500L, T2 = 1000L, T3 = 3300L)
+area_outcomes <- c("area_total", "area_own", "area_rent")
 
-fit_area_event <- function(bw_label) {
+fit_area_event <- function(y_var, bw_label) {
   h <- bw_grid[[bw_label]]
   sub <- df |> dplyr::filter(abs(rv_2018) <= h)
-  fit <- fixest::feols(
-    area_total ~ i(year, D_treat, ref = 2019) | hh_id + year,
-    data = sub, cluster = ~hh_id, warn = FALSE, notes = FALSE
-  )
-  tidy_fit <- broom::tidy(fit, conf.int = TRUE) |>
+  fml <- as.formula(sprintf("%s ~ i(year, D_treat, ref = 2019) | hh_id + year", y_var))
+  fit <- fixest::feols(fml, data = sub, cluster = ~hh_id, warn = FALSE, notes = FALSE)
+  broom::tidy(fit, conf.int = TRUE) |>
     dplyr::filter(grepl("year::", term)) |>
     dplyr::mutate(year = as.integer(gsub(".*year::(\\d+).*", "\\1", term)),
+                  outcome = y_var,
                   bw_label = bw_label, h = h)
-  tidy_fit
 }
 
 if (requireNamespace("broom", quietly = TRUE) &&
     requireNamespace("stringr", quietly = TRUE)) {
   suppressPackageStartupMessages({ library(broom); library(stringr) })
-  ch3_area_events <- purrr::map_dfr(names(bw_grid), fit_area_event)
-  message(sprintf("Phase 2 AREA event-study: %d coefficient rows across 3 bandwidths.",
+  ch3_area_events <- tidyr::expand_grid(y_var = area_outcomes, bw_label = names(bw_grid)) |>
+    purrr::pmap_dfr(function(y_var, bw_label) fit_area_event(y_var, bw_label))
+  message(sprintf("Phase 2 AREA event-study: %d rows (3 outcomes × 3 bw × 4 post-years).",
                   nrow(ch3_area_events)))
 } else {
   ch3_area_events <- tibble::tibble()
@@ -407,6 +410,75 @@ write_ch3_table <- function(lang, path) {
 
 write_ch3_table("en", file.path(out_dir, "tab_ch3_retention_en.tex"))
 write_ch3_table("ko", file.path(out_dir, "tab_ch3_retention_ko.tex"))
+
+# Stabilization / Land Transition table — 3 outcomes × 3 bw × 4 years.
+# P3b-3 reframed: "Tenant-Driven Land Transition / Extensive Margin Retention"
+# (NOT "축소 가설"). Decomposition shows total area retention + own expansion +
+# rent reduction, all concentrated in non-pure-owner subgroups per P3b-2.
+write_stabilization_table <- function(lang, path) {
+  if (nrow(ch3_area_events) == 0) return(invisible(NULL))
+  panels <- character()
+  for (y in area_outcomes) {
+    y_label <- switch(y,
+      "area_total" = if (lang == "en") "Total cultivated area (m²)" else "총 경지면적 (m²)",
+      "area_own"   = if (lang == "en") "Own-cultivated area (m²)"  else "자작 면적 (m²)",
+      "area_rent"  = if (lang == "en") "Rented-in area (m²)"        else "임차 면적 (m²)"
+    )
+    rows <- character()
+    for (bw in c("T1", "T2", "T3")) {
+      cells <- ch3_area_events |>
+        dplyr::filter(outcome == y, bw_label == bw) |>
+        dplyr::arrange(year)
+      coefs <- sprintf("%s%s", fmt_k(cells$estimate, 0), star_p(cells$p.value))
+      ses   <- sprintf("(%s)", fmt_k(cells$std.error, 0))
+      h_lbl <- sprintf("h = %d", bw_grid[[bw]])
+      rows <- c(rows,
+        sprintf("%s & %s \\\\", h_lbl, paste(coefs, collapse = " & ")),
+        sprintf("    & %s \\\\", paste(ses, collapse = " & "))
+      )
+    }
+    block_hdr <- sprintf("\\multicolumn{5}{l}{\\textbf{%s}} \\\\", y_label)
+    panels <- c(panels, block_hdr,
+      sprintf("Bandwidth & %s \\\\",
+              paste(c("2018", "2020", "2021", "2022"), collapse = " & ")),
+      "\\midrule",
+      paste(rows, collapse = "\n"),
+      "\\midrule")
+  }
+  body <- paste(panels, collapse = "\n")
+
+  caption <- if (lang == "en")
+    "Tenant-Driven Land Transition: Event-Study Decomposition (area\\_total / own / rent)"
+  else
+    "Tenant 중심 농지 전환: 이벤트 연구 분해 (총면적 / 자작 / 임차)"
+  note <- if (lang == "en")
+    paste0("Event-study coefficients on year $\\times$ D\\_treat (ref = 2019). ",
+           "Cluster-robust SE (hh\\_id) in parentheses. Parallel-trends gate: ",
+           "2018 pre-period coefficients all $|t|<1$ (LN-10). ",
+           "Static panel DiD-RD on area\\_total $\\beta \\approx 0$ hides the ",
+           "dynamic pattern (event-study is the correct framing for paper \\S5). ",
+           "Per-bin decomposition via own\\_share heterogeneity in `tab_het_own_share_*.tex` ",
+           "shows the transition concentrated in non-pure-owner subgroups. ",
+           "* p$<$0.10, ** p$<$0.05, *** p$<$0.01.")
+  else
+    paste0("year $\\times$ D\\_treat 이벤트 연구 계수 (기준연도 2019). ",
+           "괄호 안 클러스터 강건 SE (hh\\_id). 평행추세 게이트: ",
+           "2018 사전기간 계수 모두 $|t|<1$ (LN-10). ",
+           "Static panel DiD-RD on area\\_total $\\beta \\approx 0$는 동적 패턴 은폐 ",
+           "(이벤트 연구가 paper \\S5의 올바른 framing). ",
+           "own\\_share 5-bin 이질성 분해 `tab_het_own_share_*.tex` 참조 — ",
+           "non-pure-owner 부분에 집중. ",
+           "* p$<$0.10, ** p$<$0.05, *** p$<$0.01.")
+
+  tex <- sprintf(
+    "\\begin{table}[t]\n\\centering\n\\caption{%s}\n\\label{tab:stabilization_%s}\n\\begin{tabular}{lrrrr}\n\\toprule\n%s\n\\bottomrule\n\\end{tabular}\n\\\\\n\\footnotesize\\textit{%s}\n\\end{table}\n",
+    caption, lang, body, note
+  )
+  writeLines(tex, path, useBytes = (lang == "ko"))
+}
+
+write_stabilization_table("en", file.path(out_dir, "tab_stabilization_en.tex"))
+write_stabilization_table("ko", file.path(out_dir, "tab_stabilization_ko.tex"))
 
 # ---------------------------------------------------------------------------- #
 # Final stdout summary — headline gate
