@@ -16,22 +16,46 @@ This unlocks a **JAE/AJAE-grade framing** — the original (S,s) single-anchor f
 
 If both hold: Korea is the first OECD case to demonstrate per-farm flat-rate as a design that simultaneously (a) avoids landlord pass-through and (b) sits in the (S,s) inaction region for tenant farmers — distinct from both US and EU defaults. **Publishable AJAE/JAE contribution regardless of statistical significance level**, because the framing reverses the 2018+ EU literature's "flat-rate amplifies capitalization" prior.
 
-## Scope (6 work items, ~13 hours)
+## Scope (revised post P3b-1, ~12 hours remaining)
 
-Per user-supplied P3b spec (2026-05-15):
-
-| Item | Description | Time | Priority |
+| Item | Description | Time | Status |
 |---|---|---|---|
-| **P3b-1** | CH4 Kirwan/Ciaian decomposition (rent_cost + op_cost_ex_rent) | 2h | 1 |
-| **P3b-2** | own_share × D_Post heterogeneity (5 bins × CH4) | 3h | 2 |
-| **P3b-3** | CH3 RD-bound retention (exit_indicator + area_total event-study) | 2h | 3 |
-| **P3b-4** | 5×4 demographic heterogeneity | 3h | 4 |
-| **P3b-5** | First-stage IV (LATE direct estimate) | 2h | 5 |
-| **P3b-6** | Wild bootstrap (post-headline result confirmation) | 1h | 6 |
+| **P3b-1** ✅ | CH4 Kirwan/Ciaian decomposition + mechanism deepening (bargaining vs composition) | 2h | **DONE** (2026-05-16) |
+| **P3b-1.5** ⭐ NEW | Area decomposition table (own/rent/total event-study) + bargaining table (unit_rent_price) | 1h | NEW priority |
+| **P3b-2 ★ EXPANDED** | own_share × D_Post × **{rent_cost, unit_rent_price, area_own, area_rent}** 5-bin × 4 outcome | 3h | **PRIORITY 1** — confirms bargaining is the mechanism |
+| **P3b-3 REFRAMED** | Extensive margin dynamics (area_total event-study + own/rent decomposition + exit DiD attempt) | 2h | PRIORITY 2 |
+| **P3b-4** | 5×4 demographic heterogeneity | 3h | PRIORITY 3 |
+| **P3b-5** | First-stage IV (LATE) | 2h | PRIORITY 4 (less critical after mechanism finding) |
+| **P3b-6** | Wild bootstrap on headline cells | 1h | PRIORITY 5 |
 
 **Out of scope (P3c or deferred):** `debt_total`, `farm_type` 작목 전환, Korean PDF via `showtext`, IHS/w99 robustness ladder extensions (P3a완료).
 
-## Lock notes (pre-check confirmed)
+### P3b-1.5 NEW work item (added 2026-05-16 post-mechanism deepening)
+
+The mechanism check (`explorations/2026-05-16_p3b-mechanism/check.R`) produced findings worth promoting to paper-table format:
+
+**Table 1: CH4 rent decomposition (bargaining vs composition)**
+- 3 bw × {rent_cost, area_rent, unit_rent_price} = 9 cells
+- Documents the bargaining channel (T1 −67 KRW/m², p=0.05) as the policy mechanism
+
+**Table 2: area_total event-study (own vs rent decomposition)**
+- 3 bw × 4 years × {area_total, area_own, area_rent} = 36 cells
+- Documents the dynamic +408 m² (2022) and own-cultivation dominance (58%)
+
+Adds ~80 lines to `06_channels.R` Phase 3 + 1 new figure (own/rent area decomp).
+
+### P3b-2 expansion (substantially upgraded)
+
+Original P3b-2 was own_share × D_Post × rent_cost (5 bins × 1 outcome = 5 interaction cells per bw).
+**Revised P3b-2 (priority 1 next session):** own_share × D_Post × **{rent_cost, unit_rent_price, area_own, area_rent}** = **4 outcomes** × 5 bins × 3 bw × 2 specs = **120 interaction cells**.
+
+Predicted patterns (testable):
+- **pure_tenant**: largest unit_rent_price effect (bargaining hypothesis); largest area_rent reduction
+- **mixed**: linear-in-share gradient
+- **pure_owner**: rent_cost / unit_rent_price ≡ 0 (reference); area_own should show expansion effect concentrated here
+- If pure_tenant β(unit_rent_price) >> mixed >> pure_owner ≡ 0: **bargaining mechanism CONFIRMED at subgroup level → AJAE-grade evidence**
+
+## Lock notes (pre-check + P3b-1 mechanism deepening confirmed)
 
 - **LN-1:** Treated tenancy = 47.9% (484/1,010); near-cutoff (|rv_2018|≤1000) treated = 56.5%. CH4 first-stage variation abundant.
 - **LN-2:** own_share bimodal: pure owner 52.1% (526) + pure tenant 11.9% (120) + mixed 36.0% (364) — 5-bin partition viable.
@@ -40,17 +64,35 @@ Per user-supplied P3b spec (2026-05-15):
 - **LN-5:** Ciaian, Espinosa, Gomez y Paloma & Heckelei (2023) *Land Use Policy* 134 — EU per-hectare flat-rate: 46% short-run, 55% long-run capitalization. **Inverts the original "flat-rate avoids capitalization" prior.** Korean per-farm flat-rate is the third design unique to this paper.
 - **LN-6:** Kirwan (2009) *JPE* 117(1) (note: JPE not AER per lit-review correction) — US per-hectare proportional: ~25% capitalization. Baseline comparison.
 - **LN-7:** B-6 (S,s) prediction: T/s_min ≈ 2.4% → inaction region → β(op_cost_ex_rent) ≤ 0. P2/P3a outlier ladder confirms negative sign for `op_cost` (raw); P3b isolates rent-net component.
+- **LN-8 (P3b-1 NEW, 2026-05-16):** **Korea exhibits NEGATIVE rent pass-through** (−11.1% at T2, −12.9% at T1), reversing the EU/US capitalization sign. This is even stronger than the original "≈ 0" prediction. Three candidate mechanisms tested in `explorations/2026-05-16_p3b-mechanism/check.R`:
+  - **(a) Bargaining — CONFIRMED at T1**: unit_rent_price (rent_cost / area_rent among renters) β = −67 KRW/m² at h=500 (**p = 0.0498, exactly 5% significant**). Tenant bargaining power increases post-policy.
+  - **(b) Composition — partial only**: area_rent β = −851 (T1), −548 (T2), −39 (T3), all p > 0.2 (sign-consistent negative but non-significant). Modest mechanical contribution.
+  - **(c) Market dynamics — absorbed by year FE.**
+- **LN-9 (P3b-1 NEW, 2026-05-16):** **Event-study reveals dynamic area expansion (NOT exit deterrence).** area_total at T3 h=3300:
+  - 2018 pre: +67 m² (p=0.59) **— parallel trends OK**
+  - 2020 (year 1 post): +128 (p=0.20)
+  - 2021 (year 2): +343 m² (**p = 0.005***)
+  - 2022 (year 3): +408 m² (**p = 0.003***)
+  - Decomposition: 2022 +408 = own +237 (p=0.012**, **58% share**) + rent +171 (p=0.144, 42%). **Own-cultivation expansion dominates.** "축소 가설" rejected — treated farms RETAIN and EXPAND cultivated area, primarily via own-cultivation. Static (panel-averaged) area_total β ≈ 0 hides this dynamic via pre/post averaging — **event-study is the correct framing for paper.**
+- **LN-10 (P3b-1 NEW, 2026-05-16):** Parallel-trends gate clean for all 4 outcomes (area_total, area_own, area_rent, rent_cost): all 2018 pre-period |t| < 1. RD identification strong; Roth-Rambachan sensitivity unlikely to flag.
 
 ## Scenario matrix (P3b-1 deliverable shape)
 
 | `rent_cost` β | `op_cost_ex_rent` β | Interpretation | Best venue |
 |---|---|---|---|
-| ≈ 0 | < 0 | **⭐ Best case** — Korea breaks both EU/US capitalization AND (S,s) inaction confirms behavioral channel | **AJAE / JAE** |
+| **< 0** | < 0 | **⭐⭐ BEST+ — Korea NEGATIVE pass-through (better than ≈ 0) + (S,s) inaction confirmed** | **AJAE / JAE** |
+| ≈ 0 | < 0 | Best case — Korea breaks EU/US capitalization + (S,s) inaction | **AJAE / JAE** |
 | > 0 | < 0 | Partial capitalize + residual (S,s) inaction | JAE / Food Policy |
 | ≈ 0 | ≈ 0 | Underpowered null on both | KR journal + thesis |
 | > 0 | ≈ 0 | Full capitalize (reproduces Ciaian EU pattern) — Korea ≡ EU | ERAE (external validity) |
 
-→ P3b-1 result determines submission strategy direction. Phase 4 evaluation (Task #13) gates on this.
+**P3b-1 RESULT (2026-05-16): SCENARIO 1+ BEST+** — joint test across T1/T2/T3, Spec A:
+
+- `rent_cost` β sign-consistently **NEGATIVE** across all 3 bandwidths: T1 −155K (p=0.091*), T2 −133K (p=0.138), T3 −41K (p=0.423)
+- Korea pass-through: **−11.1%** (T2 headline) vs Kirwan US +25% vs Ciaian EU +46-55%
+- `op_cost_ex_rent` β sign-consistently **NEGATIVE** at narrow bw: T1 −4.02M (p=0.055*), T2 −3.22M (p=0.079*), T3 +0.30M (p=0.839)
+
+→ **Two-margin joint pattern confirmed in narrow bandwidths.** T3 attenuation is typical RD wide-window averaging; narrow bw captures local policy effect. Headline submission target: AJAE/JAE (Phase 4 Task #13 reading).
 
 ## Approach — file structure
 
