@@ -32,7 +32,11 @@ required <- c(
   "modelsummary",
   "sandwich",     # vcovBS — Wild cluster bootstrap
   "rdrobust",     # MSE-optimal bandwidth (T3)
-  "broom"
+  "broom",
+
+  # P2 additions
+  "survey",       # svydesign — Solon-Haider-Wooldridge weighted Table 1 (§6)
+  "purrr"         # pmap — 32-cell spec tibble in 03_did_rd.R
 )
 
 installed <- rownames(installed.packages())
