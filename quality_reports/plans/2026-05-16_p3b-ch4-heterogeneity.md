@@ -1,5 +1,251 @@
 # Plan — Step 4 P3b: CH4 Kirwan + own_share heterogeneity + (S,s) two-margin test
 
+## Session 3 Implementation Block (2026-05-18): Option 2 = A + B (~1.5h)
+
+**Scope today:** Phase 4 submission strategy lock (A) + P3b-6 Wild bootstrap (B). Both anchor downstream work: A determines paper §1 narrative shape; B closes a known inference gap that any submission path will require.
+
+Predecessor session: P3b-2 (`d6dadc9`, 2026-05-17) — three-channel tenant-driven land transition narrative locked.
+
+### Work order
+
+| Phase | Task | Time | Output |
+|---|---|---|---|
+| **A1** | Read `paper/narrative_draft_p3b.md` + CLAUDE.md current state | 5min | context refresh |
+| **A2** | Present 3-path scenario table (AJAE / JAE / Food Policy) with per-path trade-offs | 10min | AskUserQuestion |
+| **A3** | Lock submission strategy + update CLAUDE.md "Goal" section if needed | 15min | docs edit |
+| **B1** | Try `install.packages("fwildclusterboot")` (CRAN binary may be available now) | 5min | Path A/B decision |
+| **B2** | Implement Wild bootstrap on 14 headline cells (8 P2 replication + 6 P3b-1 CH4 main) | ~50min | wild_results in main_results.rds |
+| **B3** | Update `replication_check.txt` + new `tab_wild_bootstrap_{en,ko}.tex` | ~15min | tex output |
+| **F** | Commit + push | ~15min | feature commit |
+
+### Phase 4 — submission strategy lock (A)
+
+Present 3-path table to user, then update CLAUDE.md if framing change is substantive:
+
+| Path | Strategy | Tradeoffs | Estimated P(accept) |
+|---|---|---|---|
+| **AJAE direct** | Three-channel tenant-driven land transition as the headline; per-farm vs per-hectare reframe of EU/US consensus | High ceiling; tough referee pool; possible R&R cycle 1-2 years | 45-55% |
+| **JAE safe** | Two-margin (S,s) + CH4 incidence as headline; heterogeneity supporting | More forgiving referees; faster decision; narrative slightly less ambitious | 80-90% |
+| **Food Policy** | Policy-evaluation framing (smallholder consolidation policy); take-up 92.3% + per-farm design lessons | Policy audience; less methods-heavy critique; venue prestige below AJAE/JAE | 65-75% |
+
+**Decision-locking implications:**
+- AJAE: paper §1 leads with Kirwan/Ciaian inversion + three-channel evidence; §6 mechanism-heavy
+- JAE: paper §1 leads with two-margin theoretical test; (S,s) + incidence joint framing
+- Food Policy: paper §1 leads with PIDPS-SFFP policy design + take-up; light methods
+
+**Recommendation rationale:** Three-channel finding is strong enough to attempt AJAE (top tier) directly; even if R&R/reject, JAE remains as fallback with minimal reframing cost. Food Policy is appropriate post-rejection if AJAE/JAE both decline.
+
+### P3b-6 Wild bootstrap (B) — 14 headline cells
+
+Path-A-first, Path-B-fallback strategy per existing plan §"File 4: 04_robust.R EXTEND":
+
+**Path A — `fwildclusterboot` install attempt:**
+```r
+install.packages("fwildclusterboot", repos = "https://cloud.r-project.org")
+# Check if binary is now available for R 4.5.3 macos-arm64 — if not, source install
+# requires gfortran on `/opt/gfortran/` per [LEARN:env] 2026-05-06.
+```
+
+If install succeeds:
+```r
+library(fwildclusterboot)
+# Per cell:
+bt <- boottest(fit, param = "D_Post", clustid = ~hh_id, B = 9999,
+                seed = PROJECT_SEED, type = "rademacher")
+p_wild <- bt$p_val
+```
+
+**Path B fallback — manual cluster-Rademacher refit:**
+```r
+wild_cluster_p <- function(fit, df, cluster_var = "hh_id", B = 999,
+                            target_coef = "D_Post") {
+  resid    <- residuals(fit)
+  y_hat    <- fitted(fit)
+  clusters <- unique(df[[cluster_var]])
+  cluster_idx <- match(df[[cluster_var]], clusters)
+  t_obs    <- coef(fit)[target_coef] / sqrt(diag(vcov(fit)))[target_coef]
+  t_boot   <- numeric(B)
+  for (b in seq_len(B)) {
+    v <- sample(c(-1, 1), length(clusters), replace = TRUE)
+    y_b <- y_hat + v[cluster_idx] * resid
+    fit_b <- update(fit, y_b ~ ., data = df)  # may need explicit data + formula
+    t_boot[b] <- coef(fit_b)[target_coef] / sqrt(diag(vcov(fit_b)))[target_coef]
+  }
+  mean(abs(t_boot) >= abs(t_obs))
+}
+```
+
+Expected timing: 999 × ~0.05s/refit × 14 cells ≈ 12 min wall-clock (acceptable). B=999 sufficient for stochastic tolerance per `quality-gates.md` §Tolerance Thresholds.
+
+**14 target cells:**
+
+| Source | Cells | Spec | Outcome | Notes |
+|---|---|---|---|---|
+| P2 main_results.rds$wild_replication | 8 | A × {op_cost, off_farm_income, consumption, farm_income} + B × same | per-outcome STATA bandwidth | matches STATA 11_multiple_testing.log anchors |
+| P3b-1 channels_results.rds$ch4_results | 6 | A × {T1, T2, T3} × {rent_cost, op_cost_ex_rent} | fixed bw 500/1000/3300 | CH4 headline (used in submission narrative) |
+
+For 8 replication cells: compare to STATA 11_multiple_testing.log Wild p-values (±0.01 stochastic tolerance per `quality-gates.md`). 8/8 PASS expected.
+
+For 6 CH4 cells: R-only, no STATA anchor. Report Wild p-values alongside cluster-robust p-values for paper §3 robustness.
+
+### Files to modify
+
+| Path | Action | ~lines |
+|---|---|---|
+| `scripts/R/04_robust.R` | EDIT — wrap Phase 3 Wild bootstrap behind `USE_FWB` (Path A) OR add manual Rademacher block (Path B) | +30-80 lines |
+| `scripts/R/06_channels.R` | EDIT — add 6 CH4 cell Wild bootstrap (post-fit, after Phase 1 results) | +20-40 lines |
+| `scripts/R/_outputs/main_results.rds` | UPDATE — `wild_replication$p_wild` populated (currently NA from P3b-1) | runtime |
+| `scripts/R/_outputs/channels_results.rds` | UPDATE — add `ch4_wild_p` column | runtime |
+| `scripts/R/_outputs/tab_wild_bootstrap_{en,ko}.tex` | CREATE — 14-cell Wild bootstrap p-value table | runtime |
+| `scripts/R/_outputs/replication_check.txt` | UPDATE — add Wild bootstrap comparison rows | runtime |
+| `scripts/R/_setup_packages.R` | EDIT (optional) — add `fwildclusterboot` to `optional` vec if Path A succeeds; document attempt | 1-3 lines |
+| `CLAUDE.md` | EDIT (conditional) — update "Goal" or "Quality Thresholds" if Phase 4 locks a specific submission path | 1-5 lines |
+| `quality_reports/plans/2026-05-16_p3b-ch4-heterogeneity.md` | EDIT — add Session 3 block (sync sister) | identical content |
+| `quality_reports/session_logs/2026-05-18_p3b-6.md` | CREATE — incremental session log | grows during impl |
+
+### Verification
+
+```bash
+Rscript scripts/R/00_run_all.R 2>&1 | tail -20
+# Expect: pipeline 7 scripts; Wild bootstrap adds ~12 min if Path B, ~30s if Path A.
+# Total: ~13s (P3 baseline) + 12 min Wild = ~12-13 min OR ~45s with Path A.
+
+cat scripts/R/_outputs/replication_check.txt | tail -30
+# Expect: Wild bootstrap section populated. 8/8 P2 replication cells match
+# STATA 11_multiple_testing.log within ±0.01 p-value tolerance.
+
+Rscript -e '
+mr <- readRDS("scripts/R/_outputs/main_results.rds")
+print(mr$wild_replication |> dplyr::select(spec, outcome, est, se_wild, p_wild))
+'
+# Verify p_wild populated, sign-aligned with p_cluster from P2.
+```
+
+### Risks (Session 3 specific)
+
+| Risk | Mitigation |
+|---|---|
+| Path A install still fails on R 4.5.3 | Path B manual Rademacher is documented and tested-feasible. Set B=999 ceiling. |
+| Wild bootstrap p_wild ≠ STATA p_wild within tolerance | Investigate: STATA boottest uses Rademacher, R fwildclusterboot Mammen-default? Force `type="rademacher"` to match. |
+| 12 min wall-clock for Path B exceeds session budget | Cells are independent — could parallelize via `future::plan(multisession)` or restrict to 14 → 6 cells if time-pressed. |
+| Submission lock decision changes mid-paper (R&R cycle) | CLAUDE.md update should be soft (Goal section "Primary submission target: X (alternative: Y)") to allow pivots. |
+
+---
+
+## Session 2 Implementation Block (2026-05-17): Option 2 = A + D (~5-6h)
+
+**Scope today:** P3b-2 expanded (A) + P3b-3 reframed stabilization (D). P3b-1.5 paper-grade table (B), P3b-4/5/6, and paper/en/main.tex (E) deferred to subsequent sessions per user resume-prompt.
+
+### Work order (Phase A through F)
+
+| Phase | Task | Time | Output |
+|---|---|---|---|
+| **A** | Update `domain-reviewer.md` B-6 CH3 violation criterion (축소→stabilization) | 15min | docs edit |
+| **B** | **`scripts/R/07_heterogeneity.R` Phase 1** — own_share × 4 outcomes implementation | ~2h | 120 interaction cells |
+| **C** | **Scenario classification (α / β / γ) + pause for decision** | 30min | classification report |
+| **D** | **P3b-3 reframed** — extensive margin event-study formalized in `06_channels.R` extension OR new section | ~1h | stabilization table |
+| **E** | Integrated narrative draft (paper §6 초안) | ~1h | narrative.md sketch |
+| **F** | Commit + push + checkpoint | ~30min | feature commit |
+
+### Implementation spec — `scripts/R/07_heterogeneity.R` Phase 1
+
+**own_bin construction (5 levels):**
+```r
+df$own_bin <- dplyr::case_when(
+  own_share == 0   ~ "1_pure_tenant",
+  own_share < 0.3  ~ "2_low_owner",
+  own_share < 0.7  ~ "3_mixed",
+  own_share < 1    ~ "4_high_owner",
+  own_share == 1   ~ "5_pure_owner"  # reference
+)
+```
+
+**Baseline counts (treated, 2018):** pure_tenant 120, low_owner 84, mixed 121, high_owner 159, pure_owner 526. Verified via pre-check 2026-05-15 + today's resume-verification.
+
+**Panel availability:** `own_share` present in all years (2018: 2,823 → 2022: 2,947 non-NA) — supports time-varying interaction, not just baseline-fixed.
+
+**Interaction spec via fixest::i():**
+```r
+# 4 outcomes × 3 bw × 2 specs = 24 interaction regressions; each produces 5 bin coefficients
+feols(rent_cost        ~ i(own_bin, D_Post, ref="5_pure_owner") + rv_Post + Drv_Post | hh_id + year, ...)
+feols(unit_rent_price  ~ ... , data = df_renters)   # renters subset only (area_rent > 0)
+feols(area_own         ~ ...)
+feols(area_rent        ~ ...)
+```
+
+**Sample handling notes:**
+- `unit_rent_price = rent_cost / area_rent` — defined only where `area_rent > 0` (renters subset, ~half of treated). Report N per cell to make sample restriction transparent.
+- `rent_cost` regression uses full sample (pure_owner contributes 0 by construction; coefficient identifies any noise/measurement issue).
+- Spec B (drop 2020, Post=year≥2021) mirror spec applied to all 4 outcomes.
+
+**Total: 4 outcomes × 5 bins × 3 bw × 2 specs = 120 interaction cells.**
+
+### Key hypothesis tests (paper §6 evidence)
+
+| Hyp | Statement | Outcome | Predicted gradient |
+|---|---|---|---|
+| **H1 (bargaining)** | Tenant unit-rent decline driven by tenants | `unit_rent_price` | pure_tenant β << mixed << pure_owner ≈ 0 |
+| **H2 (composition)** | Rented area reduction concentrated in tenants | `area_rent` | pure_tenant β << pure_owner ≈ 0 (sharp negative) |
+| **H3 (extensive margin)** | Own-cultivation expansion concentrated in owners | `area_own` | pure_owner β > 0 dominant |
+| **H4 ((S,s) heterogeneity)** | Inaction-region behavior strongest among tenants | `op_cost_ex_rent` | pure_tenant β << pure_owner |
+
+H1 is the **AJAE-decisive test**: confirming monotone gradient locks the bargaining mechanism narrative.
+
+### Scenario classification (Phase C decision gate)
+
+| Scenario | Pattern | Implication |
+|---|---|---|
+| **α (bargaining confirmed)** | H1 ✓ (pure_tenant >> mixed >> pure_owner ≈ 0) | Bargaining mechanism decisive → AJAE-grade evidence locked |
+| **β (mixed pattern)** | H1 cells similar across bins | Market dynamics > tenant-specific; reframe §6 |
+| **γ (own_cultivation dominant)** | H3 strongly positive only in pure_owner | "Land accumulation" narrative strengthened; H1 secondary |
+
+Pause at end of Phase C, present scenario + per-cell detail to user, decide Phase D scope before proceeding.
+
+### P3b-3 reframed (Phase D)
+
+**Replace "축소 가설" with "Stabilization / Extensive Margin Retention" framing.**
+
+Concrete actions:
+1. **Extension to `06_channels.R`** OR new section in `07_heterogeneity.R`: formalize area_total event-study output as a paper-grade table (event-study coefficient + SE + p-value across 3 bandwidths × 4 years × {area_total, area_own, area_rent} = 36 cells).
+2. **Static vs dynamic note**: explicitly document that panel DiD-RD β ≈ 0 hides the dynamic pattern; event-study is the correct framing for paper §5.
+3. **Own/rent decomposition table**: 2022 +408 m² = own +237 (58%) + rent +171 (42%). Promote from mechanism check.R to paper-grade output.
+4. **`domain-reviewer.md` B-6 CH3 violation criterion update**: replace "exit deterrence" prediction with "stabilization + extensive margin" framing; cross-ref to Kazukauskas et al. (2013 AJAE) for retention literature.
+
+### Out of scope (next session candidates)
+
+- P3b-1.5 paper-grade table (B option in resume prompt)
+- P3b-4 (5×4 demographic heterogeneity)
+- P3b-5 (First-stage IV / LATE)
+- P3b-6 (Wild bootstrap on headline cells)
+- E option (paper/en/main.tex intro+conclusion)
+
+### Risks specific to today's session
+
+| Risk | Mitigation |
+|---|---|
+| pure_tenant N=120 → narrow-bw SE inflation may obscure H1 gradient | Report Wide-bandwidth (T2/T3) cells to compensate. Spec B mirror as second look. |
+| `unit_rent_price` undefined for non-renters | Document NA-exclusion sample restriction (N reduction ~50%). Report per-cell N transparently. |
+| own_bin reference category choice (pure_owner = "no rent activity" base) | Use pure_owner as ref so coefficients = "extra effect on tenants/mixed vs pure owners" — natural interpretation. |
+| H1 ✗ (β similar across bins) → scenario β → §6 reframe | Phase C pause point: present scenario before Phase D — user decides whether to pivot narrative or continue stabilization framing. |
+| `area_own` time-varying (panel) vs baseline-only — careful with `own_bin` time invariance | Define `own_bin` from year=2018 baseline only (per-hh fixed), to avoid endogenous bin transitions. |
+
+### Verification (today's session)
+
+```bash
+# After Phase B implementation:
+Rscript scripts/R/00_run_all.R 2>&1 | tail -20
+# Expect: pipeline 7 scripts now, 07_heterogeneity.R ~10s
+ls scripts/R/_outputs/ | grep "het"  # heterogeneity_results.rds, tab_het_*.tex
+
+# After Phase C: scenario classification
+Rscript -e '
+het <- readRDS("scripts/R/_outputs/heterogeneity_results.rds")
+print(het$h1_gradient_check)   # H1 test: pure_tenant β / pure_owner β ratio
+'
+```
+
+---
+
 ## Context
 
 P3a (`4a03505`, 15/16 PASS) completed Tier 1 — McCrary density (exact match), outlier ladder, 66 figures. Pre-check (`explorations/2026-05-15_p3b-precheck/check.R`, 2026-05-15) confirmed:

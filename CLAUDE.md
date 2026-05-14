@@ -1,7 +1,7 @@
 # CLAUDE.md — Public-Interest Direct Payment Scheme (PIDPS) Research
 
 **Project:** 공익직불제 소농직불금이 농가 투입 행태에 미치는 효과 — DiD-RD evidence at the 0.5 ha cutoff
-**Target journals:** ① *American Journal of Agricultural Economics* (AJAE) → ② *Food Policy* → ③ *Journal of Agricultural Economics* (JAE)
+**Target journals (Phase 4 locked 2026-05-18 post-P3b-2):** ① *American Journal of Agricultural Economics* (AJAE) direct → ② *Journal of Agricultural Economics* (JAE) on AJAE R&R/reject → ③ *Food Policy* on JAE reject → ④ Korean journals (KAEA, 한국농경제학회보). Aim-high cascade rationale: P3b-2 three-channel evidence (negative pass-through −11.1% reversing Ciaian 2023 EU consensus + tenant-driven monotone gradient + (S,s) inaction) is strong enough for AJAE direct; JAE→FP fallback minimizes reframing cost.
 **Author:** Lee, Dohyeon (Korea University, Dept. of Food and Resource Economics) — single-authored
 **Workflow:** Canonical `paper/en/main.tex` (AJAE submission target); auxiliary `paper/ko/main.tex` derived post-stabilization (KAEA presentation + future thesis chapter base). Bootstrap once from existing Korean v1 (`master_supporting_docs/own_drafts/초안.md`).
 **Branch:** main
