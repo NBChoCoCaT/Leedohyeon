@@ -368,23 +368,46 @@ write_ch3_table <- function(lang, path) {
   exit_se_str  <- sprintf("(%.4f)", ch3_exit$se)
   exit_n_str   <- fmt_k(ch3_exit$n_obs)
 
-  area_rows <- character()
-  if (nrow(ch3_area_events) > 0) {
+  # FIX 2026-05-15: Panel B previously concatenated all 3 outcomes into one row
+  # (12 values per row). Now produce 3 sub-panels (area_total / area_own /
+  # area_rent) each with bw × 5 years (2018 / 2019 ref / 2020 / 2021 / 2022).
+  build_outcome_subpanel <- function(outcome_var, sub_title) {
+    rows <- character()
     for (bw in c("T1", "T2", "T3")) {
       r <- ch3_area_events |>
-        dplyr::filter(bw_label == bw) |>
+        dplyr::filter(bw_label == bw, outcome == outcome_var) |>
         dplyr::arrange(year)
+      if (nrow(r) == 0L) next
       h_lbl <- sprintf("h = %d m²", bw_grid[[bw]])
       coefs <- sprintf("%s%s", fmt_k(r$estimate, 0), star_p(r$p.value))
       ses   <- sprintf("(%s)", fmt_k(r$std.error, 0))
-      yrs   <- paste(r$year, collapse = " & ")
-      area_rows <- c(area_rows,
-        sprintf("%s & %s \\\\", h_lbl, paste(coefs, collapse = " & ")),
-        sprintf("       & %s \\\\", paste(ses, collapse = " & "))
+      # ch3_area_events has 4 years (2019 is the omitted reference); insert "(ref)"
+      # placeholder to keep 5-column layout matching header.
+      coefs_5 <- c(coefs[1], "(ref)", coefs[2], coefs[3], coefs[4])
+      ses_5   <- c(ses[1],   "",      ses[2],   ses[3],   ses[4])
+      rows <- c(rows,
+        sprintf("%s & %s \\\\", h_lbl, paste(coefs_5, collapse = " & ")),
+        sprintf("       & %s \\\\", paste(ses_5, collapse = " & "))
       )
     }
+    if (length(rows) == 0L) return("")
+    paste(c(
+      sprintf("\\multicolumn{6}{l}{\\textit{%s}} \\\\", sub_title),
+      "\\midrule",
+      rows
+    ), collapse = "\n")
   }
-  body_area <- paste(area_rows, collapse = "\n")
+
+  panel_total <- if (nrow(ch3_area_events) > 0)
+    build_outcome_subpanel("area_total", "area\\_total (full cultivated area)") else ""
+  panel_own   <- if (nrow(ch3_area_events) > 0)
+    build_outcome_subpanel("area_own",   "area\\_own (own-cultivated)") else ""
+  panel_rent  <- if (nrow(ch3_area_events) > 0)
+    build_outcome_subpanel("area_rent",  "area\\_rent (rented)") else ""
+  body_area <- paste(
+    Filter(function(x) nchar(x) > 0L, c(panel_total, panel_own, panel_rent)),
+    collapse = "\n\\midrule\n"
+  )
 
   caption <- if (lang == "en")
     "CH3 Retention: Exit Indicator RD + area\\_total Event-Study"

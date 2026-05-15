@@ -53,8 +53,9 @@ pipeline <- c(
   "05_figures.R",        # P3a — implemented (Korean PDF deferred to P3b)
   "06_channels.R",       # P3b-1 + P3b-3 — CH4 + CH3 channel decomposition
   "07_heterogeneity.R",  # P3b-2 expanded — own_share × 4 outcomes × 5 bins
+  "08_p3c_decomposition.R", # P3c Phase 1 — exit DiD + conditional event-study + reconciliation
   "09_wild_bootstrap.R"  # P3b-6 — Wild bootstrap on 14 headline cells
-  # 08_iv.R — P3b-5 (NEXT SESSION, optional)
+  # 08_iv.R slot reassigned to P3c per 2026-05-15 plan; IV deferred
 )
 
 message("Running PIDPS DiD-RD pipeline with seed ", PROJECT_SEED, "...")
