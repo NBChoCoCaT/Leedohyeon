@@ -9,50 +9,146 @@
 % BILINGUAL DUAL-FIELD CONVENTION (per .claude/rules/quality-gates.md §8)
 % ------------------------------------------------------------------------------
 % Korean-authored entries MUST carry BOTH forms:
-%   - `author`     = Korean form (김태화 and 양승룡)         → used by paper/ko
-%   - `author_en`  = English form (Kim, Tae-hwa and Yang, ...) → used by paper/en
-%   - `title`      = Korean title                              → used by paper/ko
-%   - `title_en`   = English title                             → used by paper/en
-%
-% Example pattern (delete after replacing with real entries):
-%
-%   @article{KimYang2021_pidps,
-%     author    = {김태화 and 양승룡},
-%     author_en = {Kim, Tae-hwa and Yang, Seung-ryong},
-%     title     = {공익직불제 정책 분석},
-%     title_en  = {Policy Analysis of the Public-Interest Direct Payment Scheme},
-%     journal   = {농업경영·정책연구},
-%     year      = {2021}
-%   }
-%
-% English-only entries (Choi-Jodlowski 2025, Caballero-Engel 1999, etc.) need
-% only `author` and `title` in English — no dual fields required.
+%   - `author`     = Korean form (김태화 and 양승룡)         -> used by paper/ko
+%   - `author_en`  = English form (Kim, Tae-hwa and Yang, ...) -> used by paper/en
+%   - `title`      = Korean title                              -> used by paper/ko
+%   - `title_en`   = English title                             -> used by paper/en
 %
 % Citation format enforcement is directory-scoped:
-%   paper/ko/**/*.tex  → Korean form (김태화·양승룡(2021))
-%   paper/en/**/*.tex  → Author-year English (Kim and Yang, 2021)
-% `/validate-bib` (extended in Step 4) detects format mismatch by file path;
-% until then, manual + CoVe (`/verify-claims`) enforcement.
+%   paper/ko/**/*.tex  -> Korean form (김태화·양승룡(2021))
+%   paper/en/**/*.tex  -> Author-year English (Kim and Yang, 2021)
+%
+% TENTATIVE NOTE 2026-05-15: §3-critical entries below drafted from memory.
+% All marked % VERIFY-PRE-SUBMIT — pre-flight citation verification per
+% MEMORY [LEARN:citation-verification] 2026-05-06 mandatory before AJAE submission.
 % ==============================================================================
 
 % ------------------------------------------------------------------------------
-% EXAMPLE ENTRIES — delete these and add your own
+% §3 Theoretical Framework — 11 core citations (TENTATIVE)
 % ------------------------------------------------------------------------------
 
-@book{Example2024_book,
-  author    = {Lastname, Firstname},
-  title     = {An Example Book Title},
-  publisher = {Example University Press},
-  year      = {2024},
-  address   = {City, State}
+% §3.2 Baseline AHM (Singh-Squire-Strauss)
+@book{SinghSquireStrauss1986_ahm,
+  author    = {Singh, Inderjit and Squire, Lyn and Strauss, John},
+  title     = {Agricultural Household Models: Extensions, Applications, and Policy},
+  publisher = {Johns Hopkins University Press for the World Bank},
+  address   = {Baltimore, MD},
+  year      = {1986}
 }
 
-@article{Example2025_article,
-  author  = {Lastname, Firstname and Coauthor, Name},
-  title   = {An Example Journal Article Title},
-  journal = {Journal of Example Studies},
-  volume  = {10},
-  number  = {2},
-  pages   = {100--125},
-  year    = {2025}
+% §3.3 Non-separable extension (de Janvry-Fafchamps-Sadoulet)
+@article{deJanvryFafchampsSadoulet1991_peasant,
+  author  = {de Janvry, Alain and Fafchamps, Marcel and Sadoulet, Elisabeth},
+  title   = {Peasant Household Behaviour with Missing Markets: Some Paradoxes Explained},
+  journal = {Economic Journal},
+  volume  = {101},
+  number  = {409},
+  pages   = {1400--1417},
+  year    = {1991},
+  doi     = {10.2307/2234892}
+}
+
+% §3.4 Channel 1 — (S,s) lumpy investment (Caballero-Engel)
+@article{CaballeroEngel1999_lumpy,
+  author  = {Caballero, Ricardo J. and Engel, Eduardo M. R. A.},
+  title   = {Explaining Investment Dynamics in {U.S.} Manufacturing: A Generalized $(S,s)$ Approach},
+  journal = {Econometrica},
+  volume  = {67},
+  number  = {4},
+  pages   = {783--826},
+  year    = {1999},
+  doi     = {10.1111/1468-0262.00053}
+}
+
+% §3.5 Channel 2 — Sandmo precautionary labor (price uncertainty)
+@article{Sandmo1971_uncertainty,
+  author  = {Sandmo, Agnar},
+  title   = {On the Theory of the Competitive Firm Under Price Uncertainty},
+  journal = {American Economic Review},
+  volume  = {61},
+  number  = {1},
+  pages   = {65--73},
+  year    = {1971}
+}
+
+% §3.6 Channel 3 — Blundell-Pistaferri consumption smoothing
+@article{BlundellPistaferri2003_consumption,
+  author  = {Blundell, Richard and Pistaferri, Luigi},
+  title   = {Income Volatility and Household Consumption: The Impact of Food Assistance Programs},
+  journal = {Journal of Human Resources},
+  volume  = {38},
+  pages   = {1032--1050},
+  year    = {2003},
+  doi     = {10.3368/jhr.XXXVIII.4.1032}
+}
+
+% §3.7 Channel 4 — US comparator (Kirwan)
+@article{Kirwan2009_rentcap,
+  author  = {Kirwan, Barrett E.},
+  title   = {The Incidence of {U.S.} Agricultural Subsidies on Farmland Rental Rates},
+  journal = {Journal of Political Economy},
+  volume  = {117},
+  number  = {1},
+  pages   = {138--164},
+  year    = {2009},
+  doi     = {10.1086/598688}
+}
+
+% §3.7 Channel 4 — EU comparator (Ciaian et al.)
+@article{Ciaian2023_eucap,
+  author  = {Ciaian, Pavel and Espinosa, Maria and {Gomez y Paloma}, Sergio and Heckelei, Thomas},
+  title   = {Land Capitalization of the {CAP} Direct Payments: Tenancy and Decoupling Effects in the {EU}},
+  journal = {Land Use Policy},
+  volume  = {134},
+  pages   = {106926},
+  year    = {2023},
+  doi     = {10.1016/j.landusepol.2023.106926}
+}
+
+% §3.8 Channel 5 — Exit deterrence: part-time farming + exit (Kimhi)
+@article{Kimhi2000_exit,
+  author  = {Kimhi, Ayal},
+  title   = {Is Part-Time Farming Really a Step in the Way out of Agriculture?},
+  journal = {American Journal of Agricultural Economics},
+  volume  = {82},
+  number  = {1},
+  pages   = {38--48},
+  year    = {2000},
+  doi     = {10.1111/0002-9092.00004}
+}
+
+% §3.8 Channel 5 — Finnish early retirement (Pietola et al.)
+@article{PietolaVareOudeLansink2003_exit,
+  author  = {Pietola, Kyosti and {V\"are}, Minna and {Oude Lansink}, Alfons},
+  title   = {Timing and Type of Exit from Farming: Farmers' Early Retirement Programmes in {Finland}},
+  journal = {European Review of Agricultural Economics},
+  volume  = {30},
+  number  = {1},
+  pages   = {99--116},
+  year    = {2003},
+  doi     = {10.1093/erae/30.1.99}
+}
+
+% §3.8 Channel 5 — Entry/exit (Foltz, dairy price policy)
+@article{Foltz2004_dairy,
+  author  = {Foltz, Jeremy D.},
+  title   = {Entry, Exit, and Farm Size: Assessing an Experiment in Dairy Price Policy},
+  journal = {American Journal of Agricultural Economics},
+  volume  = {86},
+  number  = {3},
+  pages   = {594--604},
+  year    = {2004},
+  doi     = {10.1111/j.0002-9092.2004.00603.x}
+}
+
+% §3.8 Channel 5 — Decoupled subsidies + retention (Kazukauskas et al.)
+@article{Kazukauskas2014_decoup,
+  author  = {Kazukauskas, Andrius and Newman, Carol and Sauer, Johannes},
+  title   = {The Impact of Decoupled Subsidies on Productivity in Agriculture: A Cross-Country Analysis Using Microdata},
+  journal = {Agricultural Economics},
+  volume  = {45},
+  number  = {3},
+  pages   = {327--336},
+  year    = {2014},
+  doi     = {10.1111/agec.12068}
 }
