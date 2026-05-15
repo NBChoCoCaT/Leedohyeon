@@ -1,7 +1,7 @@
 # Requirements Specification: P3c — Channel 4 vs Channel 5 Empirical Decomposition
 
 **Date:** 2026-05-15
-**Status:** DRAFT (Dohyeon review pending)
+**Status:** APPROVED (Dohyeon, 2026-05-15; Plan A — Empirics-first, advisor consultation ~2026-07-24)
 **Plan:** `quality_reports/plans/2026-05-15_p3c-channel-4-5-decomposition.md` (sister: `~/.claude/plans/inherited-knitting-sutton.md`)
 **Pre-validation evidence:** `explorations/2026-05-15_p3c-precheck/findings.md` (Phase 0 completed 2026-05-15)
 **Predecessor:** P3b-1/P3b-2 channel decomposition (`c296ff9`, 2026-05-18, origin/main sync)
@@ -430,12 +430,12 @@ After Phase 1: user + (optional) advisor consultation locks paper §3 narrative 
 ## 11. Approval
 
 - **Drafted:** 2026-05-15 (Claude assist, plan-first workflow + AskUserQuestion clarifications + Phase 0 sanity check)
-- **Reviewed:** (pending — Dohyeon)
-- **Status:** DRAFT
-- **Next gate:** User review → APPROVED → new plan-mode entry for Phase 1 estimation
+- **Reviewed:** Lee, Dohyeon — Plan A (Empirics-first, 10–12주); advisor consultation deferred to ~2026-07-24 post paper-draft.
+- **Status:** **APPROVED** (Dohyeon, 2026-05-15)
+- **Next gate:** Phase 1 (full multi-definition estimation) — new plan-mode entry this session.
 
-[ ] User approved (date): __________
-[ ] Phase 1 plan-mode entry (date): __________
+[x] User approved (date): 2026-05-15
+[x] Phase 1 plan-mode entry (date): 2026-05-15
 
 ---
 
