@@ -1,0 +1,75 @@
+% =============================================================================
+% paper/ko/preamble_ko.tex — XeLaTeX preamble for the Korean derived paper.
+%
+% Mirrors paper/en/preamble_en.tex with kotex added for Korean text rendering.
+% Used by KAEA / 한국농경제학회 conference presentation + future thesis chapter.
+%
+% paper/ko derives from paper/en post-stabilization (CLAUDE.md project convention);
+% user authorized 2026-05-15 to create alongside paper/en in this session.
+% =============================================================================
+
+% Engine detection + encoding (pdfTeX fallback)
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+\fi
+
+% Korean rendering (kotex auto-loads fontspec under XeLaTeX)
+\usepackage{kotex}
+
+% Math + tables + graphics
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf}
+
+% Page geometry (1in margins, A4)
+\usepackage[a4paper, margin=1in]{geometry}
+
+% Double-spacing for journal submission
+\usepackage{setspace}
+\doublespacing
+
+% Palette (mirrors Quarto/theme-template.scss; consistent with Preambles/header.tex)
+\usepackage{xcolor}
+\definecolor{primary-blue}{HTML}{012169}
+\definecolor{primary-gold}{HTML}{B9975B}
+\definecolor{highlight-yellow}{HTML}{F2A900}
+\definecolor{light-bg}{HTML}{E8EDF5}
+\definecolor{jet}{HTML}{1A1A1A}
+\definecolor{positive}{HTML}{15803D}
+\definecolor{negative}{HTML}{B91C1C}
+\definecolor{neutral}{HTML}{525252}
+\colorlet{accent}{primary-blue}
+\colorlet{accent2}{primary-gold}
+
+% Hyperref (loaded after xcolor so link colors resolve)
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = primary-blue,
+  urlcolor   = primary-blue,
+  citecolor  = primary-blue,
+  pdfborder  = {0 0 0}
+}
+
+% Citation engine — author-year style.
+% Korean-authored entries use Korean form by directory convention; English-authored
+% entries (all 11 current §3 cites) use English author-year regardless of paper lang.
+\usepackage[round, authoryear]{natbib}
+\bibliographystyle{plainnat}
+
+% Convenience macros (re-used from Preambles/header.tex)
+\newcommand{\muted}[1]{\textcolor{neutral}{#1}}
+\newcommand{\key}[1]{\textcolor{primary-gold}{\textbf{#1}}}
+\newcommand{\good}[1]{\textcolor{positive}{#1}}
+\newcommand{\bad}[1]{\textcolor{negative}{#1}}
+
+% Section-numbering depth
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+% Theorem-like environments (예측 = numbered claim by channel)
+\theoremstyle{plain}
+\newtheorem{prediction}{예측}[section]
