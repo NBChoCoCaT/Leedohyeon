@@ -385,6 +385,21 @@ class QualityScorer:
         }
         self.auto_fail = False
 
+    def _locate_bib(self) -> Path:
+        """Walk up the filepath's parent chain looking for Bibliography_base.bib.
+
+        Handles slide (`Slides/Lecture1.tex` → 1 level up), paper
+        (`paper/en/main.tex` → 2 levels up), and Quarto (`Quarto/Lecture1.qmd`
+        → 1 level up) contexts uniformly. Returns the first existing candidate;
+        falls back to the 2-up location (legacy default) if none found, so
+        downstream `.exists()` checks still trigger the original error path.
+        """
+        for parent in self.filepath.parents:
+            candidate = parent / 'Bibliography_base.bib'
+            if candidate.exists():
+                return candidate
+        return self.filepath.parent.parent / 'Bibliography_base.bib'
+
     def score_quarto(self) -> Dict:
         """Score Quarto lecture slides."""
         content = self.filepath.read_text(encoding='utf-8')
@@ -414,7 +429,7 @@ class QualityScorer:
             self.score -= 20
 
         # Check broken citations (LaTeX-style \cite patterns)
-        bib_file = self.filepath.parent.parent / 'Bibliography_base.bib'
+        bib_file = self._locate_bib()
         broken_citations = IssueDetector.check_broken_citations(content, bib_file)
 
         # Also check Quarto-style @key citations
@@ -511,10 +526,7 @@ class QualityScorer:
             return self._generate_report()
 
         # Check for undefined/broken citations (\cite, \citep, \citet patterns)
-        bib_file = self.filepath.parent.parent / 'Bibliography_base.bib'
-        if not bib_file.exists():
-            # Also check same directory
-            bib_file = self.filepath.parent / 'Bibliography_base.bib'
+        bib_file = self._locate_bib()
         broken_citations = IssueDetector.check_broken_citations(content, bib_file)
         for key in broken_citations:
             self.issues['critical'].append({
