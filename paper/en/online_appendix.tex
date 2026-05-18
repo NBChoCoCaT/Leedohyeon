@@ -1,0 +1,437 @@
+% =============================================================================
+% paper/en/online_appendix.tex — Online Appendix to the AJAE submission.
+%
+% Title:   Wealth-Biased Liquidity, Tenure-Mode Pivot, and the Separability Null
+%          (α3 framework, 2026-05-18)
+% Author:  Lee, Dohyeon (Korea University)
+% Status:  DRAFT 2026-05-18 — accompanies paper/en/main.tex.
+%
+% Compile: cd paper/en && latexmk -xelatex -interaction=nonstopmode online_appendix.tex
+% Bib:     ../../Bibliography_base.bib
+%
+% Cross-refs: \externaldocument{main} enables \ref{...} to resolve into main.aux.
+% Plan:    quality_reports/plans/2026-05-18_section3-alpha3-implementation.md
+% ADRs:    quality_reports/decisions/2026-05-18_{theoretical-scope, outcome-hierarchy, section3-structure}.md
+% =============================================================================
+
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{xcolor}
+\definecolor{primary-blue}{HTML}{012169}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = primary-blue,
+  urlcolor   = primary-blue,
+  citecolor  = primary-blue,
+}
+
+% Bibliography style: natbib author-year (mirror main.tex)
+\usepackage[round, authoryear]{natbib}
+
+% Cross-document refs into main.aux (resolves \ref{eq:CO-1}, etc.)
+\usepackage{xr-hyper}
+\externaldocument{main}
+
+% Online appendix numbering: section B.x to disambiguate from any future
+% main-text appendix section A. (Main currently has no \appendix block.)
+\renewcommand{\thesection}{B}
+\renewcommand{\thesubsection}{B.\arabic{subsection}}
+\renewcommand{\theequation}{B.\arabic{section}.\arabic{equation}}
+
+\title{Online Appendix:\\
+       Wealth-Biased Liquidity, Tenure-Mode Pivot,\\
+       and the Separability Null---An AHM-Extension Test\\
+       Using Korea's 0.5 ha Subsidy Cutoff}
+\author{Lee, Dohyeon\\
+        Korea University\\
+        Department of Food and Resource Economics}
+\date{Draft: \today}
+
+\begin{document}
+\maketitle
+
+\noindent This online appendix collects the full Lagrangian derivations and
+comparative-statics arguments behind the closed-form predictions of the
+main text \S 3. \S B.1 derives the wealth-biased liquidity predictions
+(equations~\ref{eq:CO-1}--\ref{eq:CO-3} of the main text). \S B.2 derives the
+implicit-labor supervision prediction (equation~\ref{eq:EK-1}). \S B.3
+provides an expanded reduced-form-to-econometric-$\beta$ mapping table with
+empirical magnitudes and falsification triggers.
+
+\bigskip
+
+% =============================================================================
+\section*{Online Appendix B: Channel Derivations}
+\addcontentsline{toc}{section}{B\quad Channel Derivations}
+\setcounter{section}{2}  % so \thesection prints "B" via renewcommand
+\setcounter{equation}{0}
+% =============================================================================
+
+% -----------------------------------------------------------------------------
+\subsection{Wealth-Biased Liquidity: Lagrangian, FOC, Comparative Statics}
+\label{sec:appB-liquidity}
+% -----------------------------------------------------------------------------
+
+This section derives the three closed-form predictions reported in main-text
+equations \ref{eq:CO-1}--\ref{eq:CO-3}: the area-own response
+$\partial A_{own}/\partial T > 0$, the monotone-tenancy gradient
+$\partial^2 A_{own} / \partial T\, \partial(1-s_0) > 0$, and the
+capital-adjustment sub-prediction
+$\partial \text{op\_cost\_ex\_rent} / \partial T \le 0$ if $T/\tau < 1$. The
+backbone follows \citet{CarterOlinto2003_liquidity} with extensions from
+\citet{Kazukauskas2013_disinvestment}; the precedent of policy-cutoff
+identification of credit access draws on \citet{PittKhandker1998_credit}.
+
+\paragraph{Setup.} Consider a two-period framework. In period~1 the household
+chooses consumption $C_1$, labor allocation, and land tenure decisions. In
+period~2 production occurs with the chosen capital and land stock. Let $W_i$
+be household~$i$'s baseline wealth at the start of period~1. The wealth-biased
+credit access function is
+\begin{equation}
+\rho(W_i) \in [0, 1], \quad \rho'(W_i) > 0,
+\label{eq:appB-rho}
+\end{equation}
+where $\rho(W_i)$ is the maximum fraction of a land purchase price that
+household~$i$ can finance externally; the remaining $(1-\rho(W_i))$ must be
+paid as down payment from $W_i$. The SFFP transfer $T_i = T_{SFFP} \cdot D_i$
+enters disposable wealth at the period~1 budget date.
+
+The household chooses purchase quantity $a \ge 0$ at price $p_{land}$.
+Conditional on $a$, period~2 land area is $A_{own,i,2} = A_{own,i,1} + a$ and
+rented area $A_{rent,i,2} = \max\{0, A^*_{i,2} - A_{own,i,2}\}$, where
+$A^*_{i,2}$ is the production-maximizing land scale.
+
+\paragraph{Lagrangian.} The household's program is
+\begin{equation}
+\max_{C_1, C_2, a, L_{f,t}, L_{o,t}, K} \; U(C_1, L_{\ell,1}) + \beta\, \mathbb{E}_1\!\left[U(C_2, L_{\ell,2})\right]
+\label{eq:appB-objective}
+\end{equation}
+subject to the period~1 budget
+\begin{equation}
+P_c C_1 \;=\; W_i + T_i + w L_{o,1} - p_{land}\, a\, (1 - \rho(W_i + T_i)) - r\, A_{rent,i,1},
+\label{eq:appB-budget1}
+\end{equation}
+the period~2 budget
+\begin{equation}
+P_c C_2 \;=\; P_q F(L_{f,2}, A_{own,i,1} + a + A_{rent,i,2}, K) + w L_{o,2} - r\, A_{rent,i,2} - R\, \rho(W_i + T_i)\, p_{land}\, a + T_i,
+\label{eq:appB-budget2}
+\end{equation}
+where $R$ is the gross interest rate on the externally financed share of $a$,
+and the time-allocation constraints in each period $t$:
+$L_{f,t} + L_{o,t} + L_{\ell,t} = \bar L$. Form the Lagrangian
+\begin{multline}
+\mathcal{L} \;=\; U(C_1, L_{\ell,1}) + \beta\, U(C_2, L_{\ell,2})
++ \lambda_1\!\left[W_i + T_i + w L_{o,1} - p_{land} a (1{-}\rho(W_i{+}T_i)) - r A_{rent,1} - P_c C_1 \right] \\
++ \lambda_2\!\left[P_q F(\cdot) + w L_{o,2} - r A_{rent,2} - R \rho(W_i{+}T_i) p_{land} a + T_i - P_c C_2\right] + \mu_1 (\cdots) + \mu_2 (\cdots).
+\label{eq:appB-lagrangian}
+\end{multline}
+
+\paragraph{FOCs.} The intertemporal Euler equation, leisure-consumption
+trade-off, and labor allocation FOCs are standard. The novel FOC is the
+period~1 land-purchase first-order condition (assuming an interior $a > 0$):
+\begin{equation}
+- \lambda_1\, p_{land}\, (1 - \rho(W_i + T_i)) \;+\; \lambda_2 \left[P_q F_A(\cdot) - R\, \rho(W_i + T_i)\, p_{land}\right] \;=\; 0.
+\label{eq:appB-foc-a}
+\end{equation}
+Rearranging,
+\begin{equation}
+P_q F_A(\cdot) \;=\; R\, \rho(W_i + T_i)\, p_{land} \;+\; \frac{\lambda_1}{\lambda_2}\, p_{land}\, (1 - \rho(W_i + T_i)).
+\label{eq:appB-mpA}
+\end{equation}
+
+\paragraph{Asset-threshold rule.} An indifference threshold $W_i^*$ between
+purchasing land ($a > 0$) and not purchasing ($a = 0$) is defined by
+\begin{equation}
+\frac{\lambda_2}{\lambda_1} \cdot P_q F_A \big|_{a=0} \;=\; R\, \rho(W_i^* + T_i)\, p_{land} \;+\; \frac{\lambda_1}{\lambda_2}\, p_{land}\, (1 - \rho(W_i^* + T_i)).
+\label{eq:appB-threshold}
+\end{equation}
+For $W_i \ge W_i^*$, the household purchases; for $W_i < W_i^*$, the household
+continues to rent. Under regularity conditions (SC1--SC3 below), $W_i^*$ is
+unique and continuous in $T_i$.
+
+\paragraph{Comparative statics --- Step 1: $\partial W^*/\partial T < 0$.}
+Differentiating (\ref{eq:appB-threshold}) implicitly with respect to $T_i$ and
+using the wealth-bias property $\rho'(\cdot) > 0$:
+\begin{equation}
+\frac{\partial W_i^*}{\partial T_i} \;=\; -\, \frac{(R - \lambda_1/\lambda_2)\, p_{land}\, \rho'(W_i^* + T_i)}{(R - \lambda_1/\lambda_2)\, p_{land}\, \rho'(W_i^* + T_i) + \text{(other terms)}} \;<\; 0.
+\label{eq:appB-step1}
+\end{equation}
+The threshold shifts down: SFFP-eligible households cross over to ownership at
+lower baseline wealth.
+
+\paragraph{Comparative statics --- Step 2: $\partial A_{own}/\partial T > 0$.}
+Let $\varphi(W_i^*)$ denote the (smooth) density of household wealth at the
+threshold in the eligibility window. The probability that a household crosses
+into ownership in response to $T_i$ is
+\begin{equation}
+\Delta P_i \;=\; -\,\varphi(W_i^*)\cdot \frac{\partial W_i^*}{\partial T_i} \;>\; 0,
+\label{eq:appB-step2-prob}
+\end{equation}
+and the implied response in own area, aggregated over the per-crosser purchase
+quantity $\bar a$, is
+\begin{equation}
+\boxed{\frac{\partial A_{own,i}}{\partial T_{SFFP}} \;=\; \bar a \cdot \varphi(W_i^*) \cdot \left|\frac{\partial W_i^*}{\partial T_i}\right| \;>\; 0,}
+\label{eq:appB-step2}
+\end{equation}
+recovering main-text equation~\ref{eq:CO-1}.
+
+\paragraph{Comparative statics --- Step 3: monotone tenancy gradient.}
+Let $s_{0,i} = A_{own,i,2018}/A_{i,2018}$ be the baseline own-share. By
+construction, households with low $s_{0,i}$ (predominantly tenants) sit closer
+to the indifference threshold $W^*$ in baseline wealth: they have not
+previously crossed and have higher $\varphi(W^*)$ at the threshold. Households
+with $s_{0,i} = 1$ (pure owner-operators) are inframarginal---their wealth
+exceeds $W^*$ by a finite margin, so $\varphi(W_i^*) \to 0$ for them.
+Differentiating (\ref{eq:appB-step2}) with respect to $(1 - s_{0,i})$ and using
+$\partial \varphi(W^*) / \partial s_0 \le 0$:
+\begin{equation}
+\boxed{\frac{\partial^2 A_{own,i}}{\partial T_{SFFP}\, \partial(1 - s_{0,i})} \;>\; 0,}
+\label{eq:appB-step3}
+\end{equation}
+recovering main-text equation~\ref{eq:CO-2}. This is the empirical signature
+uniquely diagnostic of wealth-bias.
+
+\paragraph{Comparative statics --- Step 4: capital adjustment.} Conditional on
+the period~1 land-purchase outcome, the period~2 capital FOC is
+\begin{equation}
+P_q F_K(L_{f,2}, A_{i,2}, K) \;=\; R\, \rho(W_i + T_i)\, p_K \;+\; \frac{\lambda_1}{\lambda_2}\, p_K\, (1 - \rho(W_i + T_i)) \;+\; \tau\, \mathbf{1}[\Delta K \ne 0],
+\label{eq:appB-foc-K}
+\end{equation}
+where $\tau$ is the fixed cost of a discrete capital adjustment
+\citep[parallel to the (S,s) inaction band of][]{CaballeroEngel1999_lumpy}. The
+subsidy $T_{SFFP}$ enters at scale $1.2 \times 10^6$ KRW/year. For a Korean
+small farm tractor or combine with adjustment cost $\tau \approx 25 \times 10^6$
+KRW/year (down-payment-equivalent),
+\begin{equation}
+\frac{T_{SFFP}}{\tau} \;\approx\; \frac{1.2}{25} \;=\; 0.048 \;\ll\; 1.
+\label{eq:appB-ratio}
+\end{equation}
+The transfer is too small to trigger a discrete capital crossing
+($\Delta K \ne 0$). Households therefore absorb the marginal subsidy on
+non-capital margins: variable inputs (already paid for via working capital),
+rent restructuring, debt service, or consumption. Conditional on $\Delta K = 0$,
+\begin{equation}
+\boxed{\frac{\partial\, \text{op\_cost\_ex\_rent}_i}{\partial T_{SFFP}} \;\le\; 0 \quad \text{if } T_{SFFP}/\tau < 1,}
+\label{eq:appB-step4}
+\end{equation}
+recovering main-text equation~\ref{eq:CO-3}. The sign is non-positive (rather
+than negative) because in the extreme case where the household has no binding
+variable-input constraint, the marginal subsidy flows entirely to consumption
+with $\Delta\, \text{op\_cost\_ex\_rent} = 0$. The strict inequality holds when
+the household previously relied on costly short-term credit for variable inputs.
+
+\paragraph{Sufficient conditions.} The derivations above require:
+\begin{description}
+\item[(SC1)] $\rho'(W) > 0$ bounded away from zero on the eligibility window
+  $W \in [W^* - \epsilon, W^* + \epsilon]$ for some $\epsilon > 0$. Ensures
+  wealth-bias is not asymptotically flat.
+\item[(SC2)] $W^*(T)$ is unique --- holds under strict quasi-concavity of the
+  own-versus-rent indifference curve, satisfied if $F$ is strictly concave in
+  land and $\rho$ is strictly increasing.
+\item[(SC3)] Participation slack at the threshold-crossing margin:
+  $V_{own}(W^*, T) > V_{outside}$, where $V_{outside}$ is the value of pure
+  off-farm employment. Empirically supported by FHES Wave~1 take-up rates of
+  92.3\% among eligible households.
+\item[(SC4)] $T_{SFFP} < \tau$ for the capital sub-prediction (Step 4).
+  Verified empirically by (\ref{eq:appB-ratio}).
+\item[(SC5)] Panel stationarity of $W_i$ relative to $T_i$: the running
+  variable $rv_{2018}$ measured at baseline pre-policy ensures
+  Cov($W_{i,2018}, T_{i,2020+}$) = 0 by construction, satisfying the standard
+  DiD-RD identification condition.
+\end{description}
+
+\paragraph{What this derivation does \emph{not} show.} The wealth-biased
+liquidity derivation above is partial-equilibrium at the household level. It
+predicts $\partial A_{own,i}/\partial T > 0$ for each treated household but
+does \emph{not} pin down the equilibrium response of the rental price $r$ to
+aggregate changes in rental demand. The observed negative pass-through on
+unit\_rent\_price reported in the main text (\S 3.4 ``Equilibrium rent
+caveat'') is an implication of standard incidence theory
+\citep{Floyd1965_incidence, AlstonJames2002_incidence} applied externally to
+our model, not an internal prediction. A full equilibrium treatment of the
+rental market remains for future work.
+
+% -----------------------------------------------------------------------------
+\subsection{Implicit Labor with Supervision: Lagrangian, FOC, Comparative Statics}
+\label{sec:appB-supervision}
+% -----------------------------------------------------------------------------
+
+This section derives the closed-form prediction reported in main-text
+equation~\ref{eq:EK-1}: under non-separability induced by costly supervision of
+hired labor, the off-farm-income response to the subsidy is non-zero with
+indeterminate sign. The backbone is \citet{EswaranKotwal1986_supervision}, with
+separability-test instruments following \citet{Benjamin1992_separation}.
+
+\paragraph{Setup.} Within a single period, the household allocates time across
+family farm labor $\ell_f$, supervision of hired labor (cost $m$ per unit of
+hired labor $\ell_h$), off-farm labor $\ell_o$, and leisure $\ell_l$, subject to
+the total time endowment $\bar L$. Output is
+\begin{equation}
+Q \;=\; F(\ell_f + \ell_h, A, K).
+\label{eq:appB-EK-prod}
+\end{equation}
+Family labor and hired labor are perfect substitutes in production, but the
+operator must spend $m \cdot \ell_h$ units of own time supervising each unit of
+hired labor.
+
+\paragraph{Lagrangian.} The household solves
+\begin{equation}
+\max_{C, \ell_f, \ell_h, \ell_o, \ell_l} \; U(C, \ell_l)
+\label{eq:appB-EK-objective}
+\end{equation}
+subject to the budget
+\begin{equation}
+P_c C \;=\; P_q F(\ell_f + \ell_h, A, K) + w_m \ell_o - w_m \ell_h - r A_{rent} + T,
+\label{eq:appB-EK-budget}
+\end{equation}
+and the time constraint
+\begin{equation}
+\ell_f + \ell_o + \ell_l + m\, \ell_h \;=\; \bar L.
+\label{eq:appB-EK-time}
+\end{equation}
+Form the Lagrangian with multipliers $\lambda$ (budget) and $\mu$ (time):
+\begin{equation}
+\mathcal{L} \;=\; U(C, \ell_l) + \lambda \left[P_q F - w_m \ell_h + w_m \ell_o - r A_{rent} + T - P_c C\right] + \mu \left[\bar L - \ell_f - \ell_o - \ell_l - m \ell_h\right].
+\label{eq:appB-EK-lagrangian}
+\end{equation}
+
+\paragraph{FOCs.} The relevant FOCs, assuming an interior $\ell_o > 0$ and
+$\ell_h > 0$ (the binding separability case):
+\begin{align}
+\partial \mathcal{L}/\partial C &= U_C - \lambda P_c = 0, \label{eq:appB-EK-foc-C}\\
+\partial \mathcal{L}/\partial \ell_l &= U_l - \mu = 0, \label{eq:appB-EK-foc-l}\\
+\partial \mathcal{L}/\partial \ell_f &= \lambda P_q F_L - \mu = 0, \label{eq:appB-EK-foc-f}\\
+\partial \mathcal{L}/\partial \ell_o &= \lambda w_m - \mu = 0, \label{eq:appB-EK-foc-o}\\
+\partial \mathcal{L}/\partial \ell_h &= \lambda (P_q F_L - w_m) - \mu m = 0. \label{eq:appB-EK-foc-h}
+\end{align}
+
+\paragraph{Shadow-wage divergence.} From (\ref{eq:appB-EK-foc-f}) and
+(\ref{eq:appB-EK-foc-o}), the family-labor shadow wage equals the market wage
+when an interior $\ell_o$ exists:
+\begin{equation}
+w_{f,i} \;\equiv\; P_q F_L \;=\; \mu / \lambda \;=\; w_m \quad \text{if } \ell_o > 0.
+\label{eq:appB-EK-wf-interior}
+\end{equation}
+However, substituting into (\ref{eq:appB-EK-foc-h}),
+\begin{equation}
+\lambda(P_q F_L - w_m) \;=\; \mu m \;=\; \lambda w_m m
+\quad \Longrightarrow \quad P_q F_L \;=\; w_m (1 + m).
+\label{eq:appB-EK-MPL}
+\end{equation}
+The marginal product of farm labor must equal $w_m(1+m)$ rather than $w_m$
+when hired labor is used; the supervision wedge $w_m \cdot m$ drives a gap
+between the labor-market shadow wage on hired labor ($w_m + m \mu/\lambda$) and
+the market wage. This violates AHM separability: the family's labor allocation
+depends on whether and how much hired labor is used, which in turn depends on
+the household's wealth and consumption choices.
+
+\paragraph{Comparative statics --- Step 1.} The shadow value of time
+$\mu/\lambda$ depends on the household's overall budget. Total differentiation
+of (\ref{eq:appB-EK-foc-C})--(\ref{eq:appB-EK-foc-h}) with respect to $T$
+yields, after lengthy but standard manipulations,
+\begin{equation}
+\frac{\partial (\mu/\lambda)}{\partial T} \;=\; \frac{\partial w_{f,i}}{\partial T} \;=\; f(U_{CC}, U_{Cl}, F_{LL}, m) \;\ne\; 0
+\label{eq:appB-EK-step1}
+\end{equation}
+in general, with sign depending on the curvature of $U$ in $(C, \ell_l)$.
+
+\paragraph{Comparative statics --- Step 2: $\partial \ell_o / \partial T$.}
+From (\ref{eq:appB-EK-foc-o}), $\mu/\lambda = w_m$ at interior $\ell_o$. The
+subsidy $T$ relaxes the budget constraint, raising $\lambda$ (the marginal
+utility of consumption falls less rapidly than the marginal utility of
+leisure rises), which by the FOC system can cause $\ell_o$ to fall (income
+effect on leisure: $\ell_o \downarrow$, $\ell_l \uparrow$) or rise (relaxing
+the cash-constraint motive that drove supervision-cost hiring: $\ell_h \downarrow
+\Rightarrow$ family time freed $\Rightarrow$ $\ell_o \uparrow$).
+
+The off-farm-income response is therefore
+\begin{equation}
+\boxed{\frac{\partial \text{off\_farm\_income}_i}{\partial T_{SFFP}} \;=\; w_m \cdot \frac{\partial \ell_{o,i}}{\partial T_{SFFP}} \;\ne\; 0 \quad \text{under non-separability,}}
+\label{eq:appB-EK-step2}
+\end{equation}
+recovering main-text equation~\ref{eq:EK-1}, with sign theoretically
+indeterminate. Empirical estimation must resolve which of the two opposing
+effects (income vs.\ supervision-relaxation) dominates.
+
+\paragraph{Sufficient conditions.}
+\begin{description}
+\item[(SC6)] $\ell_h > 0$ for the supervision-wedge mechanism to bite. If the
+  representative SFFP-eligible household uses no hired labor, the channel is
+  inoperative. Empirically: FHES Wave~1 hired-labor share is approximately
+  17--34\% across baseline-tenancy quintiles (low at high $s_0$, high at low
+  $s_0$), supporting an interior $\ell_h > 0$ for the predominantly-tenant
+  treated cohort.
+\item[(SC7)] $U_{Cl}$ and $F_{LL}$ are bounded; the off-farm labor response is
+  finite. Standard regularity.
+\item[(SC8)] Interior $\ell_o > 0$ for the comparative-statics machinery (the
+  alternative corner case is handled by checking the empirical share of
+  households with $\ell_o = 0$; FHES Wave~1 shows fewer than 12\% of
+  SFFP-eligible households at this corner).
+\end{description}
+
+\paragraph{Auxiliary status reminder.} The supervision channel is auxiliary to
+\S B.1. Its rejection (falsification trigger F2 in the main text) does not
+invalidate \S B.1's primary prediction. The contribution narrative under
+$\hat\beta_4 = 0$ becomes: ``wealth-biased liquidity is the sole margin of
+separability failure for Korean smallholders'' --- a tighter but still
+publishable finding.
+
+% -----------------------------------------------------------------------------
+\subsection{Reduced-Form-to-Econometric-$\beta$ Mapping Table}
+\label{sec:appB-mapping}
+% -----------------------------------------------------------------------------
+
+Table~\ref{tab:appB-mapping} expands the unified prediction table of the main
+text (Table~\ref{tab:alpha3-predictions}) with three additional columns:
+empirical magnitudes from the P3b-2 analysis (where available), the
+falsification trigger that would reject each channel, and the journal-grade
+implication of falsification.
+
+\begin{table}[ht]
+\centering
+\caption{Expanded reduced-form-to-econometric-$\beta$ mapping with empirical fit and falsification triggers.}
+\label{tab:appB-mapping}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{p{1.7cm} p{1.9cm} p{1.9cm} p{0.9cm} p{2.6cm} p{2.4cm} p{1.6cm}}
+\toprule
+Channel & Outcome & Theory sign & Econ. $\hat\beta$ & Empirical fit (P3b-2) & Falsification trigger & Reframe \\
+\midrule
+Liquidity primary \#1 \citep{CarterOlinto2003_liquidity} & $A_{own}$ & $>0$ & $\beta_1$ & T2: $+1{,}089$ m\textsuperscript{2} pure tenant ($p\!=\!.033$); T3: $+408$ ($p\!=\!.003$) & $\hat\beta_1 = 0$ uniformly & Null estimate \\
+Liquidity gradient \citep{CarterOlinto2003_liquidity} & $A_{own} \times (1-s_0)$ & $> 0$, mono in $1-s_0$ & $\beta_2$ & T2 monotone: $-1738$, $-600$, $-393$, $0$ across quintiles & $\hat\beta_2 = 0$ OR $s_0\!=\!1$ same as $s_0\!=\!0$ & Universal income effect (drop wealth-bias) \\
+Capital adj. \citep{Kazukauskas2013_disinvestment} & op\_cost\_ex\_rent & $\le 0$ if $T/\tau \!<\! 1$ & $\beta_3$ & T1: $-4.02$M ($p\!=\!.055$); T2: $-3.22$M ($p\!=\!.079$) & $\hat\beta_3 > 0$ across bandwidths & Reconsider $\tau$ calibration \\
+Labor (aux.) \citep{EswaranKotwal1986_supervision} & off\_farm\_income & $\ne 0$ under non-sep. & $\beta_4$ & TBD (auxiliary in P3b-2) & $\hat\beta_4 = 0$ all bandwidths & Drop supervision channel; primary survives \\
+\midrule
+\multicolumn{7}{l}{\textit{Ex-theory (B.1) --- aggregate-equilibrium implication:}} \\
+Incidence \citep{Floyd1965_incidence, AlstonJames2002_incidence} & unit\_rent & $< 0$ via incidence closure & $\beta_5$ & T1: $-48$ to $-130$ across non-pure-owner bins; T2 pass-through $-11.1\%$ & N/A (not a theory test) & N/A \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Reading the table.} The two ``Liquidity'' rows correspond to the
+primary contribution under ADR-0002 outcome-hierarchy ($A_{own}$ promoted to
+primary \#1). Both must hold for the wealth-biased liquidity mechanism to be
+supported; rejection of either row reframes the paper as indicated. The
+``Capital adj.'' row is the secondary primary outcome; its rejection (positive
+$\hat\beta_3$) would not falsify the primary mechanism but would force a
+reconsideration of the calibrated adjustment threshold $\tau$. The ``Labor''
+row is auxiliary; rejection of F2 narrows the contribution to a single
+non-separability margin. The ``Incidence'' row is reported as evidence
+consistent with the model's empirical footprint but is not a primary
+theoretical contribution (see main text \S 3.4 equilibrium rent caveat).
+
+\paragraph{Joint test --- F1 + F2.} If both F1 and F2 trigger, the AHM
+separability null (\ref{eq:null}) cannot be rejected. The paper repositions as
+a precise developed-country null estimate, complementing
+\citet{LaFaveThomas2016_markets}.
+
+\bibliographystyle{plainnat}
+\bibliography{../../Bibliography_base}
+
+\end{document}

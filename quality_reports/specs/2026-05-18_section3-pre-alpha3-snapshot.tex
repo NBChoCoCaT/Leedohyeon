@@ -1,0 +1,282 @@
+\section{Theoretical Framework}
+% =============================================================================
+\label{sec:theory}
+
+Korea's per-farm flat-rate direct payment generates a sign-flip in rent capitalization that per-hectare designs in the US and EU cannot produce. We trace this contrast through a five-channel agricultural household model (AHM). The framework starts from the \citet{SinghSquireStrauss1986_ahm} baseline, whose separability theorem yields the null hypothesis ($\beta = 0$). Each channel then adds one market imperfection that breaks separability and produces a signed empirical prediction. The per-farm policy design is the common identification mechanism across all five channels: it carries the headline empirical contribution of \S\ref{sec:results}, and it is the feature that distinguishes Korea from its US and EU comparators.
+
+% -----------------------------------------------------------------------------
+\subsection{Notation}
+\label{sec:notation}
+% -----------------------------------------------------------------------------
+
+\begin{table}[h]
+\centering
+\caption{Notation used in the theoretical framework.}
+\label{tab:notation}
+\small
+\begin{tabular}{ll}
+\toprule
+Symbol & Meaning \\
+\midrule
+$C$              & Household consumption \\
+$L_f, L_o, L_\ell$ & Farm labor, off-farm labor, leisure (time constraint $L_f+L_o+L_\ell = \bar L$) \\
+$A_{own}, A_{rent}$ & Own-cultivated area; rented-in area; $A = A_{own} + A_{rent}$ \\
+$K$              & Farm capital stock (machinery, facilities) \\
+$Q = F(L_f, A, K; \varepsilon)$ & Farm production with stochastic shock $\varepsilon$ \\
+$r$              & Per-unit rental price (KRW/m\textsuperscript{2}/year) \\
+$w$              & Off-farm wage \\
+$T$              & Direct-payment transfer; $T = T_{SFFP} = 1{,}200{,}000$ KRW/year if eligible \\
+$D_i$            & Treatment dummy; $D_i = 1$ if $A_{2018,i} \le 5{,}000$ m\textsuperscript{2} (0.5 ha cutoff) \\
+$s_{0,i}$        & Baseline ownership share $A_{own,2018,i} / A_{2018,i}$ \\
+$\Phi_{exit}, \psi_i$ & Sunk exit cost; non-monetary identity loss (heterogeneous) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% -----------------------------------------------------------------------------
+\subsection{Baseline AHM and the Separability Null}
+\label{sec:ahm-baseline}
+% -----------------------------------------------------------------------------
+
+The \citet{SinghSquireStrauss1986_ahm} agricultural household model treats the farm household as a unified producer-consumer entity solving
+\begin{equation}
+\max_{C, L_f, L_o, A, K, Q} \; U(C, L_\ell)
+\label{eq:ahm-objective}
+\end{equation}
+subject to a single budget constraint integrating farm and household accounts,
+\begin{equation}
+P_c\, C = P_q\, Q + w\, L_o - r\, A_{rent} - p_K\, I(K) + T,
+\label{eq:ahm-budget}
+\end{equation}
+the production technology $Q = F(L_f, A, K)$, and the time-allocation constraint $L_f + L_o + L_\ell = \bar L$.
+
+\paragraph{Separability theorem.} Under complete markets (production, labor, land, credit, insurance all frictionless and competitively priced), the program in (\ref{eq:ahm-objective})--(\ref{eq:ahm-budget}) admits a recursive factorization: the household first maximizes farm profit
+\begin{equation}
+\pi^* = \max_{L_f, A, K} \; \{P_q\, F(L_f, A, K) - w\, L_f - r\, A_{rent} - p_K\, I(K)\}
+\label{eq:profit-max}
+\end{equation}
+treating market prices as parametric, and then maximizes household utility
+\begin{equation}
+\max_{C, L_o} \; U(C, L_\ell) \quad \text{s.t.}\quad P_c\, C = \pi^* + w(\bar L - L_\ell) + T
+\label{eq:utility-max}
+\end{equation}
+taking $\pi^*$ as exogenous. The key implication for policy analysis is that a lump-sum transfer $T$ enters \emph{only} the household-side budget in (\ref{eq:utility-max}); production decisions in (\ref{eq:profit-max}) are unaffected. We therefore obtain the null hypothesis
+\begin{equation}
+H_0: \quad \frac{\partial Q}{\partial T} = \frac{\partial L_f}{\partial T} = \frac{\partial K}{\partial T} = \frac{\partial A_{rent}}{\partial T} = 0.
+\label{eq:null}
+\end{equation}
+
+Every empirical finding in this paper is therefore evidence that separability fails in the Korean smallholder setting along one or more identifiable margins.
+
+% -----------------------------------------------------------------------------
+\subsection{Non-Separable Extension}
+\label{sec:nonseparable}
+% -----------------------------------------------------------------------------
+
+\citet{deJanvryFafchampsSadoulet1991_peasant} show that any single market imperfection---incomplete credit, missing insurance, transaction costs, bargaining frictions---breaks separability, replacing market prices with endogenous \emph{shadow prices} that depend on the household's joint production-consumption choices. The transfer $T$ then shifts production, consumption, labor supply, and land-tenure decisions simultaneously through shadow-price adjustment.
+
+We identify five such channels and trace the effect of $T$ along each. The channels are mutually consistent by construction: they share the same household utility $U(C, L_\ell)$ and the same per-farm policy structure for $T$. They differ only in which market imperfection binds at the relevant margin (\S\ref{sec:fragmentation}).
+
+% -----------------------------------------------------------------------------
+\subsection{Channel 1 (Main): Lumpy Investment under $(S,s)$ Inaction}
+\label{sec:ch1-ss}
+% -----------------------------------------------------------------------------
+
+\textbf{Imperfection.} Capital adjustment carries a non-convex fixed cost $\phi > 0$ payable for any nonzero investment, plus a quadratic convex component $\tfrac{1}{2}\phi_2 I^2$:
+\begin{equation}
+\text{Adjustment cost} = \phi\, \mathbf{1}[I \ne 0] + \tfrac{1}{2}\phi_2\, I^2.
+\label{eq:adjustment-cost}
+\end{equation}
+
+\textbf{Optimal policy.} \citet{CaballeroEngel1999_lumpy} show that the resulting dynamic program admits an $(S,s)$ trigger rule: capital is adjusted only when the gap $|K - K^*|$ between actual and frictionless target exceeds an inaction-region threshold $s_{\min}$. Inside the inaction region, $I = 0$ and the transfer flows to other margins (variable inputs, consumption, debt or rent restructuring).
+
+\textbf{Calibration for Korean smallholders.} A Korean farm tractor or combine costs roughly 50 million KRW, with an owner equity share near 50\%, so $s_{\min} \approx 25$ million KRW. With $T_{SFFP} = 1{,}200{,}000$ KRW/year, the ratio
+\begin{equation}
+\frac{T_{SFFP}}{s_{\min}} \approx \frac{1.2 \cdot 10^6}{25 \cdot 10^6} = 4.8\%
+\label{eq:ss-ratio}
+\end{equation}
+sits deeply within the inaction region. The transfer should depress, not expand, operating costs net of rent.
+
+\begin{prediction}[Channel 1]
+\label{pred:ch1}
+$\beta(\text{op\_cost\_ex\_rent}) \le 0$.
+\end{prediction}
+
+Empirical evidence in \S\ref{sec:results}: $\hat\beta = -4.02$ million KRW at T1 ($p = 0.055$) and $-3.22$ million KRW at T2 ($p = 0.079$), confirming the prediction at narrow bandwidths.
+
+% -----------------------------------------------------------------------------
+\subsection{Channel 2 (Auxiliary): Precautionary Off-Farm Labor}
+\label{sec:ch2-sandmo}
+% -----------------------------------------------------------------------------
+
+\textbf{Imperfection.} Missing crop-revenue insurance combined with stochastic production $\tilde Q = F(L_f, A, K) + \varepsilon$, $\varepsilon \sim (0, \sigma^2)$, exposes households to income risk \citep{Sandmo1971_uncertainty}. Under prudence ($U''' > 0$), households respond by supplying additional off-farm labor as a precautionary buffer \citep{Kimball1990_prudence}.
+
+\textbf{Effect of $T$.} The transfer raises baseline wealth and shrinks the relative variability of total household income, weakening the precautionary motive.
+
+\begin{prediction}[Channel 2]
+\label{pred:ch2}
+$\beta(\text{off\_farm\_income}) < 0$.
+\end{prediction}
+
+% -----------------------------------------------------------------------------
+\subsection{Channel 3 (Auxiliary): Consumption Smoothing}
+\label{sec:ch3-bp}
+% -----------------------------------------------------------------------------
+
+\textbf{Imperfection.} Credit-constrained households cannot freely intertemporally substitute; the Euler equation fails as a strict inequality \citep{BlundellPistaferri2003_consumption}. A binding constraint $B_t \le \bar B$ implies that any received transfer translates near-fully into contemporaneous consumption (marginal propensity to consume $\approx 1$ on the constrained margin).
+
+\begin{prediction}[Channel 3]
+\label{pred:ch3}
+$\beta(\text{consumption}) > 0$.
+\end{prediction}
+
+% -----------------------------------------------------------------------------
+\subsection{Channel 4 (Headline): Tenant-Driven Land Transition}
+\label{sec:ch4-tenant}
+% -----------------------------------------------------------------------------
+
+Channel 4 is the paper's headline mechanism. It operates through three concurrent sub-channels, with effect magnitudes monotone-increasing in baseline tenancy share $(1 - s_{0,i})$.
+
+\subsubsection{Sub-model: Landlord-Tenant Bargaining}
+\label{sec:ch4-submodel}
+
+Each period, a landlord with outside option $u_L$ and a tenant household with farm-side surplus $V_T$ bargain over the per-unit rent $r$. The tenant then chooses rented area $A_{rent}$ and own-cultivated area $A_{own}$, paying a within-period conversion cost $\tau \cdot (\Delta A_{own})^+$ to move land from rented to own-cultivated status.
+
+\textbf{Stage 1 (Nash bargaining).} The bargaining outcome solves
+\begin{equation}
+r^* = \arg\max_r \; [V_T(r) - \underline{V}_T]^{\theta}\, [V_L(r) - u_L]^{1-\theta},
+\label{eq:nash}
+\end{equation}
+yielding the first-order condition
+\begin{equation}
+r^* = (1-\theta)\, \overline{\text{MPL}}_A + \theta \cdot \frac{u_L}{A_{rent}},
+\label{eq:rstar}
+\end{equation}
+where $\theta \in (0,1)$ is tenant bargaining power and $\overline{\text{MPL}}_A$ the tenant's marginal product of land.
+
+\textbf{Key result (per-farm vs.\ per-hectare).} Under a \emph{per-farm} flat-rate $T = T_{SFFP}$, the transfer enters tenant surplus $V_T$ but not the landlord outside option $u_L$:
+\begin{equation}
+\frac{\partial u_L}{\partial T_{SFFP}} = 0 \quad \Longrightarrow \quad \frac{\partial r^*}{\partial T_{SFFP}} < 0
+\quad \text{(per-farm structure)}.
+\label{eq:per-farm}
+\end{equation}
+Under a \emph{per-hectare} alternative $T = t \cdot A_{rent}$ (as in the US and EU), the landlord's outside option co-moves with the transfer,
+\begin{equation}
+u_L^{\text{per-ha}}(t) = u_L^0 + \alpha\, t\, A_{rent}, \quad \alpha \in (0,1],
+\label{eq:per-ha}
+\end{equation}
+implying $\partial r^* / \partial t > 0$. The per-hectare structure thus generates positive capitalization---consistent with \citeauthor{Kirwan2009_rentcap}'s (\citeyear{Kirwan2009_rentcap}) US estimate of approximately 25\% and the EU short-run range of 9.1--46.2\% and long-run range of 11--55\% reported by \citet{BaldoniCiaian2023_eucap}.
+
+The sign reversal in (\ref{eq:per-farm}) is therefore \emph{endogenously derived from the policy design}, not assumed. Korea's per-farm structure delivers a tenant-side bargaining advantage that the US and EU per-hectare structures dilute through landlord co-capture.
+
+\subsubsection{Three Concurrent Sub-Channels with Monotone-in-$s_0$ Gradient}
+\label{sec:ch4-three}
+
+Stage~2 of the tenant's program yields the comparative statics
+
+\begin{prediction}[Channel 4]
+\label{pred:ch4}
+$\partial r^* / \partial T_{SFFP} < 0$ \textnormal{(bargaining; sub-channel (i))}; \\
+$\partial A_{rent} / \partial T_{SFFP} < 0$ \textnormal{(composition / capitalization avoidance; sub-channel (ii))}; \\
+$\partial A_{own} / \partial T_{SFFP} > 0 \mid \text{survive}$ \textnormal{(extensive margin / land pivot; sub-channel (iii))}. \\
+All three effects are monotone in $-s_{0,i}$: pure tenants ($s_0 = 0$) exhibit the largest response; pure owner-operators ($s_0 = 1$) are inframarginal by construction.
+\end{prediction}
+
+Empirical evidence in \S\ref{sec:results}: at T1, pure tenants display unit-rent declines of approximately $-48$ KRW/m\textsuperscript{2} ($p = 0.059$); at T2, rented area shrinks by $-1{,}738$ m\textsuperscript{2} for pure tenants ($p = 0.137$) and own-cultivated area expands by $+1{,}089$ m\textsuperscript{2} ($p = 0.033$). The aggregate rent-cost pass-through is $-11.1\%$ at T2.
+
+\subsubsection{Decomposition: Channel 4 vs.\ Channel 5}
+\label{sec:ch4-decomp}
+
+The headline extensive-margin estimate---treated farms' total cultivated area at 2022---is $+408$ m\textsuperscript{2} (T3, $p = 0.003$) unconditionally. Restricting to balanced-panel survivors ($n_{\text{years}} = 5$) yields a conditional estimate of $+393$ m\textsuperscript{2} (T3, $p = 0.010$). The implied \emph{selection share},
+\begin{equation}
+1 - \frac{\hat\lambda_{2022}^{\text{cond}}}{\hat\lambda_{2022}^{\text{uncond}}}
+= 1 - \frac{393}{408} \approx 3.7\%,
+\label{eq:selection-share}
+\end{equation}
+is small: 96\% of the headline land-area response is the within-survivor pivot of sub-channel (iii), and less than 4\% comes from the Channel 5 selection bias discussed below. The Channel 4 finding is robust to differential exit.
+
+% -----------------------------------------------------------------------------
+\subsection{Channel 5 (Supplementary): Exit Deterrence}
+\label{sec:ch5-exit}
+% -----------------------------------------------------------------------------
+
+Channel 5 captures the extensive-margin selection at the farm-survival boundary. We treat it as a supplementary robustness anchor, not the paper's primary mechanism: the empirical evidence in \S\ref{sec:results} confirms directional consistency with the theoretical prediction but yields statistically null estimates at the FHES Wave~1 sample size.
+
+\paragraph{Sub-model.} Each period, the household compares the present value of continued farming with the lump-sum value of exiting. The stay value
+\begin{equation}
+V_{stay,i}(T) = \mathbb{E}_t \sum_{\tau = 0}^{\infty} \beta^\tau\, U(C_{i,t+\tau}, L_{\ell,i,t+\tau})
++ \sum_{\tau=0}^{\infty} \beta^\tau\, T \cdot \mathbf{1}[D_i = 1]
+\label{eq:v-stay}
+\end{equation}
+includes the SFFP flow conditional on continued eligibility; the exit value
+\begin{equation}
+V_{exit,i} = p_{land}\, A_{own,i} + W_{nonfarm,i} - \Phi_{exit} - \psi_i
+\label{eq:v-exit}
+\end{equation}
+is the lump-sum from land sale plus the non-farm income stream, net of the sunk exit cost $\Phi_{exit}$ and the non-monetary identity loss $\psi_i$, with the latter distributed across households as $\psi_i \sim G(\cdot)$ \citep{Kimhi2000_exit, PietolaVareOudeLansink2003_exit, Foltz2004_dairy}. The transfer $T$ enters only $V_{stay}$, because exit forfeits SFFP eligibility:
+\begin{equation}
+\frac{\partial V_{stay}}{\partial T} > 0, \qquad \frac{\partial V_{exit}}{\partial T} = 0.
+\label{eq:vstay-vexit}
+\end{equation}
+
+\paragraph{Per-farm vs.\ per-hectare retention discontinuity.} The flat-rate structure implies that $T$ is independent of farm area. For marginal smallholders, $T$ thus constitutes a larger share of $V_{stay}^{(0)}$ baseline value than for marginal larger farms, producing a sharp retention discontinuity at the 0.5 ha eligibility cutoff. A per-hectare alternative $T = t \cdot A$ would produce a smooth retention gradient with no discontinuity \citep{Kazukauskas2014_decoup}.
+
+\begin{prediction}[Channel 5]
+\label{pred:ch5}
+$\beta(\text{exit}) < 0$, monotone in $-s_{0,i}$ (pure tenants exhibit larger retention response by virtue of more frequently being marginal).
+\end{prediction}
+
+\paragraph{Scenario $\beta$ framing.} The four-definition robustness ladder reported in \S\ref{sec:results} (P3c Phase~1) yields Form~B DiD-with-pre-trend-control estimates of $\hat\beta(\text{exit}) = -0.092$ at the T2 bandwidth ($\text{SE} = 0.087$, $p = 0.293$), sign-consistent with Prediction~\ref{pred:ch5} but statistically null. The previously reported $+0.1517$ exit coefficient (from the analysis pipeline's MSE-bandwidth cross-sectional RD) reflects a contaminated cross-section: pre-policy panel attrition imparts a $+10.2$ percentage-point treated-control skew on the baseline definition, and 730 ``late entrants'' with $\text{last\_year} = 2022$ and $n_{\text{years}} < 5$ are not exiters at all. After correction (\S\ref{sec:results}), the magnitude drops to $+0.084$ (Form~A, $p = 0.107$) and reverses sign once baseline differential attrition is netted out (Form~B, above).
+
+We therefore present Channel~5 as evidence of directional consistency rather than as a primary mechanism. Channel~4's three sub-channels (i)--(iii), particularly the within-survivor extensive-margin response with selection share of only $3.7\%$ (\S\ref{sec:ch4-decomp}), bear the headline empirical weight. Future research with larger samples (e.g., FHES Wave~2 once Wave~1/2 linkage is restored) or with administrative land-transaction records (APCS) could pin down the Channel~5 magnitude with higher precision.
+
+% -----------------------------------------------------------------------------
+\subsection{Unified Prediction Table}
+\label{sec:predictions}
+% -----------------------------------------------------------------------------
+
+Table~\ref{tab:predictions} consolidates the five channels along the dimensions of market imperfection, outcome variable, sign prediction, and empirical fit. The first three channels target the intensive margin of household resource allocation; Channels~4 and~5 operate on the extensive land-tenure margin.
+
+\begin{table}[ht]
+\centering
+\caption{Five-channel prediction table.}
+\label{tab:predictions}
+\small
+\begin{tabular}{p{2.4cm} p{3.2cm} p{2.6cm} c p{2.6cm}}
+\toprule
+Channel & Imperfection & Outcome & Sign & Empirical fit \\
+\midrule
+1 \citep{CaballeroEngel1999_lumpy} & Non-convex $K$ adjustment & op\_cost\_ex\_rent & $\le 0$ & T1 $-4.02$M, T2 $-3.22$M (\textbf{\good{$\checkmark$}}) \\
+2 \citep{Sandmo1971_uncertainty} & Risk $+$ prudence & off\_farm\_income & $<$ 0 & In progress \\
+3 \citep{BlundellPistaferri2003_consumption} & Credit constraint & consumption & $>$ 0 & In progress \\
+4(i) Bargaining & Nash, per-farm structure & unit\_rent & $<$ 0 & T1 pure\_tenant $-48$ (\textbf{\good{$\checkmark$}}) \\
+4(ii) Composition & Land mkt $+$ capitalization avoidance & $A_{rent}$ & $<$ 0, mono in $-s_0$ & T2 pure\_tenant $-1{,}738$ m\textsuperscript{2} (\textbf{\good{$\checkmark$}}) \\
+4(iii) Land pivot & Convertible $A_{own}$, cost $\tau$ & $A_{own}\!\mid\!\text{survive}$ & $>$ 0, mono in $-s_0$ & T2 pure\_tenant $+1{,}089$ m\textsuperscript{2} (\textbf{\good{$\checkmark$}}) \\
+5 \citep{Kimhi2000_exit} & Sunk $\Phi_{exit}$ $+$ identity $\psi$ & exit\_indicator & $<$ 0, mono in $-s_0$ & T2 Form~B $-0.092$ ($p = 0.293$, \textbf{\muted{directional only}}) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The unified prediction table makes explicit two features of the framework. First, every channel's prediction is signed, not merely directional in some narrative sense. Second, the empirical fit row records what the data deliver: four of the five channels yield sign-consistent estimates at conventional bandwidth choices, with the Channel~5 estimate directionally consistent but statistically underpowered.
+
+% -----------------------------------------------------------------------------
+\subsection{Why Five Channels Is Not Fragmentation}
+\label{sec:fragmentation}
+% -----------------------------------------------------------------------------
+
+A natural worry about a five-channel framework is theoretical fragmentation: a reader may suspect five disjoint mini-models, one per outcome. Three features rule out this objection.
+
+\textbf{Common AHM base.} The household utility $U(C, L_\ell)$ and the production technology $F(L_f, A, K)$ are identical across all five channels. The channels differ only in which market imperfection binds.
+
+\textbf{Two-margin grouping.} The channels split cleanly into an intensive-margin block (Channels 1--3: capital, labor, consumption) and an extensive land-tenure block (Channels 4--5: bargaining, composition, land pivot, exit). The intensive-margin channels are independent applications of the non-separable AHM with sequential imperfections; the extensive-margin channels share the per-farm policy design as their identification mechanism.
+
+\textbf{Per-farm design as the unifying mechanism.} A single feature of Korean direct-payment policy---area-independent flat-rate payment within an eligibility cutoff---underlies both the sign-reversal in Channel 4 (per-farm versus per-hectare landlord outside option) and the retention discontinuity in Channel 5 (per-farm versus per-hectare retention slope). The empirical contribution rests not on any single channel's significance but on the joint pattern: three concurrent monotone gradients in Channel 4, plus the directional consistency of Channel 5.
+
+% -----------------------------------------------------------------------------
+\subsection{Limitations of the Theoretical Structure}
+\label{sec:theory-limits}
+% -----------------------------------------------------------------------------
+
+Three limitations of the framework deserve note. First, the bargaining sub-model in (\ref{eq:nash})--(\ref{eq:per-ha}) treats the bargaining power $\theta$ as a primitive; a more complete microfoundation would relate $\theta$ to land-market thickness, tenant outside options (urban migration, off-farm employment), and renegotiation frequency. Second, the conversion cost $\tau$ in sub-channel~(iii) is unquantified in the present version; calibration against Korean farmland transaction tax and registration data would tighten the magnitude prediction. Third, the discrete-choice exit model in (\ref{eq:v-stay})--(\ref{eq:v-exit}) abstracts from age heterogeneity \citep{Kimhi2000_exit}; a discrete-time hazard specification with age and tenancy-share interactions is a planned robustness extension once the FHES sample provides sufficient policy-era exit events. All three extensions are auxiliary to the main empirical contribution and are deferred to future work.
+
+% =============================================================================
