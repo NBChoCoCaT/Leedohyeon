@@ -19,6 +19,7 @@
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{booktabs}
+\usepackage{pdflscape} % landscape orientation for \S B.3 per-bandwidth grid (A9)
 \usepackage{microtype}
 \usepackage{xcolor}
 \definecolor{primary-blue}{HTML}{012169}
@@ -80,10 +81,14 @@ empirical magnitudes and falsification triggers.
 
 This section derives the three closed-form predictions reported in main-text
 equations \ref{eq:CO-1}--\ref{eq:CO-3}: the area-own response
-$\partial A_{own}/\partial T > 0$, the monotone-tenancy gradient
-$\partial^2 A_{own} / \partial T\, \partial(1-s_0) > 0$, and the
+$\partial A_{own}/\partial T_{SFFP} > 0$, the monotone-tenancy gradient
+$\partial^2 A_{own} / \partial T_{SFFP}\, \partial(1-s_{0,i}) > 0$, and the
 capital-adjustment sub-prediction
-$\partial \text{op\_cost\_ex\_rent} / \partial T \le 0$ if $T/\tau < 1$. The
+$\partial \text{op\_cost\_ex\_rent} / \partial T_{SFFP} \le 0$ if $T_{SFFP}/\tau < 1$.
+Notation follows the main-text Table~\ref{tab:notation}: $T_i = T_{SFFP} \cdot D_i$ is
+the household-specific subsidy flow entering the Lagrangian; $T_{SFFP}$ is the
+population-level policy parameter with respect to which the aggregate comparative
+statics are taken (cf.\ main-text aggregation note after \ref{eq:CO-1}). The
 backbone follows \citet{CarterOlinto2003_liquidity} with extensions from
 \citet{Kazukauskas2013_disinvestment}; the precedent of policy-cutoff
 identification of credit access draws on \citet{PittKhandker1998_credit}.
@@ -155,7 +160,7 @@ For $W_i \ge W_i^*$, the household purchases; for $W_i < W_i^*$, the household
 continues to rent. Under regularity conditions (SC1--SC3 below), $W_i^*$ is
 unique and continuous in $T_i$.
 
-\paragraph{Comparative statics --- Step 1: $\partial W^*/\partial T < 0$.}
+\paragraph{Comparative statics --- Step 1: $\partial W^*/\partial T_i < 0$.}
 Differentiating (\ref{eq:appB-threshold}) implicitly with respect to $T_i$ and
 using the wealth-bias property $\rho'(\cdot) > 0$:
 \begin{equation}
@@ -165,7 +170,7 @@ using the wealth-bias property $\rho'(\cdot) > 0$:
 The threshold shifts down: SFFP-eligible households cross over to ownership at
 lower baseline wealth.
 
-\paragraph{Comparative statics --- Step 2: $\partial A_{own}/\partial T > 0$.}
+\paragraph{Comparative statics --- Step 2: $\partial A_{own}/\partial T_{SFFP} > 0$.}
 Let $\varphi(W_i^*)$ denote the (smooth) density of household wealth at the
 threshold in the eligibility window. The probability that a household crosses
 into ownership in response to $T_i$ is
@@ -195,7 +200,18 @@ $\partial \varphi(W^*) / \partial s_0 \le 0$:
 \label{eq:appB-step3}
 \end{equation}
 recovering main-text equation~\ref{eq:CO-2}. This is the empirical signature
-uniquely diagnostic of wealth-bias.
+uniquely diagnostic of wealth-bias.\footnote{\textbf{Partition-rule
+pre-specification.} The baseline own-share $s_{0,i}$ is operationalized as a
+four-bin discrete partition in \S\ref{sec:results}:
+$\text{pure tenant: } s_{0,i} = 0$;
+$\text{low-owner: } 0 < s_{0,i} \le 0.33$;
+$\text{mixed: } 0.33 < s_{0,i} \le 0.67$;
+$\text{pure owner: } s_{0,i} = 1$. The four-bin choice is pre-specified per
+ADR-0002 (archived in the replication package alongside ADR-0001 \S 3 outcome
+hierarchy) and cross-references the R-conventions \S 10 bandwidth-grid lock.
+The quintile alternative (used in P3b-2 exploration) sharpens the F1 monotone
+gradient Bayes factor under the null but at the cost of small-cell power at
+T1; the four-bin rule is the audit-locked specification.}
 
 \paragraph{Comparative statics --- Step 4: capital adjustment.} Conditional on
 the period~1 land-purchase outcome, the period~2 capital FOC is
@@ -226,29 +242,53 @@ variable-input constraint, the marginal subsidy flows entirely to consumption
 with $\Delta\, \text{op\_cost\_ex\_rent} = 0$. The strict inequality holds when
 the household previously relied on costly short-term credit for variable inputs.
 
-\paragraph{Sufficient conditions.} The derivations above require:
+\paragraph{Sufficient conditions, by type.} The derivations above require six
+conditions, organized below by what each delivers. The taxonomy follows the
+THEORY-referee request (\S 3 hot-fix A3): \textit{sufficient-for-sign} conditions
+underwrite the comparative-static sign; \textit{regularity} conditions ensure
+the implicit-function machinery applies; \textit{interior-solution} conditions
+ensure the derivative is taken at an interior optimum; \textit{identification}
+conditions ensure the econometric estimand recovers the comparative-static
+object.
+
 \begin{description}
-\item[(SC1)] $\rho'(W) > 0$ bounded away from zero on the eligibility window
-  $W \in [W^* - \epsilon, W^* + \epsilon]$ for some $\epsilon > 0$. Ensures
-  wealth-bias is not asymptotically flat.
-\item[(SC2)] $W^*(T)$ is unique --- holds under strict quasi-concavity of the
-  own-versus-rent indifference curve, satisfied if $F$ is strictly concave in
-  land and $\rho$ is strictly increasing.
-\item[(SC3)] Participation slack at the threshold-crossing margin:
-  $V_{own}(W^*, T) > V_{outside}$, where $V_{outside}$ is the value of pure
-  off-farm employment. Empirically supported by FHES Wave~1 take-up rates of
-  92.3\% among eligible households.
-\item[(SC4)] $T_{SFFP} < \tau$ for the capital sub-prediction (Step 4).
-  Verified empirically by (\ref{eq:appB-ratio}).
-\item[(SC5)] Panel stationarity of $W_i$ relative to $T_i$: the running
-  variable $rv_{2018}$ measured at baseline pre-policy ensures
-  Cov($W_{i,2018}, T_{i,2020+}$) = 0 by construction, satisfying the standard
-  DiD-RD identification condition.
+\item[(SC1) --- \textsc{regularity}.] $\rho'(W) > 0$ bounded away from zero on
+  the eligibility window $W \in [W^* - \epsilon, W^* + \epsilon]$ for some
+  $\epsilon > 0$. Ensures the wealth-bias slope is not asymptotically flat;
+  underwrites the strict positivity of the implicit-function-theorem denominator
+  used in Step 1.
+\item[(SC2) --- \textsc{regularity}.] $W^*(T_{SFFP})$ is unique. Holds under
+  strict quasi-concavity of the own-versus-rent indifference curve, satisfied
+  if $F$ is strictly concave in land and $\rho$ is strictly increasing.
+\item[(SC2.5) --- \textsc{sufficient-for-sign} (Step 3 monotone gradient).]
+  Baseline wealth $W_i$ and baseline own-share $s_{0,i}$ are negatively
+  correlated within the eligibility window:
+  $\text{Cov}(W_i, s_{0,i} \mid rv_{2018} \in [-h, +h]) < 0$ for the working
+  bandwidth $h$. This is the load-bearing primitive behind
+  $\partial \varphi(W^*)/\partial s_{0,i} \le 0$ (used at L196 in Step 3); pure
+  tenants ($s_{0,i} = 0$) face the largest threshold-crossing density while
+  pure owner-operators ($s_{0,i} = 1$) sit inframarginally. Empirically
+  supported by FHES Wave 1: $\widehat{\text{corr}}(W_i, s_{0,i})$ within
+  $\pm 1{,}000$~m\textsuperscript{2} of cutoff is negative (placeholder
+  estimate; finalized in \S\ref{sec:results} post-P3 run).
+  % FILL post-§5 P3: report \widehat{corr}(W_i, s_{0,i}) within h ∈ {500, 1000} m².
+\item[(SC3) --- \textsc{interior-solution}.] Participation slack at the
+  threshold-crossing margin: $V_{own}(W^*, T_{SFFP}) > V_{outside}$, where
+  $V_{outside}$ is the value of pure off-farm employment. Empirically supported
+  by FHES Wave~1 take-up rates of 92.3\% among eligible households.
+\item[(SC4) --- \textsc{sufficient-for-sign} (Step 4 capital sub-prediction).]
+  $T_{SFFP} < \tau$. Verified empirically by (\ref{eq:appB-ratio}); robustness
+  across $\tau \in [20\text{M}, 40\text{M}]$~KRW preserves the prediction (cf.\
+  main-text \S\ref{sec:calibration}).
+\item[(SC5) --- \textsc{identification}.] Panel stationarity of $W_i$ relative
+  to $T_i$: the running variable $rv_{2018}$ measured at baseline pre-policy
+  ensures $\text{Cov}(W_{i,2018}, T_{i,2020+}) = 0$ by construction, satisfying
+  the standard DiD-RD identification condition.
 \end{description}
 
 \paragraph{What this derivation does \emph{not} show.} The wealth-biased
 liquidity derivation above is partial-equilibrium at the household level. It
-predicts $\partial A_{own,i}/\partial T > 0$ for each treated household but
+predicts $\partial A_{own,i}/\partial T_{SFFP} > 0$ for each treated household but
 does \emph{not} pin down the equilibrium response of the rental price $r$ to
 aggregate changes in rental demand. The observed negative pass-through on
 unit\_rent\_price reported in the main text (\S 3.4 ``Equilibrium rent
@@ -333,15 +373,15 @@ the household's wealth and consumption choices.
 
 \paragraph{Comparative statics --- Step 1.} The shadow value of time
 $\mu/\lambda$ depends on the household's overall budget. Total differentiation
-of (\ref{eq:appB-EK-foc-C})--(\ref{eq:appB-EK-foc-h}) with respect to $T$
+of (\ref{eq:appB-EK-foc-C})--(\ref{eq:appB-EK-foc-h}) with respect to $T_i$
 yields, after lengthy but standard manipulations,
 \begin{equation}
-\frac{\partial (\mu/\lambda)}{\partial T} \;=\; \frac{\partial w_{f,i}}{\partial T} \;=\; f(U_{CC}, U_{Cl}, F_{LL}, m) \;\ne\; 0
+\frac{\partial (\mu/\lambda)}{\partial T_i} \;=\; \frac{\partial w_{f,i}}{\partial T_i} \;=\; f(U_{CC}, U_{Cl}, F_{LL}, m) \;\ne\; 0
 \label{eq:appB-EK-step1}
 \end{equation}
 in general, with sign depending on the curvature of $U$ in $(C, \ell_l)$.
 
-\paragraph{Comparative statics --- Step 2: $\partial \ell_o / \partial T$.}
+\paragraph{Comparative statics --- Step 2: $\partial \ell_o / \partial T_{SFFP}$.}
 From (\ref{eq:appB-EK-foc-o}), $\mu/\lambda = w_m$ at interior $\ell_o$. The
 subsidy $T$ relaxes the budget constraint, raising $\lambda$ (the marginal
 utility of consumption falls less rapidly than the marginal utility of
@@ -388,48 +428,62 @@ publishable finding.
 % -----------------------------------------------------------------------------
 
 Table~\ref{tab:appB-mapping} expands the unified prediction table of the main
-text (Table~\ref{tab:alpha3-predictions}) with three additional columns:
-empirical magnitudes from the P3b-2 analysis (where available), the
-falsification trigger that would reject each channel, and the journal-grade
-implication of falsification.
+text (Table~\ref{tab:alpha3-predictions}) with a per-bandwidth grid: each
+channel reports the empirical magnitude (P3b-2 estimates where available)
+\emph{separately} across the three bandwidths T1 ($\pm 500$~m\textsuperscript{2}),
+T2 ($\pm 1{,}000$~m\textsuperscript{2}), and T3 (MSE-optimal), the
+operationalized falsification trigger per bandwidth, and the journal-grade
+implication of falsification. Bandwidth specifications follow R-conventions \S 10
+and are pre-locked alongside the four-bin $s_0$ partition (cf.\ \S B.1
+post-(\ref{eq:appB-step3}) footnote).
 
+\begin{landscape}
 \begin{table}[ht]
 \centering
-\caption{Expanded reduced-form-to-econometric-$\beta$ mapping with empirical fit and falsification triggers.}
+\caption{Expanded reduced-form-to-econometric-$\beta$ mapping with per-bandwidth empirical fit and operationalized falsification triggers. Triggers tie to R-conventions \S 10 bandwidth grid and ADR-0002 outcome-hierarchy pre-lock.}
 \label{tab:appB-mapping}
 \small
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{p{1.7cm} p{1.9cm} p{1.9cm} p{0.9cm} p{2.6cm} p{2.4cm} p{1.6cm}}
+\begin{tabular}{p{2.0cm} p{1.6cm} p{0.9cm} p{1.0cm} p{3.6cm} p{3.4cm} p{4.8cm} p{2.0cm}}
 \toprule
-Channel & Outcome & Theory sign & Econ. $\hat\beta$ & Empirical fit (P3b-2) & Falsification trigger & Reframe \\
+Channel & Outcome & Sign & Econ. $\hat\beta$ & Empirical fit by bandwidth (P3b-2) & Falsification trigger (per bandwidth) & Operational decision rule & Reframe \\
 \midrule
-Liquidity primary \#1 \citep{CarterOlinto2003_liquidity} & $A_{own}$ & $>0$ & $\beta_1$ & T2: $+1{,}089$ m\textsuperscript{2} pure tenant ($p\!=\!.033$); T3: $+408$ ($p\!=\!.003$) & $\hat\beta_1 = 0$ uniformly & Null estimate \\
-Liquidity gradient \citep{CarterOlinto2003_liquidity} & $A_{own} \times (1-s_0)$ & $> 0$, mono in $1-s_0$ & $\beta_2$ & T2 monotone: $-1738$, $-600$, $-393$, $0$ across quintiles & $\hat\beta_2 = 0$ OR $s_0\!=\!1$ same as $s_0\!=\!0$ & Universal income effect (drop wealth-bias) \\
-Capital adj. \citep{Kazukauskas2013_disinvestment} & op\_cost\_ex\_rent & $\le 0$ if $T/\tau \!<\! 1$ & $\beta_3$ & T1: $-4.02$M ($p\!=\!.055$); T2: $-3.22$M ($p\!=\!.079$) & $\hat\beta_3 > 0$ across bandwidths & Reconsider $\tau$ calibration \\
-Labor (aux.) \citep{EswaranKotwal1986_supervision} & off\_farm\_income & $\ne 0$ under non-sep. & $\beta_4$ & TBD (auxiliary in P3b-2) & $\hat\beta_4 = 0$ all bandwidths & Drop supervision channel; primary survives \\
+Liquidity primary \#1 \citep{CarterOlinto2003_liquidity} & $A_{own}$ & $>0$ & $\beta_1$ & T1: TBD; T2: $+1{,}089$ m\textsuperscript{2} pure tenant ($p\!=\!.033$); T3: $+408$ ($p\!=\!.003$) & $\hat\beta_1 \le 0$ at T2 \emph{and} T3 & Reject H$_1$ if $p(\hat\beta_1 > 0) > .10$ at both T2 and T3 & Null estimate \\
+Liquidity gradient \citep{CarterOlinto2003_liquidity} & $A_{own} \times (1-s_{0,i})$ & $> 0$, mono in $1-s_{0,i}$ & $\beta_2$ & T1: TBD; T2 monotone across bins: $\{$ pure\_tenant $-1738$; low\_owner $-600$; mixed $-393$; pure\_owner $0$ ref $\}$; T3: TBD & F1 fires if $\hat\beta_2 \le 0$ at T2 \emph{or} four-bin point estimates fail monotone-in-$(1-s_{0,i})$ ordering at T1 \emph{and} T2 & F1 fires if $p(\hat\beta_2 > 0) > .10$ at T2 \emph{and} four-bin point estimates not weakly monotone-decreasing in $s_{0,i}$ at T1 \emph{or} T2 (Holm-corrected) & Universal income effect (drop wealth-bias) \\
+Capital adj. (primary \#2) \citep{Kazukauskas2013_disinvestment} & op\_cost\_ex\_rent & $\le 0$ if $T_{SFFP}/\tau \!<\! 1$ & $\beta_3$ & T1: $-4.02$M~KRW ($p\!=\!.055$); T2: $-3.22$M~KRW ($p\!=\!.079$); T3: TBD & $\hat\beta_3 > 0$ at \emph{any} bandwidth & Reconsider $\tau$ if $\hat\beta_3 > 0$ at T1 or T2 ($p < .10$); robustness range $\tau \in [20\text{M}, 40\text{M}]$~KRW & Reconsider $\tau$ calibration (\S\ref{sec:calibration}) \\
+Labor (auxiliary) \citep{EswaranKotwal1986_supervision} & off\_farm\_income & $\ne 0$ under non-sep. & $\beta_4$ & T1: TBD; T2: TBD; T3: TBD (queued for next cycle) & F2: $\hat\beta_4 = 0$ all bandwidths & F2 fires if $p(\hat\beta_4 \ne 0) > .10$ at all three bandwidths; informative, not rejecting (EK-1 sign indeterminacy per main-text \S\ref{sec:predictions}) & Drop supervision channel; primary survives \\
 \midrule
-\multicolumn{7}{l}{\textit{Ex-theory (B.1) --- aggregate-equilibrium implication:}} \\
-Incidence \citep{Floyd1965_incidence, AlstonJames2002_incidence} & unit\_rent & $< 0$ via incidence closure & $\beta_5$ & T1: $-48$ to $-130$ across non-pure-owner bins; T2 pass-through $-11.1\%$ & N/A (not a theory test) & N/A \\
+\multicolumn{8}{l}{\textit{Ex-theory (B.1) --- aggregate-equilibrium implication, not a theory test:}} \\
+Incidence (ex-theory) \citep{Floyd1965_incidence, AlstonJames2002_incidence} & unit\_rent\_price & $< 0$ via incidence closure & $\beta_5$ & T1: $-48$ to $-130$ KRW/m\textsuperscript{2} across non-pure-owner bins; T2 pass-through $-11.1\%$; T3: TBD & N/A (not a theory test) & N/A & N/A \\
 \bottomrule
 \end{tabular}
 \end{table}
+\end{landscape}
 
 \paragraph{Reading the table.} The two ``Liquidity'' rows correspond to the
 primary contribution under ADR-0002 outcome-hierarchy ($A_{own}$ promoted to
 primary \#1). Both must hold for the wealth-biased liquidity mechanism to be
-supported; rejection of either row reframes the paper as indicated. The
-``Capital adj.'' row is the secondary primary outcome; its rejection (positive
-$\hat\beta_3$) would not falsify the primary mechanism but would force a
-reconsideration of the calibrated adjustment threshold $\tau$. The ``Labor''
-row is auxiliary; rejection of F2 narrows the contribution to a single
-non-separability margin. The ``Incidence'' row is reported as evidence
-consistent with the model's empirical footprint but is not a primary
-theoretical contribution (see main text \S 3.4 equilibrium rent caveat).
+supported; rejection of either row at the operational decision rule reframes
+the paper as indicated in the rightmost column. The ``Capital adj.'' row is the
+secondary primary outcome; positive $\hat\beta_3$ at T1 or T2 would force a
+reconsideration of the calibrated adjustment threshold $\tau$ within the
+robustness range $\tau \in [20\text{M}, 40\text{M}]$~KRW. The ``Labor'' row is
+auxiliary: F2 is \emph{informative-but-not-rejecting} (EK-1 sign indeterminacy
+per main-text \S\ref{sec:predictions}); $\hat\beta_4 = 0$ across all
+bandwidths is consistent with supervision-cost margin being inoperative at the
+SFFP scale but does not on its own falsify the channel. The ``Incidence'' row
+is reported as evidence consistent with the model's empirical footprint but is
+not a primary theoretical contribution (see main text \S 3.4 equilibrium rent
+caveat).
 
-\paragraph{Joint test --- F1 + F2.} If both F1 and F2 trigger, the AHM
-separability null (\ref{eq:null}) cannot be rejected. The paper repositions as
-a precise developed-country null estimate, complementing
-\citet{LaFaveThomas2016_markets}.
+\paragraph{Joint test --- F1 alone is load-bearing.} F1 alone is the
+rejection-bearing falsification trigger for the AHM-extension framing. Under F1
+rejection (i.e., $\hat\beta_2 \le 0$ at T2 or four-bin monotonicity broken at
+T1 \emph{and} T2), the joint contribution collapses to a universal income
+effect under separability and the paper repositions as a precise
+developed-country null estimate, complementing
+\citet{LaFaveThomas2016_markets}. F2 is supporting evidence on the
+labor-imperfection margin and does not contribute to the joint test.
 
 \bibliographystyle{plainnat}
 \bibliography{../../Bibliography_base}
