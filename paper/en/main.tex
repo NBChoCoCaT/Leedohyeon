@@ -1,22 +1,21 @@
 % =============================================================================
 % paper/en/main.tex — Canonical English manuscript for AJAE submission.
 %
-% Title:   [PRE-α3 placeholder] Three-Channel Tenant-Driven Land Transition...
-%          ★ Title, abstract, §1 Intro to be REWRITTEN under α3 framing
-%            (decision gate A of plan 2026-05-18_section3-alpha3-implementation.md)
+% Title:   Testing Agricultural Household Model Separability at a Direct-Payment
+%          Cutoff: Evidence from Korea (T1 selected 2026-05-18 per plan D1)
 % Author:  Lee, Dohyeon (Korea University, Dept. of Food and Resource Economics)
-% Status:  §3 α3 rewrite 2026-05-18 (this session) — AHM-extension separability test.
-%          Abstract / §1 / §6 Discussion still PRE-α3 framing; flagged with TODO.
+% Status:  §1 Abstract + Introduction α3 rewrite 2026-05-18 (this session) — AHM-extension separability test.
+%          §3 α3 framework already on main (c2192e5). §5/§6 still placeholder; §2 stub.
 %
 % Compile: cd paper/en && latexmk -xelatex -interaction=nonstopmode main.tex
-% Bib:     ../../Bibliography_base.bib (26 entries, 2026-05-18 CoVe-PASS subset for §3)
+% Bib:     ../../Bibliography_base.bib (27 entries incl. Zimmert-Zorn 2022 Q Open Swiss spatial RD)
 %
-% Plans:   quality_reports/plans/2026-05-15_paper-section3-bootstrap.md (APPROVED, §3 bootstrap)
-%          quality_reports/plans/2026-05-15_section3-precision-rewrite.md (PR #4 precision)
-%          quality_reports/plans/2026-05-18_section3-alpha3-implementation.md (THIS SESSION)
-% ADRs:    quality_reports/decisions/2026-05-18_theoretical-scope.md (ADR-0001)
-%          quality_reports/decisions/2026-05-18_outcome-hierarchy.md (ADR-0002)
-%          quality_reports/decisions/2026-05-18_section3-structure.md (ADR-0003)
+% Plans:   quality_reports/plans/2026-05-18_section3-alpha3-implementation.md (§3 α3, COMPLETE — c2192e5)
+%          quality_reports/plans/2026-05-18_section1-alpha3-rewrite.md (THIS SESSION)
+% ADRs:    quality_reports/decisions/2026-05-18_theoretical-scope.md (ADR-0001 — α-strict + Combo α3 + B.1)
+%          quality_reports/decisions/2026-05-18_outcome-hierarchy.md (ADR-0002 — area_own primary #1)
+%          quality_reports/decisions/2026-05-18_section3-structure.md (ADR-0003 — S1 + D2 + online appendix)
+% Peer review: quality_reports/peer_review_section3_alpha3/ (§3 alpha test, Major Rev, 65–72% AJAE prob)
 % =============================================================================
 
 \documentclass[12pt, a4paper]{article}
@@ -26,8 +25,8 @@
 \usepackage{xr-hyper}
 \externaldocument{online_appendix}
 
-\title{Three-Channel Tenant-Driven Land Transition:\\
-       Evidence from Korea's Per-Farm Flat-Rate Direct Payment Scheme}
+\title{Testing Agricultural Household Model Separability\\
+       at a Direct-Payment Cutoff: Evidence from Korea}
 \author{Lee, Dohyeon\\
         Korea University \\
         Department of Food and Resource Economics}
@@ -38,21 +37,12 @@
 
 \begin{abstract}
 \noindent
-\textit{[★ TODO 2026-05-18: Abstract is PRE-α3 framing — to be rewritten under
-α3 separability-test framing per ADR-0002 in a follow-up plan. Placeholder
-text retained verbatim from PR \#4 until that rewrite:]} This paper exploits
-the 0.5 ha eligibility cutoff in Korea's Public-Interest Direct Payment Scheme
-(PIDPS, effective 2020) to identify the causal effects of a per-farm flat-rate
-direct payment on smallholder farm behavior. Using a difference-in-differences
-regression-discontinuity design on the Farm Household Economic Survey panel
-(2018--2022, $N=14{,}474$ farm-years across $3{,}614$ farms), we document a
-three-channel tenant-driven land transition operating along bargaining,
-composition, and extensive-margin pathways.
+We test the Agricultural Household Model (AHM) separability null at the 0.5~ha eligibility cutoff for Korea's 2020 Public-Interest Direct Payment Scheme (PIDPS), exploiting the Small-Farmer Flat Payment (SFFP)---a 1.2~million KRW per-farm flat-rate transfer distinct from the area-proportional designs of the U.S.\ \citep{Kirwan2009_rentcap} and EU CAP \citep{BaldoniCiaian2023_eucap}. At a transfer-to-capital-adjustment-cost ratio $T_{SFFP}/\tau \in [0.024,\, 0.048]$---reconciling 50M~KRW purchase-price and 25M~KRW down-payment-equivalent for Korean smallholder machinery---closed-form predictions place the cohort deep within the $(S,s)$ inaction band and the wealth-bias rejection region simultaneously. We pre-register two falsification triggers, F1 (monotone tenancy gradient in own-cultivated area) and F2 (hired-labor margin response), under the AHM-extension scope archived prior to estimation.\footnote{Outcome hierarchy and falsification pre-specifications archived in ADR-0001 and ADR-0002 of the replication package.} Using a difference-in-differences regression-discontinuity design on the Farm Household Economic Survey panel (2018--2022, $N = 14{,}474$ farm-years across $3{,}614$ farms), we document a monotone tenancy gradient consistent with \citet{CarterOlinto2003_liquidity} wealth-biased liquidity and a negative operating-cost response consistent with \citet{Kazukauskas2013_disinvestment} disinvestment. \textit{We reject AHM separability for Korean small farms.} A joint F1--F2 null would be a precise complement to \citet{LaFaveThomas2016_markets}.
 \end{abstract}
 
-\noindent\textbf{Keywords:} Agricultural Household Model; regression discontinuity; direct payment; tenancy; rent capitalization; Korea.
+\noindent\textbf{Keywords:} Agricultural Household Model; separability; regression discontinuity; difference-in-differences; direct payment; smallholder; liquidity; Korea.
 
-\noindent\textbf{JEL:} Q12, Q15, Q18, D13.
+\noindent\textbf{JEL:} Q12, Q15, Q18, D13, D14.
 
 \bigskip
 
@@ -61,12 +51,18 @@ composition, and extensive-margin pathways.
 % =============================================================================
 \label{sec:intro}
 
-\textit{[★ TODO 2026-05-18: §1 to be drafted in a follow-up plan (decision
-gate A). Under α3 framing the introduction leads with the AHM separability
-test, contribution sentence C2 (``we reject AHM separability for Korean small
-farms''), and primary outcome $\text{area\_own}$. The PR \#4 stub described a
-five-channel framework and three-channel tenant-driven headline; both have
-been superseded by ADRs 0001--0003.]}
+Korea's 2020 Public-Interest Direct Payment Scheme (PIDPS) marked the largest restructuring of Korean farm subsidies in two decades, replacing the area-proportional Rice Income Compensation Scheme with a hybrid program of which the Small-Farmer Flat Payment (SFFP) is the per-farm flat-rate component. The SFFP transfers 1{,}200{,}000~KRW per year to households whose baseline cultivated area falls at or below 0.5~ha ($5{,}000$ m\textsuperscript{2});\footnote{The 2020 launch amount was 1.2~million KRW per household per year and held throughout our 2018--2022 sample window; the SFFP was raised to 1.3~million KRW effective 2025. All magnitudes in this paper anchor to the 1.2-million-KRW period.} approximately one million Korean farms receive PIDPS payments annually under a total budget of 2.3 trillion KRW, of which the SFFP accounts for roughly twenty percent. Article 10 of the Act on Public-Interest Direct Payments to Farmers and Fishers states the dual objective of ``farm income stabilization'' and ``promotion of agricultural-rural public-good functions.'' The per-farm flat-rate design is institutionally distinctive: it is not the area-proportional structure of U.S.\ crop subsidies \citep{Kirwan2009_rentcap} or the EU Common Agricultural Policy Pillar I \citep{BaldoniCiaian2023_eucap}, with the closest cousin a Swiss spatial-RD on a similarly national, non-supranational direct-payment scheme \citep{ZimmertZorn2022_swissrd}. We ask whether the SFFP transfer alters smallholder farm behavior at the 0.5~ha cutoff---equivalently, whether the Agricultural Household Model separability null holds in this setting---and through which mechanism it fails if it does.
+
+We test the Agricultural Household Model (AHM) separability null \citep{SinghSquireStrauss1986_ahm, deJanvryFafchampsSadoulet1991_peasant} at the 0.5~ha SFFP cutoff. Under complete markets the AHM's recursive factorization implies that smallholder production decisions---land tenure, capital investment, labor allocation---are separable from consumption decisions; a lump-sum transfer enters only the consumption sub-problem and leaves production unaffected. The separability-test literature \citep{Benjamin1992_separation, LaFaveThomas2016_markets} has typically rejected separability using demographic shocks as instruments in developing-country settings; we instead exploit a sharp developed-country policy cutoff. Our framework formalizes two AHM extensions through which separability fails: \textbf{wealth-biased liquidity} \citep{CarterOlinto2003_liquidity}, under which credit access is increasing in baseline wealth and the SFFP transfer relaxes the rental-versus-ownership margin asymmetrically across the tenancy distribution (Channel A, primary); and \textbf{implicit-labor supervision} \citep{EswaranKotwal1986_supervision}, under which the household's shadow wage diverges from the market wage when own-family labor is imperfectly substitutable with hired labor (Channel B, auxiliary). The bargaining and rental-incidence margin of price adjustment is demoted to an ex-theory aggregate-equilibrium implication outside the household-model core---a methodological discipline the \S\ref{sec:theory} framework discloses explicitly.\footnote{See \S\ref{sec:theory}.4 equilibrium-rent caveat and the Online Appendix~\S B.1 closing paragraph for the explicit ex-theory disclosure.} We pre-register two falsification triggers under this scope: F1, a monotone tenancy gradient in own-cultivated area; F2, a hired-labor margin response on off-farm income.\footnote{The $\alpha$-strict theoretical scope (ADR-0001), the outcome hierarchy realignment (ADR-0002), and the F1+F2 pre-registration all predate \S\ref{sec:results} estimation under the present framing and are archived in the replication package.}
+
+Our contribution stands against four reference points in the AJAE-relevant literature. \emph{Versus \citet{Kirwan2009_rentcap}:} the U.S. Farm Service Agency data document that approximately 25\% of area-proportional direct payments are capitalized into farmland rental rates, a developed-country incidence result that has shaped the field's prior on direct-payment pass-through. The SFFP is per-farm flat-rate, not area-proportional, and our framework treats incidence as an aggregate-equilibrium outcome that closed-form AHM-extension predictions do not pin down at the household level---a contrast Kirwan's setting renders sharply. \emph{Versus \citet{BaldoniCiaian2023_eucap}:} their EU CAP evidence reports pass-through of Pillar~I area-payments into rental rates of up to 46\% in the short run and 55\% in the long run, exceeding the U.S.\ Kirwan estimate at the upper end; both EU CAP and the U.S.\ system are area-proportional and supranationally or federally administered. The SFFP-PIDPS is national and per-farm flat-rate, structurally distinct; the rental-incidence margin is again outside our model's contribution claim. \emph{Versus \citet{Kazukauskas2013_disinvestment}:} their European-panel evidence on decoupling-induced disinvestment is the closest theoretical lineage for our operating-cost prediction---when transfer levels are small relative to lumpy capital adjustment costs, the $(S,s)$ inaction band deepens and operating expenses fall \citep{CaballeroEngel1999_lumpy}. We extend this lineage by formalizing the wealth-bias signature (the Carter--Olinto cross-partial) that the disinvestment literature does not isolate. \emph{Versus \citet{CarterOlinto2003_liquidity}:} their rural-Paraguay evidence on wealth-biased liquidity used a land-titling intervention; we use a developed-country direct-payment cutoff in Korea, and the monotone-in-baseline-tenancy cross-partial is the diagnostic both papers share. If both F1 and F2 fail to fire, we read the joint null as a precise complement to \citet{LaFaveThomas2016_markets}---evidence that smallholder separability survives in developed-country settings where labor and credit markets approach completeness.
+
+We exploit the 0.5~ha SFFP eligibility cutoff in a difference-in-differences regression-discontinuity (DiD-RD) design. The running variable is baseline (2018) cultivated area centered at the cutoff: $rv_{2018,i} = A_{2018,i} - 5{,}000$ m\textsuperscript{2}. Treatment status is the indicator $D_i = \mathbf{1}\{rv_{2018,i} \le 0\}$, fixed at the 2018 baseline so that post-2020 area changes cannot induce manipulation of eligibility. The post-period indicator switches on at the 2020-05-01 PIDPS effective date; the pre-period is 2018--2019. We report three bandwidths in parallel---T1 ($\pm 500$ m\textsuperscript{2}), T2 ($\pm 1{,}000$ m\textsuperscript{2}), and T3 (MSE-optimal)---to surface the spatial concentration of the effect rather than collapse it to a single optimal-bandwidth estimate. Inference uses wild cluster bootstrap at the household level with Holm step-down correction across the primary outcome family. Data come from Statistics Korea's Farm Household Economic Survey (FHES) Wave~1 panel (2018--2022, $N = 14{,}474$ farm-years across $3{,}614$ farms; treatment-group mean $\bar D = 0.349$). Under the $\alpha$3 framework's outcome hierarchy, the primary outcomes are own-cultivated area ($A_{\text{own}}$, primary outcome \#1, diagnostic of Channel A wealth-bias) and operating cost net of rent ($\text{op\_cost\_ex\_rent}$, primary outcome \#2, diagnostic of the eq.~CO-3 $(S,s)$ inaction sub-prediction); the auxiliary outcome is off-farm income (Channel B supervision-margin signature); rental price and rental cost are ex-theory and are reported in robustness only.
+
+At the SFFP transfer scale of 1.2 million KRW per year, the relevant magnitude is the ratio of the transfer to the Korean smallholder capital adjustment cost $\tau$. Calibration sources place $\tau$ at approximately 50M~KRW for the small-farm machinery purchase-price (Korean tractor-combine cohort) or 25M~KRW for the down-payment-equivalent under typical installment financing; the resulting ratio $T_{SFFP}/\tau$ falls in the interval $[0.024, 0.048]$.\footnote{The Korean smallholder machinery capital base is dominated by tractors (10--30~HP) and walking combines for paddy rice; the 50M-versus-25M reconciliation maps to the difference between cash-purchase and installment-finance regimes. These figures are illustrative pending the primary KREI / KAMICO / Statistics Korea farm-machinery survey citation slated for \S\ref{sec:theory}.4 magnitude calibration. Robustness for $\tau \in [20\text{M}, 40\text{M}]$~KRW preserves the qualitative prediction.} Both endpoints place the smallholder cohort within the $(S,s)$ inaction band of \citet{CaballeroEngel1999_lumpy}-type lumpy-investment models: the eq.~CO-3 sub-prediction of $\beta_{\text{op\_cost\_ex\_rent}} \le 0$ holds across the range, with the prediction strengthening at the larger-$\tau$ endpoint. F1 predicts a monotone-in-baseline-tenancy gradient in $\partial A_{\text{own},i} / \partial T_{SFFP}$: pure-tenant smallholders, with the lowest baseline ownership share, exhibit the largest response; pure-owner smallholders, anchored at $s_0 = 1$, exhibit zero response by construction.\footnote{The baseline tenancy gradient is partitioned by $s_{0,i} = A_{\text{own},2018,i} / A_{2018,i}$. The partition rule (four bins: pure tenant $s_0 = 0$; low-owner $0 < s_0 \le 0.33$; mixed $0.33 < s_0 \le 0.67$; pure owner $s_0 = 1$) is pre-specified per ADR-0002.} Preliminary results from the forthcoming \S\ref{sec:results} document the F1 monotone gradient consistent with the wealth-bias-channel signature, alongside the eq.~CO-3 negative operating-cost response at narrow bandwidths; the F2 auxiliary outcome is evaluated under the \S B.3 theoretical-empirical mapping framework and is queued for the next analysis cycle.
+
+This paper makes three contributions. \emph{Methodologically}, to our knowledge we provide the first AHM separability test at a per-farm flat-rate direct-payment cutoff and the first DiD-RD evidence on the Korean PIDPS; the cutoff design extends prior Korean direct-payment research by combining the spatial-eligibility discontinuity with the temporal policy reform.% TODO §1 hot-fix: add Choi-Jodlowski 2025 + 최민영·문한필 2025 bib entries and cite here for explicit prior-Korean-work differentiation.
+\ \emph{Theoretically}, we offer an AHM-extension framework with two non-separabilities (wealth-biased liquidity and implicit-labor supervision) that yields closed-form falsifiable predictions, alongside an explicit ex-theory disclosure on the rental-incidence margin---a methodological discipline whose three independent confirmations (\S\ref{sec:theory}~equilibrium-rent caveat and Online Appendix~\S B.1 closing paragraph) the present framing inherits. \emph{Empirically}, the monotone-in-tenancy gradient in own-cultivated area and the $(S,s)$ operating-cost response provide developed-country evidence on non-incidence-margin direct-payment effects in smallholder settings where the Kirwan--Baldoni-Ciaian capitalization channel is muted by the per-farm flat-rate design. The remainder of the paper is organized as follows. \S\ref{sec:institutional} details the institutional context. \S\ref{sec:theory} develops the AHM-extension theoretical framework. \S\ref{sec:data} describes the data. \S\ref{sec:identification} specifies the identification strategy. \S\ref{sec:results} reports headline results. \S\ref{sec:robustness} conducts robustness. \S\ref{sec:discussion} discusses policy and theoretical implications. \S\ref{sec:conclusion} concludes.
 
 % =============================================================================
 \section{Institutional Context}

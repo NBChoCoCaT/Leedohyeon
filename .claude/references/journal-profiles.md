@@ -201,6 +201,48 @@ Every profile has these fields:
 
 ---
 
+## Applied & Field Econ
+
+Field journals where empirical applied work targets a specialist audience. Identification credibility + policy relevance dominate over general-interest framing.
+
+### American Journal of Agricultural Economics (AJAE)
+
+**Short name:** `AJAE`
+
+**Focus.** Applied agricultural & resource economics. Identification-credible evaluation of farm-household behavior, ag policy, land/labor markets, food systems. Strong on landlord-tenant (Kirwan 2009 JPE, Ciaian et al. 2023 LUP), production responses to direct payments (Kazukauskas et al. 2013 AJAE), and AHM-tradition (Singh-Squire-Strauss 1986, dJFS 1991, Carter-Olinto 2003 AJAE). Theory papers appear but must connect to applied identification.
+
+**Bar.** Top journal in ag econ; AEA Data and Code Availability Policy (DCAS v1.0) compliance is strict. Lit positioning against Kirwan/Ciaian/Kazukauskas/Carter-Olinto is load-bearing. Magnitude must be policy-interpretable (not just statistically detectable). Less general-interest framing than AER; more applied than QJE. Manuscript length cap ≤ 50 pages double-spaced including references. Restricted-microdata papers must specify replication strategy (synthetic generator + verifier OK if documented).
+
+**Domain-referee adjustments.**
+- Contribution 30 → 32 (ag-econ contribution bar moderate; the paper must matter to ag policy, not just be technically correct)
+- External validity 15 → 20 (generalizability to other ag policy contexts matters — readers ask "does this apply to USDA / EU CAP / KREI?")
+- Substance 20 → 22 (ag-policy taste — settings with weak policy stakes get punished)
+- Fit 10 → 6 (AJAE publishes broadly across ag economics; fit constraint relaxed)
+
+**Methods-referee adjustments.**
+- Identification 35 → 40 (DiD/RD credibility bar at AJAE has risen post-2020 to near-QJE level for cutoff designs)
+- Replication 5 → 10 (AEA DCAS v1.0 strict; restricted microdata papers must document synthetic generator + verifier protocol)
+- Magnitude 15 → 18 (ag policy decisions require interpretable effect sizes — Won per farm-year, % of cutoff threshold, share-of-treated-cohort framings)
+
+**Typical concerns.**
+- "Is the empirical magnitude policy-relevant, or just statistically detectable?"
+- "Does the identification strategy survive standard ag-econ threats — selection on baseline area, measurement error in self-reported area, attrition, manipulation of the cutoff?"
+- "How does this paper position against Kirwan (2009) JPE, Ciaian et al. (2023) LUP, Kazukauskas et al. (2013) AJAE, and Carter-Olinto (2003) AJAE? What's the additional contribution beyond these anchors?"
+- "Is the replication package AEA-DCAS compliant when the microdata is restricted (e.g., FHES, USDA ARMS, EU FADN)? Synthetic generator + verifier protocol disclosed?"
+- "Are the heterogeneity claims (e.g., tenancy-share gradient, ownership-share quintiles) pre-specified before estimation, or post-hoc data-mining?"
+
+**Referee-pool weights.**
+- CREDIBILITY: 0.25
+- POLICY: 0.25
+- MEASUREMENT: 0.20
+- STRUCTURAL: 0.10
+- THEORY: 0.10
+- SKEPTIC: 0.10
+
+**Table format override.** No significance stars (AEA Data Editor policy since 2023). SE in parentheses. Sample size in each panel. Clustering level explicitly stated in notes (household vs sgg_cd vs province). For wild-bootstrap inference, report `p_wild` value with restricted CGM 2008 specification disclosed in notes.
+
+---
+
 ## Political Science (Top-3)
 
 Three flagship general-interest political-science journals. The `paper_type` taxonomy here typically resolves to `reduced-form`, `formal-theory`, or `survey-experiment` (added in v1.8.0 to support these journals). Other types still apply when relevant.
