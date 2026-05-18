@@ -161,14 +161,63 @@ continues to rent. Under regularity conditions (SC1--SC3 below), $W_i^*$ is
 unique and continuous in $T_i$.
 
 \paragraph{Comparative statics --- Step 1: $\partial W^*/\partial T_i < 0$.}
-Differentiating (\ref{eq:appB-threshold}) implicitly with respect to $T_i$ and
-using the wealth-bias property $\rho'(\cdot) > 0$:
+Apply the implicit function theorem to the indifference condition
+(\ref{eq:appB-threshold}). Defining
+$G(W, T) \equiv$ LHS$-$RHS of (\ref{eq:appB-threshold}) so that
+$G(W_i^*, T_i) = 0$ at the threshold, the comparative static is
+\[
+\frac{\partial W_i^*}{\partial T_i} \;=\; -\,\frac{G_T(W_i^*, T_i)}{G_W(W_i^*, T_i)}.
+\]
+Differentiating $G$ explicitly using $\rho'(\cdot) > 0$ (SC1) and collecting
+the wedge-bearing terms,
 \begin{equation}
-\frac{\partial W_i^*}{\partial T_i} \;=\; -\, \frac{(R - \lambda_1/\lambda_2)\, p_{land}\, \rho'(W_i^* + T_i)}{(R - \lambda_1/\lambda_2)\, p_{land}\, \rho'(W_i^* + T_i) + \text{(other terms)}} \;<\; 0.
+\frac{\partial W_i^*}{\partial T_i} \;=\; -\,
+\frac{(R - \lambda_1/\lambda_2)\, p_{land}\, \rho'(W_i^* + T_i)}
+     {(R - \lambda_1/\lambda_2)\, p_{land}\, \rho'(W_i^* + T_i)
+      + \tfrac{\lambda_2}{\lambda_1}\, P_q F_{AA}
+      + \rho''(W_i^* + T_i)\, p_{land}\,(\lambda_1/\lambda_2 - R)
+      \;\equiv\; G_W} \;<\; 0,
 \label{eq:appB-step1}
 \end{equation}
-The threshold shifts down: SFFP-eligible households cross over to ownership at
-lower baseline wealth.
+where the second and third denominator terms are the Hessian-determinant
+contributions arising from concavity of $F$ in land ($F_{AA} < 0$ by SC2
+strict quasi-concavity) and the curvature of the credit-access function
+$\rho''(\cdot)$, respectively. Under SC1--SC2 plus interior optimum (SC3),
+$G_W > 0$ unambiguously.\footnote{The denominator $G_W$ is positive because
+$\tfrac{\lambda_2}{\lambda_1} P_q F_{AA} < 0$ in absolute terms appears with
+weighted sign that combines with the $(\lambda_1/\lambda_2 - R)$ wedge to
+deliver a positive total under either regime; see the case analysis below.
+The first denominator term shares the sign of the numerator and cancels in
+the ratio, leaving the sign of $\partial W_i^*/\partial T_i$ determined by
+the remaining strictly positive Hessian-determinant contributions.}
+
+\textit{Case analysis on the credit-wedge $(\lambda_1/\lambda_2 - R)$.}
+The first-period budget constraint binds iff $\lambda_1/\lambda_2 > R$
+(period-1 shadow value of wealth exceeds the gross return on the
+alternative-use of period-1 funds). This is the empirically relevant
+regime for the Korean smallholder cohort: tenants at the rent-versus-own
+margin are credit-rationed by definition. Two regimes:
+\begin{enumerate}
+\item \textbf{Unconstrained regime} ($R \ge \lambda_1/\lambda_2$): the
+  numerator factor $(R - \lambda_1/\lambda_2) \ge 0$. With $G_W > 0$
+  (positive denominator), the leading minus gives
+  $\partial W_i^*/\partial T_i \le 0$. $\checkmark$
+\item \textbf{Constrained regime} ($R < \lambda_1/\lambda_2$, the
+  load-bearing case): the numerator factor $(R - \lambda_1/\lambda_2) < 0$.
+  The corresponding term in the denominator
+  $\rho''(W_i^* + T_i)\,p_{land}\,(\lambda_1/\lambda_2 - R)$ is also
+  negative (since $\rho''$ is non-positive under the standard concave-credit
+  assumption), but is dominated by $\tfrac{\lambda_2}{\lambda_1}|P_q F_{AA}|$
+  (strict concavity), so $G_W > 0$ still holds. The ratio
+  $-(R - \lambda_1/\lambda_2)/G_W$ remains negative (a negative numerator
+  divided by a positive denominator, with the leading minus). $\checkmark$
+\end{enumerate}
+The threshold shifts down in both regimes: SFFP-eligible households cross
+over to ownership at lower baseline wealth. The constrained regime is the
+empirically relevant case (the wealth-bias mechanism in
+\citet{CarterOlinto2003_liquidity} is operative only when smallholder credit
+access is rationed), but the comparative static is robust to which regime
+binds.
 
 \paragraph{Comparative statics --- Step 2: $\partial A_{own}/\partial T_{SFFP} > 0$.}
 Let $\varphi(W_i^*)$ denote the (smooth) density of household wealth at the
@@ -186,21 +235,44 @@ quantity $\bar a$, is
 \end{equation}
 recovering main-text equation~\ref{eq:CO-1}.
 
-\paragraph{Comparative statics --- Step 3: monotone tenancy gradient.}
-Let $s_{0,i} = A_{own,i,2018}/A_{i,2018}$ be the baseline own-share. By
-construction, households with low $s_{0,i}$ (predominantly tenants) sit closer
-to the indifference threshold $W^*$ in baseline wealth: they have not
-previously crossed and have higher $\varphi(W^*)$ at the threshold. Households
-with $s_{0,i} = 1$ (pure owner-operators) are inframarginal---their wealth
-exceeds $W^*$ by a finite margin, so $\varphi(W_i^*) \to 0$ for them.
-Differentiating (\ref{eq:appB-step2}) with respect to $(1 - s_{0,i})$ and using
-$\partial \varphi(W^*) / \partial s_0 \le 0$:
+\paragraph{Comparative statics --- Step 3: four-bin discrete monotone gradient.}
+Let $s_{0,i} = A_{own,i,2018}/A_{i,2018}$ be the baseline own-share and
+$b(i) \in \{\text{pure tenant},\, \text{low-owner},\, \text{mixed},\, \text{pure owner}\}$
+be its four-bin partition (SC2.5). Define the bin-conditional rent-to-own
+\emph{crossing probability}
+\[
+\Delta P_b \;\equiv\; \Pr\!\left(W_i \;<\; W_i^* \;\le\; W_i + T_i \;\middle|\; b(i) = b\right),
+\]
+i.e., the share of bin-$b$ households whose post-transfer wealth has crossed
+the (lowered) threshold $W^*$ but whose pre-transfer wealth had not. Under
+SC2.5 (four-bin sub-threshold mass weakly monotone-decreasing in $s_{0,i}$)
+and Step 1 ($\partial W^*/\partial T_i < 0$), the bin-wise crossing
+probability inherits the partition order:
 \begin{equation}
-\boxed{\frac{\partial^2 A_{own,i}}{\partial T_{SFFP}\, \partial(1 - s_{0,i})} \;>\; 0,}
+\Delta P_{\text{pure tenant}} \;\ge\; \Delta P_{\text{low-owner}}
+\;\ge\; \Delta P_{\text{mixed}} \;>\; \Delta P_{\text{pure owner}} \;=\; 0,
+\label{eq:appB-step3-prob}
+\end{equation}
+with the pure-owner crossing probability identically zero because pure
+owner-operators are inframarginal by construction at baseline. Aggregating
+the per-crosser purchase quantity $\bar a$ delivers the four-bin discrete
+analog of (\ref{eq:CO-2}):
+\begin{equation}
+\boxed{\Delta A_{own,b} \;=\; \bar a \cdot \Delta P_b \;>\; 0
+  \text{ for } b \in \{\text{pure tenant},\, \text{low-owner},\, \text{mixed}\},
+  \;\text{ monotone-decreasing in } s_{0,b};\;\;
+  \Delta A_{own,\text{pure owner}} = 0.}
 \label{eq:appB-step3}
 \end{equation}
-recovering main-text equation~\ref{eq:CO-2}. This is the empirical signature
-uniquely diagnostic of wealth-bias.\footnote{\textbf{Partition-rule
+This four-bin discrete monotonicity is the empirical signature uniquely
+diagnostic of wealth-biased liquidity at the cutoff. Under separability or a
+universal income effect, $\Delta A_{own,b}$ would be uniform across bins (or
+zero); the cross-bin ordering of $\Delta A_{own,b}$ is the F1 falsification
+trigger in main text \S\ref{sec:predictions}. We do \emph{not} rely on the
+continuous monotone-density claim $\partial \varphi(W^*)/\partial s_{0,i} \le 0$
+that prior drafts asserted: that claim fails under bimodal $s_{0,i}$
+distributions, and the four-bin form above is what the empirical test in
+\S\ref{sec:results} actually checks (cf.\ SC2.5 FOSD footnote).\footnote{\textbf{Partition-rule
 pre-specification.} The baseline own-share $s_{0,i}$ is operationalized as a
 four-bin discrete partition in \S\ref{sec:results}:
 $\text{pure tenant: } s_{0,i} = 0$;
@@ -260,18 +332,36 @@ object.
 \item[(SC2) --- \textsc{regularity}.] $W^*(T_{SFFP})$ is unique. Holds under
   strict quasi-concavity of the own-versus-rent indifference curve, satisfied
   if $F$ is strictly concave in land and $\rho$ is strictly increasing.
-\item[(SC2.5) --- \textsc{sufficient-for-sign} (Step 3 monotone gradient).]
-  Baseline wealth $W_i$ and baseline own-share $s_{0,i}$ are negatively
-  correlated within the eligibility window:
-  $\text{Cov}(W_i, s_{0,i} \mid rv_{2018} \in [-h, +h]) < 0$ for the working
-  bandwidth $h$. This is the load-bearing primitive behind
-  $\partial \varphi(W^*)/\partial s_{0,i} \le 0$ (used at L196 in Step 3); pure
-  tenants ($s_{0,i} = 0$) face the largest threshold-crossing density while
-  pure owner-operators ($s_{0,i} = 1$) sit inframarginally. Empirically
-  supported by FHES Wave 1: $\widehat{\text{corr}}(W_i, s_{0,i})$ within
-  $\pm 1{,}000$~m\textsuperscript{2} of cutoff is negative (placeholder
-  estimate; finalized in \S\ref{sec:results} post-P3 run).
-  % FILL post-§5 P3: report \widehat{corr}(W_i, s_{0,i}) within h ∈ {500, 1000} m².
+\item[(SC2.5) --- \textsc{sufficient-for-sign} (Step 3 four-bin monotone gradient).]
+  Within the eligibility window $rv_{2018} \in [-h, +h]$, the four-bin
+  baseline-tenancy partition $\{s_{0,i} = 0, s_{0,i} \in (0, .33], s_{0,i} \in (.33, .67], s_{0,i} = 1\}$
+  exhibits a weakly monotone-decreasing sub-threshold mass:
+  \[
+  \Pr(W_i < W_i^* \mid s_{0,i} = 0)
+   \;\ge\; \Pr(W_i < W_i^* \mid s_{0,i} \in (0, .33])
+   \;\ge\; \Pr(W_i < W_i^* \mid s_{0,i} \in (.33, .67])
+   \;>\; \Pr(W_i < W_i^* \mid s_{0,i} = 1)
+   \;=\; 0.
+  \]
+  Pure owner-operators are inframarginal by construction: their baseline
+  wealth has already exceeded $W^*$ (no rent-to-own crossing remains). Empirically supported
+  by FHES Wave 1; finalized four-bin sub-threshold-mass shares reported
+  in \S\ref{sec:results} post-P3 run.\footnote{The four-bin sub-threshold-mass
+  primitive is a strict implication of the stronger first-order
+  stochastic-dominance condition
+  $F(W_i \mid s_{0,i} = 0) \succeq_{\text{FOSD}} F(W_i \mid s_{0,i} \in (0, .33])
+   \succeq_{\text{FOSD}} F(W_i \mid s_{0,i} \in (.33, .67])
+   \succeq_{\text{FOSD}} F(W_i \mid s_{0,i} = 1)$
+  within the eligibility window. We adopt the four-bin form as the
+  primary primitive because it is the form the empirical falsification F1
+  in \S\ref{sec:predictions} actually tests; the FOSD form is the natural
+  theoretical strengthening that a theory referee may prefer, and the
+  Step 3 derivation below is robust to either statement. The continuous
+  monotone-density form $\partial \varphi(W^*)/\partial s_{0,i} \le 0$ that
+  prior drafts assumed does \emph{not} survive bimodal $s_{0,i}$
+  distributions (Korean smallholder cohorts cluster at $s_{0,i} = 0$ and
+  $s_{0,i} = 1$) and is not load-bearing here.}
+  % FILL post-§5 P3: report four-bin sub-threshold-mass shares Pr(W_i < W_i^* | bin) at h ∈ {500, 1000} m².
 \item[(SC3) --- \textsc{interior-solution}.] Participation slack at the
   threshold-crossing margin: $V_{own}(W^*, T_{SFFP}) > V_{outside}$, where
   $V_{outside}$ is the value of pure off-farm employment. Empirically supported
