@@ -40,7 +40,10 @@ required <- c(
 
   # P3a additions (Tier 1 mandatory)
   "rddensity",    # Cattaneo-Jansson-Ma McCrary density test (04_robust.R)
-  "ggplot2"       # plot composition + theme_pidps_custom (05_figures.R) — usually present but explicit
+  "ggplot2",      # plot composition + theme_pidps_custom (05_figures.R) — usually present but explicit
+
+  # Wave 5 additions (10_alpha3_estimation.R — α3 outcome hierarchy)
+  "HonestDiD"     # Rambachan-Roth 2023 RES sensitivity bounds on β_1 + β_3 (Wave 2 X8 framework)
 )
 
 # Optional packages — install-on-best-effort; absence triggers documented
