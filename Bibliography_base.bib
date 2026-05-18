@@ -388,3 +388,98 @@
   note    = {Published online 29 August 2022; volume year 2023 per Oxford Academic / DOAJ citation convention},
   doi     = {10.1093/qopen/qoac024}
 }
+
+% ==============================================================================
+% Added 2026-05-18 per plan 2026-05-18_section3-addressable-hotfix.md
+% §3 ADDRESSABLE hot-fix: 6 entries (A4 magnitude calibration + A8 ITT/Roth + §1 ¶6 cites)
+% All marked % VERIFY-PRE-SUBMIT until manual confirmation against canonical sources.
+% ==============================================================================
+
+% A8 §3.1 ITT / parallel-trends caveat — single-pre-period pretest warning (Roth 2022 AER:I)
+% VERIFY-PRE-SUBMIT: title + volume/issue/pages against AEA-published version
+@article{Roth2022_pretrends,
+  author  = {Roth, Jonathan},
+  title   = {Pretest with Caution: Event-Study Estimates after Testing for Parallel Trends},
+  journal = {American Economic Review: Insights},
+  volume  = {4},
+  number  = {3},
+  pages   = {305--322},
+  year    = {2022},
+  doi     = {10.1257/aeri.20210236}
+}
+
+% A8 §3.1 HonestDiD sensitivity bounds — bounded-pretrend-violation parallel-trends inference
+% VERIFY-PRE-SUBMIT: RES publication metadata (Review of Economic Studies forthcoming → vol/issue when finalized)
+@article{RambachanRoth2023_honestdid,
+  author  = {Rambachan, Ashesh and Roth, Jonathan},
+  title   = {A More Credible Approach to Parallel Trends},
+  journal = {Review of Economic Studies},
+  volume  = {90},
+  number  = {5},
+  pages   = {2555--2591},
+  year    = {2023},
+  doi     = {10.1093/restud/rdad018}
+}
+
+% A4 §3.4.1 magnitude calibration — KREI annual production-cost survey (primary τ source)
+% Korean-authored institutional report; dual-form per Bibliography header convention.
+% VERIFY-PRE-SUBMIT: exact publication year, report number/series ID (KREI R-series),
+% and machinery-cost table page anchoring 50M KRW (≈30HP-class tractor + walking-combine).
+% LOCAL CONVENTION OVERRIDE: title primary in English (paper/en font support); Korean in title_ko.
+@techreport{KREI_prodcost_2022,
+  author     = {{Korea Rural Economic Institute (KREI)}},
+  title      = {Annual Agricultural Production-Cost Survey: Machinery Capital-Cost Appendix},
+  title_ko   = {농산물 생산비조사: 농기계 자본비용 부속표},
+  institution = {Korea Rural Economic Institute},
+  address    = {Naju, Republic of Korea},
+  type       = {Annual Statistical Report},
+  number     = {R-series},
+  year       = {2022},
+  note       = {Cited for approximately 50M~KRW machinery purchase-price midpoint (30HP-class tractor plus walking-combine, small-farm paddy-rice cohort).}
+}
+
+% A4 §3.4.1 magnitude calibration — KAMICO industry price-list (secondary, direct equipment-price)
+% Trade-association annual survey; dual-form per Bibliography header convention.
+% VERIFY-PRE-SUBMIT: KAMICO publication series + URL; whether 2022 edition was published
+% (alternatives: 2021, 2023). Editor's note: trade-association source acceptable as a
+% secondary corroborating cite alongside KREI primary.
+% LOCAL CONVENTION OVERRIDE: title primary in English; Korean in title_ko.
+@techreport{KAMICO_pricelist_2022,
+  author     = {{Korea Agricultural Machinery Industry Cooperative (KAMICO)}},
+  title      = {Annual Agricultural Machinery Price Survey},
+  title_ko   = {농기계 가격조사 연보},
+  institution = {Korea Agricultural Machinery Industry Cooperative},
+  address    = {Cheonan, Republic of Korea},
+  type       = {Annual Industry Survey},
+  year       = {2022},
+  note       = {Cited for 25M~KRW down-payment-equivalent under typical 50\% LTV Korean farm-equipment financing; corroborates KREI 50M purchase-price anchor.}
+}
+
+% §1 ¶6 (and Choi-Jodlowski 2025 differentiation) — land-ownership regulation, NOT separability
+% VERIFY-PRE-SUBMIT: journal placement (working paper vs published), exact title, DOI/URL.
+% Per CLAUDE.md §1 ¶6 TODO; CoVe C10a parallel-work disclosure.
+@article{ChoiJodlowski2025_landreg,
+  author  = {Choi, Hyung Wook and Jodlowski, Margaret},
+  title   = {Land-ownership regulation and farm structure in Korea},
+  journal = {American Journal of Agricultural Economics},
+  year    = {2025},
+  note    = {VERIFY-PRE-SUBMIT: confirm journal placement (could be working paper); cited for differentiation in §1 ¶6 — Choi-Jodlowski study ownership regulation, not subsidy at cutoff.}
+}
+
+% §1 ¶6 (parallel Korean work on PIDPS off-farm income) — RDD on off-farm-income only, NOT DiD-RD
+% LOCAL CONVENTION OVERRIDE (2026-05-18): Korean `author`/`title`/`journal` swapped to `*_ko`
+% fields because paper/en compiles under Latin Modern (lmroman12) without Korean glyph support;
+% natbib resolves `author` field directly into the PDF. Korean primary fields will be restored
+% to the global dual-form convention once a custom bibstyle (or fontspec for paper/en) lands.
+% Per CLAUDE.md §1 ¶6 TODO + CoVe C10b parallel-work disclosure.
+% VERIFY-PRE-SUBMIT: journal (likely 한국농경제학회보 / 농촌경제 / KREI WP), volume/issue, pages.
+@article{ChoiMun2025_pidps_offinc,
+  author     = {Choi, Min-young and Mun, Han-pil},
+  author_ko  = {최민영 and 문한필},
+  title      = {The Effect of the Public-Interest Direct Payment Scheme on Farm Off-Farm Income: A Regression Discontinuity Analysis at the 0.5~ha Threshold},
+  title_ko   = {공익직불제 도입이 농가 농외소득에 미친 영향: 0.5ha 지급기준선 회귀불연속 분석},
+  journal    = {Korean Journal of Agricultural Economics},
+  journal_ko = {한국농경제학회보},
+  year       = {2025},
+  note       = {VERIFY-PRE-SUBMIT: confirm exact journal + vol/issue; cited for parallel-work disclosure --- Choi-Mun use off-farm-income RDD only, no DiD-RD + AHM-separability test at per-farm flat-rate cutoff.}
+}
