@@ -114,7 +114,7 @@ $A^*_{i,2}$ is the production-maximizing land scale.
 
 \paragraph{Lagrangian.} The household's program is
 \begin{equation}
-\max_{C_1, C_2, a, L_{f,t}, L_{o,t}, K} \; U(C_1, L_{\ell,1}) + \beta\, \mathbb{E}_1\!\left[U(C_2, L_{\ell,2})\right]
+\max_{C_1, C_2, a, L_{f,t}, L_{o,t}, K} \; U(C_1, L_{\ell,1}) + \delta\, \mathbb{E}_1\!\left[U(C_2, L_{\ell,2})\right]
 \label{eq:appB-objective}
 \end{equation}
 subject to the period~1 budget
@@ -131,7 +131,7 @@ where $R$ is the gross interest rate on the externally financed share of $a$,
 and the time-allocation constraints in each period $t$:
 $L_{f,t} + L_{o,t} + L_{\ell,t} = \bar L$. Form the Lagrangian
 \begin{multline}
-\mathcal{L} \;=\; U(C_1, L_{\ell,1}) + \beta\, U(C_2, L_{\ell,2})
+\mathcal{L} \;=\; U(C_1, L_{\ell,1}) + \delta\, U(C_2, L_{\ell,2})
 + \lambda_1\!\left[W_i + T_i + w L_{o,1} - p_{land} a (1{-}\rho(W_i{+}T_i)) - r A_{rent,1} - P_c C_1 \right] \\
 + \lambda_2\!\left[P_q F(\cdot) + w L_{o,2} - r A_{rent,2} - R \rho(W_i{+}T_i) p_{land} a + T_i - P_c C_2\right] + \mu_1 (\cdots) + \mu_2 (\cdots).
 \label{eq:appB-lagrangian}
@@ -448,13 +448,13 @@ post-(\ref{eq:appB-step3}) footnote).
 \toprule
 Channel & Outcome & Sign & Econ. $\hat\beta$ & Empirical fit by bandwidth (P3b-2) & Falsification trigger (per bandwidth) & Operational decision rule & Reframe \\
 \midrule
-Liquidity primary \#1 \citep{CarterOlinto2003_liquidity} & $A_{own}$ & $>0$ & $\beta_1$ & T1: TBD; T2: $+1{,}089$ m\textsuperscript{2} pure tenant ($p\!=\!.033$); T3: $+408$ ($p\!=\!.003$) & $\hat\beta_1 \le 0$ at T2 \emph{and} T3 & Reject H$_1$ if $p(\hat\beta_1 > 0) > .10$ at both T2 and T3 & Null estimate \\
-Liquidity gradient \citep{CarterOlinto2003_liquidity} & $A_{own} \times (1-s_{0,i})$ & $> 0$, mono in $1-s_{0,i}$ & $\beta_2$ & T1: TBD; T2 monotone across bins: $\{$ pure\_tenant $-1738$; low\_owner $-600$; mixed $-393$; pure\_owner $0$ ref $\}$; T3: TBD & F1 fires if $\hat\beta_2 \le 0$ at T2 \emph{or} four-bin point estimates fail monotone-in-$(1-s_{0,i})$ ordering at T1 \emph{and} T2 & F1 fires if $p(\hat\beta_2 > 0) > .10$ at T2 \emph{and} four-bin point estimates not weakly monotone-decreasing in $s_{0,i}$ at T1 \emph{or} T2 (Holm-corrected) & Universal income effect (drop wealth-bias) \\
-Capital adj. (primary \#2) \citep{Kazukauskas2013_disinvestment} & op\_cost\_ex\_rent & $\le 0$ if $T_{SFFP}/\tau \!<\! 1$ & $\beta_3$ & T1: $-4.02$M~KRW ($p\!=\!.055$); T2: $-3.22$M~KRW ($p\!=\!.079$); T3: TBD & $\hat\beta_3 > 0$ at \emph{any} bandwidth & Reconsider $\tau$ if $\hat\beta_3 > 0$ at T1 or T2 ($p < .10$); robustness range $\tau \in [20\text{M}, 40\text{M}]$~KRW & Reconsider $\tau$ calibration (\S\ref{sec:calibration}) \\
-Labor (auxiliary) \citep{EswaranKotwal1986_supervision} & off\_farm\_income & $\ne 0$ under non-sep. & $\beta_4$ & T1: TBD; T2: TBD; T3: TBD (queued for next cycle) & F2: $\hat\beta_4 = 0$ all bandwidths & F2 fires if $p(\hat\beta_4 \ne 0) > .10$ at all three bandwidths; informative, not rejecting (EK-1 sign indeterminacy per main-text \S\ref{sec:predictions}) & Drop supervision channel; primary survives \\
+Liquidity primary \#1 \citep{CarterOlinto2003_liquidity} & $A_{own}$ & $>0$ & $\hat\beta_1$ & T1: TBD; T2: $+1{,}089$ m\textsuperscript{2} pure tenant ($p\!=\!.033$); T3: $+408$ ($p\!=\!.003$) & $\hat\beta_1 \le 0$ at T2 \emph{and} T3 & Reject H$_1$ if $p(\hat\beta_1 > 0) > .10$ at both T2 and T3 & Null estimate \\
+Liquidity gradient \citep{CarterOlinto2003_liquidity} & $A_{own} \times (1-s_{0,i})$ & $> 0$, mono in $1-s_{0,i}$ & $\hat\beta_2$ & T2 monotone across bins: $\{$ pure\_tenant $+1{,}089$ ($p\!=\!.033$); low\_owner $+410$ ($p\!=\!.051$); mixed $+393$ ($p\!=\!.063$); pure\_owner $0$ ref $\}$; T1: TBD; T3: TBD & F1 fires if $\hat\beta_2 \le 0$ at T2 \emph{and} four-bin point estimates fail weakly monotone in $(1-s_{0,i})$ at T2 (strict-AND boolean) & F1 fires if $p(\hat\beta_2 > 0) > .10$ at T2 \emph{and} four-bin point estimates not weakly monotone in $(1-s_{0,i})$ at T2 (Holm-corrected across the two conditions) & Universal income effect (drop wealth-bias) \\
+Capital adj. (primary \#2) \citep{Kazukauskas2013_disinvestment} & op\_cost\_ex\_rent & $\le 0$ if $T_{SFFP}/\tau \!<\! 1$ & $\hat\beta_3$ & T1: $-4.02$M~KRW ($p\!=\!.055$); T2: $-3.22$M~KRW ($p\!=\!.079$); T3: TBD & $\hat\beta_3 > 0$ at \emph{any} bandwidth & Reconsider $\tau$ if $\hat\beta_3 > 0$ at T1 or T2 ($p < .10$); robustness range $\tau \in [20\text{M}, 40\text{M}]$~KRW & Reconsider $\tau$ calibration (\S\ref{sec:calibration}) \\
+Labor (auxiliary) \citep{EswaranKotwal1986_supervision} & off\_farm\_income & $\ne 0$ under non-sep. & $\hat\beta_4$ & T1: TBD; T2: TBD; T3: TBD (queued for next cycle) & F2: $\hat\beta_4 = 0$ all bandwidths & F2 fires if $p(\hat\beta_4 \ne 0) > .10$ at all three bandwidths; informative, not rejecting (EK-1 sign indeterminacy per main-text \S\ref{sec:predictions}) & Drop supervision channel; primary survives \\
 \midrule
 \multicolumn{8}{l}{\textit{Ex-theory (B.1) --- aggregate-equilibrium implication, not a theory test:}} \\
-Incidence (ex-theory) \citep{Floyd1965_incidence, AlstonJames2002_incidence} & unit\_rent\_price & $< 0$ via incidence closure & $\beta_5$ & T1: $-48$ to $-130$ KRW/m\textsuperscript{2} across non-pure-owner bins; T2 pass-through $-11.1\%$; T3: TBD & N/A (not a theory test) & N/A & N/A \\
+Incidence (ex-theory) \citep{Floyd1965_incidence, AlstonJames2002_incidence} & unit\_rent\_price & $< 0$ via incidence closure & $\hat\beta_5$ & T1: $-48$ to $-130$ KRW/m\textsuperscript{2} across non-pure-owner bins; T2 pass-through $-11.1\%$; T3: TBD & N/A (not a theory test) & N/A & N/A \\
 \bottomrule
 \end{tabular}
 \end{table}
