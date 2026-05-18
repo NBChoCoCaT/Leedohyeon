@@ -1,6 +1,8 @@
 # Session Log: 2026-05-18 -- §3 ADDRESSABLE hot-fix
 
-**Status:** IN PROGRESS
+**Status:** COMPLETED — PR #7 opened, manual merge gate (user reviews before merge)
+**Commit:** `bcdd02e` on `feat/section3-addressable-hotfix`
+**PR:** https://github.com/NBChoCoCaT/DiD-RD/pull/7
 **Plan:** `quality_reports/plans/2026-05-18_section3-addressable-hotfix.md`
 **Branch:** `feat/section3-addressable-hotfix`
 
