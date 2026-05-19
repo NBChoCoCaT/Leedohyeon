@@ -531,17 +531,19 @@ fig_f1 <- ggplot(fig_data, aes(x = own_bin_label, y = estimate, fill = is_signif
                     labels = c("TRUE" = "p < .10", "FALSE" = "p >= .10"),
                     name = NULL) +
   labs(
-    title = "F1: Four-bin tenancy gradient on own-cultivated area (T2, h = 1,000 m²)",
+    title = "F1: Four-bin tenancy gradient on own-cultivated area",
+    subtitle = "T2 bandwidth (h = 1,000 m²)",
     x = NULL,
     y = expression(hat(beta)[1]~"  (m²)"),
     caption = "Source: FHES Wave 1, 2018-2022. Bars are 95% CIs from cluster-robust SE (hh_id)."
   ) +
-  theme_pidps()
+  theme_pidps() +
+  theme(plot.subtitle = element_text(color = "#525252"))
 
 ggsave(file.path(out_dir, "fig_f1_fourbin_gradient_T2_en.pdf"),
-       plot = fig_f1, width = 6.5, height = 4.2, bg = "white")
+       plot = fig_f1, width = 7.5, height = 4.5, bg = "white")
 ggsave(file.path(out_dir, "fig_f1_fourbin_gradient_T2_en.png"),
-       plot = fig_f1, width = 6.5, height = 4.2, dpi = 300, bg = "transparent")
+       plot = fig_f1, width = 7.5, height = 4.5, dpi = 300, bg = "transparent")
 log_msg("Phase 10: fig_f1_fourbin_gradient_T2_en.{pdf,png} saved.")
 
 # Figure 2: HonestDiD sensitivity for β_1 (area_own)
@@ -554,14 +556,14 @@ if (!is.null(honestdid_results$area_own$hdid)) {
     labs(
       title = expression("HonestDiD "~bar(M)~" sensitivity bounds: "~beta[1]~" (area_own, T2)"),
       x = expression(bar(M)~"  (linear-trend bias bound)"),
-      y = expression("95% CI for "~beta[1]~"  (m^2)"),
+      y = expression("95% CI for "~beta[1]~"  (m"^2*")"),
       caption = expression("Rambachan & Roth (2023). "~bar(M)~" = 0 is original DiD; "~bar(M)~"* is breakdown bound where CI excludes 0.")
     ) +
     theme_pidps()
   ggsave(file.path(out_dir, "fig_honestdid_sensitivity_b1_en.pdf"),
-         plot = fig_hdid, width = 6.5, height = 4.2, bg = "white")
+         plot = fig_hdid, width = 7.5, height = 4.5, bg = "white")
   ggsave(file.path(out_dir, "fig_honestdid_sensitivity_b1_en.png"),
-         plot = fig_hdid, width = 6.5, height = 4.2, dpi = 300, bg = "transparent")
+         plot = fig_hdid, width = 7.5, height = 4.5, dpi = 300, bg = "transparent")
   log_msg("Phase 10: fig_honestdid_sensitivity_b1_en.{pdf,png} saved.")
 } else {
   log_msg("Phase 10: HonestDiD area_own bounds unavailable; figure skipped.")

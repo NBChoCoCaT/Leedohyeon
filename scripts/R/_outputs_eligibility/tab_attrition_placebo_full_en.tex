@@ -1,0 +1,18 @@
+\begin{table}[ht]
+\centering
+\caption{Differential-attrition placebo across bandwidths (Spec A)}
+\label{tab:attrition-placebo-full}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Bandwidth & $h$ (m\textsuperscript{2}) & Estimate & SE & $p$-value & $N$ \\
+\midrule
+T1 & 500 & -0.051 & 0.162 & 0.754 & 158 \\
+T2 & 1,000 & -0.082 & 0.112 & 0.460 & 319 \\
+T3 & 2,313 & -0.059 & 0.071 & 0.410 & 781 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Coefficient on $D_i$ (statutorily-eligible) in a placebo RDD on the household-level full-panel indicator $\mathbf{1}\{n_{\text{years}}=5\}$. T3 bandwidth selected via \texttt{rdrobust} MSE-optimal. Cluster-robust SE (hh\_id). Null of equal full-panel coverage across the eligibility cutoff is not rejected at any bandwidth.}
+\end{table}
+
