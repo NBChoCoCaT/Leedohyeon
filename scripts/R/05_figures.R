@@ -15,7 +15,7 @@
 # Spec contracts:
 #   - r-code-conventions.md §4 (palette + theme template), §13 (PDF cairo / PNG transparent)
 #   - content-invariants.md INV-11 (bg=transparent for slides), INV-12 (project theme)
-#   - STATA 02_analysis.do lines 130-140 (rdplot pattern) + 07_eventstudy.do (event-study)
+#   - McCrary density (rddensity) + first-difference RD scatter (rdrobust) + event-study (fixest)
 #
 # Plan: quality_reports/plans/2026-05-15_p3a-tier1-robust-figures.md
 # =============================================================================
@@ -227,7 +227,7 @@ message("Phase 2: RD scatter (4 × 2 × 2 × 2 = 32 files) saved.")
 # ---------------------------------------------------------------------------- #
 # Phase 3 — Event-study (parallel trends visualization)
 # ---------------------------------------------------------------------------- #
-# STATA 07_eventstudy.do: base year 2019, lags 2018, leads 2020-22. R port via
+# Event-study spec: base year 2019, lags 2018, leads 2020-22. fixest implementation
 # fixest::i() interaction syntax.
 
 bw_grid <- c(T1 = 500L, T2 = 1000L, T3 = 3300L)
