@@ -1,0 +1,18 @@
+=== 01c_subset_clean.R log -- 2026-05-19 16:54:04.818629 ===
+
+Input:  /Users/leedo/Research/01_dissertation_PBDP/scripts/R/_outputs/clean_with_eligibility.rds
+Output: /Users/leedo/Research/01_dissertation_PBDP/scripts/R/_outputs_eligibility/clean.rds
+
+Subset sample: 13689 obs / 3420 hh (dropped 785 obs / 194 hh treated-but-ineligible)
+Treated under new definition: 1131 hh
+
+Sanity checks (all PASS):
+  [v] nrow == 13,689 (actual 13689)
+  [v] n_hh  == 3,420 (actual 3420)
+  [v] treated >= 1,131 (actual 1131)
+  [v] D_eligible_obs_2018 == 1[rv_2018<=0] on subset (sharp)
+  [v] D_treat == D_eligible_obs_2018 (swap verified)
+  [v] D_Post == D_treat * Post
+  [v] Drv_Post == D_treat * rv_2018 * Post
+
+Backup: original area-only D_treat preserved as `D_treat_area_only` column.

@@ -1,0 +1,80 @@
+=== Replication-protocol Phase 3 tolerance check — 2026-05-19 16:54:08.397786 ===
+
+Ground truth: STATA 02_analysis.log lines 394/442/490/538 (Spec A) and 760/808/856/904 (Spec B).
+Tolerance:    estimate < 0.1%% of |est_stata| or 1 KRW (whichever larger);
+              SE       < 1.0%% of |se_stata|  or 100 KRW (whichever larger).
+
+Replication cells: 8 (Spec A × 4 + Spec B × 4).
+PASSED:            0 / 8.
+
+Per-cell detail:
+  [FAIL] Spec A, op_cost           R=   148709.04 STATA=   256102.60  est_diff=  -107393.56 (FAIL)  |  SE_R=  1515161.25 SE_STATA=  1464431.00  se_diff=  50730.25 (FAIL)
+  [FAIL] Spec A, off_farm_income   R=   963576.97 STATA=   223304.50  est_diff=   740272.47 (FAIL)  |  SE_R=  1908653.59 SE_STATA=  1951840.00  se_diff= -43186.41 (FAIL)
+  [FAIL] Spec A, consumption       R=  1508933.47 STATA=  1254742.00  est_diff=   254191.47 (FAIL)  |  SE_R=   792470.36 SE_STATA=   789824.30  se_diff=   2646.06 (ok)
+  [FAIL] Spec A, farm_income       R= -3551568.82 STATA= -3584777.00  est_diff=    33208.18 (FAIL)  |  SE_R=  2440145.18 SE_STATA=  2368291.00  se_diff=  71854.18 (FAIL)
+  [FAIL] Spec B, op_cost           R=  -115594.76 STATA=   -34428.00  est_diff=   -81166.76 (FAIL)  |  SE_R=  1994936.64 SE_STATA=  1862314.00  se_diff= 132622.64 (FAIL)
+  [FAIL] Spec B, off_farm_income   R=   380792.86 STATA=    26613.67  est_diff=   354179.19 (FAIL)  |  SE_R=  2181133.55 SE_STATA=  2267705.00  se_diff= -86571.45 (FAIL)
+  [FAIL] Spec B, consumption       R=  1298872.25 STATA=  1241286.00  est_diff=    57586.25 (FAIL)  |  SE_R=   912561.81 SE_STATA=   916705.90  se_diff=  -4144.09 (ok)
+  [FAIL] Spec B, farm_income       R= -4080253.74 STATA= -3906468.00  est_diff=  -173785.74 (FAIL)  |  SE_R=  2791552.93 SE_STATA=  2713951.00  se_diff=  77601.93 (FAIL)
+
+=== P3a Tier 1 additions — 2026-05-19 16:54:09.026046 ===
+
+## McCrary density test (vs STATA 04_robustness.log lines 145-170)
+  [FAIL] full sample (N=2680): T-stat R = 1.3413, STATA = 1.4495 (diff = -0.1082)
+  [FAIL] ±500 m² window (N=158): T-stat R = -1.9838, STATA = -1.1280
+
+## Outlier ladder (vs STATA 06_robustness_aux.log)
+  Cells checked: 6 (Spec A × IHS + Winsor99 × representative outcomes/bandwidths)
+  PASSED: 1 / 6
+
+  [FAIL] A T1 ihs op_cost             R: est=     -0.0894 SE=      0.1238  STATA: est=     -0.1071 SE=      0.1238  (diff: 0.0177 / 0.0000)
+  [FAIL] A T1 w99 op_cost             R: est=-4162922.6313 SE=2088250.0014  STATA: est=-4191323.0000 SE=2091791.0000  (diff: 28400.3687 / -3540.9986)
+  [FAIL] A T1 ihs farm_income         R: est=      0.2924 SE=      2.9315  STATA: est=      0.8105 SE=      2.8168  (diff: -0.5181 / 0.1147)
+  [PASS] A T3 ihs op_cost             R: est=      0.0511 SE=      0.0521  STATA: est=      0.0518 SE=      0.0512  (diff: -0.0007 / 0.0009)
+  [FAIL] A T3 w99 op_cost             R: est= 116472.0521 SE=1433263.3124  STATA: est= 242386.0000 SE=1359933.0000  (diff: -125913.9479 / 73330.3124)
+  [FAIL] A T3 ihs farm_income         R: est=     -0.7769 SE=      1.3590  STATA: est=     -1.5540 SE=      1.3166  (diff: 0.7771 / 0.0424)
+
+## Wild cluster bootstrap on 8 replication cells (vs STATA 11_multiple_testing.log)
+  Path: lm-dummies + sandwich::vcovBS.lm  R=999  seed=PROJECT_SEED
+  Spec A consumption         p_wild = NA  SE_wild =           NA  p_wild_holm = NA
+  Spec A farm_income         p_wild = NA  SE_wild =           NA  p_wild_holm = NA
+  Spec A off_farm_income     p_wild = NA  SE_wild =           NA  p_wild_holm = NA
+  Spec A op_cost             p_wild = NA  SE_wild =           NA  p_wild_holm = NA
+  Spec B consumption         p_wild = NA  SE_wild =           NA  p_wild_holm = NA
+  Spec B farm_income         p_wild = NA  SE_wild =           NA  p_wild_holm = NA
+  Spec B off_farm_income     p_wild = NA  SE_wild =           NA  p_wild_holm = NA
+  Spec B op_cost             p_wild = NA  SE_wild =           NA  p_wild_holm = NA
+
+=== P3b-6 Wild Bootstrap (B=999, Rademacher, refit-based) — 2026-05-19 16:55:15.088173 ===
+
+## 8 P2 replication cells (per-outcome STATA bandwidth, Wild p-value + Holm)
+
+  Spec A op_cost             h=3305  est=     148709.04  p_cluster=0.9218  p_wild=0.9229  p_wild_holm=1.0000
+  Spec A off_farm_income     h=3716  est=     963576.97  p_cluster=0.6137  p_wild=0.6076  p_wild_holm=1.0000
+  Spec A consumption         h=3931  est=    1508933.47  p_cluster=0.0571  p_wild=0.0531  p_wild_holm=0.2122
+  Spec A farm_income         h=3268  est=   -3551568.82  p_cluster=0.1458  p_wild=0.1552  p_wild_holm=0.4655
+  Spec B op_cost             h=3636  est=    -115594.76  p_cluster=0.9538  p_wild=0.9560  p_wild_holm=1.0000
+  Spec B off_farm_income     h=3835  est=     380792.86  p_cluster=0.8614  p_wild=0.8749  p_wild_holm=1.0000
+  Spec B consumption         h=3817  est=    1298872.25  p_cluster=0.1548  p_wild=0.1431  p_wild_holm=0.5726
+  Spec B farm_income         h=4221  est=   -4080253.74  p_cluster=0.1440  p_wild=0.1582  p_wild_holm=0.5726
+
+## 6 P3b-1 CH4 main cells (Spec A × T1/T2/T3 × {rent_cost, op_cost_ex_rent})
+
+  Spec A rent_cost           T1 h=500  est=    -155665.19  p_cluster=0.1112  p_wild=0.1181
+  Spec A rent_cost           T2 h=1000  est=    -144026.62  p_cluster=0.1333  p_wild=0.1341
+  Spec A rent_cost           T3 h=3300  est=     -41933.09  p_cluster=0.4370  p_wild=0.4394
+  Spec A op_cost_ex_rent     T1 h=500  est=   -3978705.07  p_cluster=0.0574  p_wild=0.0230
+  Spec A op_cost_ex_rent     T2 h=1000  est=   -3131701.59  p_cluster=0.0973  p_wild=0.0981
+  Spec A op_cost_ex_rent     T3 h=3300  est=     215034.05  p_cluster=0.8872  p_wild=0.8989
+
+Note: STATA 11_multiple_testing.log Wild p-values use common hA_min bandwidth (Step 5 rwolf2 fallback), NOT per-outcome bandwidth. Direct ±0.01 tolerance comparison requires running Wild at common bandwidth (deferred). Reported p_wild values are at per-outcome MSE bandwidth (Step 2 STATA spec), providing new R-only inference for paper §3 robustness.
+
+================================================================================
+[Wave 5 α3 cross-check] 2026-05-19 16:55:22
+Source: 10_alpha3_estimation.R; comparison vs CLAUDE.md L62 P3b-2 STATA headline.
+================================================================================
+[CHECK 1] area_own × pure_tenant × T2:
+  Wave 5 R:    estimate = 1121.88, p = 0.0412
+  CLAUDE.md L62 (P3b-2 STATA): estimate = 1089.00, p = 0.0330
+  |diff_est| = 32.8802 (tol < 1.00); |diff_p| = 0.0082 (tol < 0.05)
+  STATUS: INVESTIGATE

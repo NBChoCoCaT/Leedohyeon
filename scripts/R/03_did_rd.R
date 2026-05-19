@@ -62,7 +62,9 @@ stopifnot(fs::file_exists(clean_path))
 
 df <- readRDS(clean_path)
 df <- df |> dplyr::mutate(dplyr::across(dplyr::where(haven::is.labelled), haven::zap_labels))
-stopifnot(nrow(df) == 14474L, dplyr::n_distinct(df$hh_id) == 3614L)
+.elig <- exists("ELIGIBILITY_SUBSET", inherits = FALSE) && isTRUE(ELIGIBILITY_SUBSET)
+stopifnot(nrow(df) == if (.elig) 13689L else 14474L,
+          dplyr::n_distinct(df$hh_id) == if (.elig) 3420L else 3614L)
 
 outcomes <- c("op_cost", "off_farm_income", "consumption", "farm_income")
 

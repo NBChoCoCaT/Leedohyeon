@@ -47,7 +47,8 @@ suppressPackageStartupMessages({
 
 set.seed(20260504L)
 
-out_dir <- here::here("scripts", "R", "_outputs")
+out_dir <- if (exists("OUT_DIR", inherits = FALSE)) OUT_DIR else
+              here::here("scripts", "R", "_outputs")
 log_path <- file.path(out_dir, "alpha3_log.txt")
 log_lines <- character()
 log_msg <- function(...) {
