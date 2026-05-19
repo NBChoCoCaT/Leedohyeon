@@ -78,3 +78,13 @@ Source: 10_alpha3_estimation.R; comparison vs CLAUDE.md L62 P3b-2 STATA headline
   CLAUDE.md L62 (P3b-2 STATA): estimate = 1089.00, p = 0.0330
   |diff_est| = 32.8802 (tol < 1.00); |diff_p| = 0.0082 (tol < 0.05)
   STATUS: INVESTIGATE
+
+================================================================================
+[Wave 5 α3 cross-check] 2026-05-19 19:18:22
+Source: 10_alpha3_estimation.R; comparison vs CLAUDE.md L62 P3b-2 STATA headline.
+================================================================================
+[CHECK 1] area_own × pure_tenant × T2:
+  Wave 5 R:    estimate = 1121.88, p = 0.0412
+  CLAUDE.md L62 (P3b-2 STATA): estimate = 1089.00, p = 0.0330
+  |diff_est| = 32.8802 (tol < 1.00); |diff_p| = 0.0082 (tol < 0.05)
+  STATUS: INVESTIGATE
