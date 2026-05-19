@@ -259,6 +259,12 @@ plot_event_study <- function(y_var, bw_label, lang) {
   else
     sprintf("클러스터 강건 95%% CI (hh_id). N = %d. STATA 앵커: 07_eventstudy.log lines 85-89.", fit$nobs)
 
+  # Format y-axis in millions (KRW) for readability instead of scientific notation
+  fmt_millions <- function(x) {
+    ifelse(abs(x) < 1e6, sprintf("%.1f", x / 1e6),
+           sprintf("%.0fM", x / 1e6))
+  }
+
   ggplot2::ggplot(tidy_event, ggplot2::aes(x = year, y = estimate)) +
     ggplot2::geom_hline(yintercept = 0, color = PIDPS_PALETTE[["negative_red"]],
                         linetype = "dashed", linewidth = 0.5) +
@@ -268,9 +274,10 @@ plot_event_study <- function(y_var, bw_label, lang) {
                             width = 0.15, color = PIDPS_PALETTE[["primary_blue"]]) +
     ggplot2::geom_point(color = PIDPS_PALETTE[["primary_blue"]], size = 2.5) +
     ggplot2::scale_x_continuous(breaks = 2018:2022) +
+    ggplot2::scale_y_continuous(labels = fmt_millions) +
     ggplot2::labs(title = ttl, subtitle = sub_text, caption = cap,
                   x = if (lang == "en") "Year" else "연도",
-                  y = if (lang == "en") "Coefficient (KRW)" else "계수 (원)") +
+                  y = if (lang == "en") "Coefficient (million KRW)" else "계수 (백만 원)") +
     theme_pidps_custom()
 }
 
