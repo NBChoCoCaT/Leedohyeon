@@ -130,6 +130,7 @@ plot_mccrary_raw <- function(rdd_obj, range_lo_raw, range_hi_raw, x_raw, lang) {
     ggplot2::labs(title = ttl, subtitle = sub, caption = cap,
                   x = if (lang == "en") RAW_X_LABEL_EN else RAW_X_LABEL_KO,
                   y = if (lang == "en") "Density" else "밀도") +
+    ggplot2::guides(color = "none", linetype = "none", fill = "none") +
     theme_raw()
 }
 
