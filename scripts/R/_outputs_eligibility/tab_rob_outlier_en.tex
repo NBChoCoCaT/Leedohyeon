@@ -1,0 +1,132 @@
+\begin{table}[t]
+\centering
+\caption{Outlier Robustness Ladder — Outcome: op_cost}
+\label{tab:rob_outlier_op_cost_en}
+\begin{tabular}{lrrr}
+\toprule
+Row & T1 (h=500) & T2 (h=1000) & T3 (h=3300) \\
+\midrule
+Spec A, IHS asinh(y) & -0.0894 & -0.1167 & 0.0511 \\
+        & (0.1238) & (0.0930) & (0.0521) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec A, Winsor p1/p99 & -4,162,923 & -3,756,584 & 116,472 \\
+        & (2,088,250) & (2,130,439) & (1,433,263) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec A, Winsor p0.5/p99.5 & -4,121,508 & -3,276,453 & 583,861 \\
+        & (2,081,942) & (1,895,337) & (1,456,052) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec B, IHS asinh(y) & -0.0967 & -0.1235 & 0.0738 \\
+        & (0.1281) & (0.1043) & (0.0615) \\
+N       & 601 & 1,243 & 4,404 \\
+Spec B, Winsor p1/p99 & -5,034,297 & -4,883,720 & -435,983 \\
+        & (2,729,861) & (3,032,776) & (1,941,567) \\
+N       & 601 & 1,243 & 4,404 \\
+Spec B, Winsor p0.5/p99.5 & -5,036,891 & -4,790,225 & -42,822 \\
+        & (2,730,074) & (3,050,690) & (2,074,425) \\
+N       & 601 & 1,243 & 4,404 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Cluster-robust SE (hh_id) in parentheses. Bandwidths: T1=±500m², T2=±1000m², T3=±3300m². IHS uses asinh scale; Winsor on KRW. 24 IHS+w99 Spec A cells anchored to STATA 06_robustness_aux.log; Winsor p0.5/p99.5 (AJAE robustness, S2 per outlier-policy spec v1.1) is R-only.}
+\end{table}
+
+
+\begin{table}[t]
+\centering
+\caption{Outlier Robustness Ladder — Outcome: off_farm_income}
+\label{tab:rob_outlier_off_farm_income_en}
+\begin{tabular}{lrrr}
+\toprule
+Row & T1 (h=500) & T2 (h=1000) & T3 (h=3300) \\
+\midrule
+Spec A, IHS asinh(y) & -0.3761 & 0.7577 & -0.0171 \\
+        & (1.3470) & (0.9868) & (0.5619) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec A, Winsor p1/p99 & 966,526 & 3,798,996 & 1,885,152 \\
+        & (4,278,367) & (3,029,050) & (1,593,140) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec A, Winsor p0.5/p99.5 & 211,865 & 3,048,474 & 1,551,760 \\
+        & (4,675,199) & (3,366,451) & (1,755,278) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec B, IHS asinh(y) & -0.4475 & 0.7886 & -0.3286 \\
+        & (1.3688) & (1.0471) & (0.6092) \\
+N       & 601 & 1,243 & 4,404 \\
+Spec B, Winsor p1/p99 & 2,623,104 & 3,475,263 & 1,311,936 \\
+        & (4,457,521) & (3,175,589) & (1,773,850) \\
+N       & 601 & 1,243 & 4,404 \\
+Spec B, Winsor p0.5/p99.5 & 2,006,531 & 2,606,809 & 840,432 \\
+        & (4,880,418) & (3,550,331) & (1,961,929) \\
+N       & 601 & 1,243 & 4,404 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Cluster-robust SE (hh_id) in parentheses. Bandwidths: T1=±500m², T2=±1000m², T3=±3300m². IHS uses asinh scale; Winsor on KRW. 24 IHS+w99 Spec A cells anchored to STATA 06_robustness_aux.log; Winsor p0.5/p99.5 (AJAE robustness, S2 per outlier-policy spec v1.1) is R-only.}
+\end{table}
+
+
+\begin{table}[t]
+\centering
+\caption{Outlier Robustness Ladder — Outcome: consumption}
+\label{tab:rob_outlier_consumption_en}
+\begin{tabular}{lrrr}
+\toprule
+Row & T1 (h=500) & T2 (h=1000) & T3 (h=3300) \\
+\midrule
+Spec A, IHS asinh(y) & 0.1221 & 0.0732 & 0.0403 \\
+        & (0.0726) & (0.0557) & (0.0308) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec A, Winsor p1/p99 & 3,903,849 & 2,186,907 & 1,267,697 \\
+        & (1,995,278) & (1,562,427) & (846,891) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec A, Winsor p0.5/p99.5 & 4,056,488 & 2,381,232 & 1,284,362 \\
+        & (2,057,742) & (1,613,750) & (870,617) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec B, IHS asinh(y) & 0.1436 & 0.0783 & 0.0390 \\
+        & (0.0804) & (0.0613) & (0.0349) \\
+N       & 601 & 1,243 & 4,404 \\
+Spec B, Winsor p1/p99 & 4,469,240 & 2,506,130 & 1,245,461 \\
+        & (2,199,690) & (1,697,441) & (942,980) \\
+N       & 601 & 1,243 & 4,404 \\
+Spec B, Winsor p0.5/p99.5 & 4,617,799 & 2,718,503 & 1,268,493 \\
+        & (2,266,070) & (1,752,364) & (971,544) \\
+N       & 601 & 1,243 & 4,404 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Cluster-robust SE (hh_id) in parentheses. Bandwidths: T1=±500m², T2=±1000m², T3=±3300m². IHS uses asinh scale; Winsor on KRW. 24 IHS+w99 Spec A cells anchored to STATA 06_robustness_aux.log; Winsor p0.5/p99.5 (AJAE robustness, S2 per outlier-policy spec v1.1) is R-only.}
+\end{table}
+
+
+\begin{table}[t]
+\centering
+\caption{Outlier Robustness Ladder — Outcome: farm_income}
+\label{tab:rob_outlier_farm_income_en}
+\begin{tabular}{lrrr}
+\toprule
+Row & T1 (h=500) & T2 (h=1000) & T3 (h=3300) \\
+\midrule
+Spec A, IHS asinh(y) & 0.2924 & 0.9837 & -0.7769 \\
+        & (2.9315) & (2.4041) & (1.3590) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec A, Winsor p1/p99 & 1,144,960 & 189,147 & -1,596,575 \\
+        & (3,205,665) & (2,776,840) & (1,742,053) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec A, Winsor p0.5/p99.5 & 1,090,340 & -621,216 & -2,179,741 \\
+        & (3,301,683) & (2,920,022) & (1,866,374) \\
+N       & 760 & 1,567 & 5,548 \\
+Spec B, IHS asinh(y) & 0.2558 & 1.4763 & -1.6902 \\
+        & (2.9595) & (2.5535) & (1.5464) \\
+N       & 601 & 1,243 & 4,404 \\
+Spec B, Winsor p1/p99 & 1,312,949 & -1,177,165 & -3,044,963 \\
+        & (4,273,928) & (3,460,611) & (2,070,433) \\
+N       & 601 & 1,243 & 4,404 \\
+Spec B, Winsor p0.5/p99.5 & 1,247,942 & -2,357,075 & -4,008,749 \\
+        & (4,446,119) & (3,774,197) & (2,318,481) \\
+N       & 601 & 1,243 & 4,404 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Cluster-robust SE (hh_id) in parentheses. Bandwidths: T1=±500m², T2=±1000m², T3=±3300m². IHS uses asinh scale; Winsor on KRW. 24 IHS+w99 Spec A cells anchored to STATA 06_robustness_aux.log; Winsor p0.5/p99.5 (AJAE robustness, S2 per outlier-policy spec v1.1) is R-only.}
+\end{table}
+
+

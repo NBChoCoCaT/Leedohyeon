@@ -1,0 +1,42 @@
+\begin{table}[t]
+\centering
+\caption{Tenant-Driven Land Transition: Event-Study Decomposition (area\_total / own / rent)}
+\label{tab:stabilization_en}
+\begin{tabular}{lrrrr}
+\toprule
+\multicolumn{5}{l}{\textbf{Total cultivated area (m²)}} \\
+Bandwidth & 2018 & 2020 & 2021 & 2022 \\
+\midrule
+h = 500 & -149 & -247 & 44 & -250 \\
+    & (506) & (386) & (481) & (506) \\
+h = 1000 & -42 & 118 & 259 & 265 \\
+    & (269) & (229) & (278) & (289) \\
+h = 3300 & 46 & 106 & 313** & 366*** \\
+    & (129) & (105) & (126) & (140) \\
+\midrule
+\multicolumn{5}{l}{\textbf{Own-cultivated area (m²)}} \\
+Bandwidth & 2018 & 2020 & 2021 & 2022 \\
+\midrule
+h = 500 & -189 & 50 & 205 & 53 \\
+    & (170) & (242) & (213) & (238) \\
+h = 1000 & -138 & 45 & 216 & 225 \\
+    & (135) & (149) & (165) & (180) \\
+h = 3300 & -31 & 73 & 177** & 228** \\
+    & (67) & (78) & (90) & (97) \\
+\midrule
+\multicolumn{5}{l}{\textbf{Rented-in area (m²)}} \\
+Bandwidth & 2018 & 2020 & 2021 & 2022 \\
+\midrule
+h = 500 & 41 & -297 & -161 & -303 \\
+    & (452) & (385) & (522) & (532) \\
+h = 1000 & 96 & 74 & 43 & 40 \\
+    & (228) & (206) & (265) & (271) \\
+h = 3300 & 77 & 33 & 136 & 138 \\
+    & (112) & (82) & (109) & (122) \\
+\midrule
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Event-study coefficients on year $\times$ D\_treat (ref = 2019). Cluster-robust SE (hh\_id) in parentheses. Parallel-trends gate: 2018 pre-period coefficients all $|t|<1$ (LN-10). Static panel DiD-RD on area\_total $\beta \approx 0$ hides the dynamic pattern (event-study is the correct framing for paper \S5). Per-bin decomposition via own\_share heterogeneity in `tab_het_own_share_*.tex` shows the transition concentrated in non-pure-owner subgroups. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
+

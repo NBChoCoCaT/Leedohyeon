@@ -67,7 +67,8 @@ message(sprintf("Phase 1: Wild bootstrap path = %s",
 # Sample: 2018 baseline cross-section (deduplicated to N=2823 farms).
 
 df18 <- df |> dplyr::filter(year == 2018L)
-stopifnot(nrow(df18) == 2823L)
+.elig <- exists("ELIGIBILITY_SUBSET", inherits = FALSE) && isTRUE(ELIGIBILITY_SUBSET)
+if (!.elig) stopifnot(nrow(df18) == 2823L)
 
 mccrary_full <- rddensity::rddensity(X = df18$rv_2018, c = 0, vce = "jackknife")
 mccrary_500  <- rddensity::rddensity(X = df18$rv_2018[abs(df18$rv_2018) <= 500],  c = 0, vce = "jackknife")

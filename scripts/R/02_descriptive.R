@@ -55,7 +55,9 @@ clean_path <- file.path(out_dir, "clean.rds")
 stopifnot(fs::file_exists(clean_path))
 
 df <- readRDS(clean_path)
-stopifnot(nrow(df) == 14474L, dplyr::n_distinct(df$hh_id) == 3614L)
+.elig <- exists("ELIGIBILITY_SUBSET", inherits = FALSE) && isTRUE(ELIGIBILITY_SUBSET)
+stopifnot(nrow(df) == if (.elig) 13689L else 14474L,
+          dplyr::n_distinct(df$hh_id) == if (.elig) 3420L else 3614L)
 
 # `haven` keeps labelled vectors; coerce to plain numeric so modelsummary /
 # survey don't trip on labelled() class while still preserving Korean labels
@@ -84,8 +86,8 @@ df18 <- df_num |> dplyr::filter(year == 2018L)
 # Panel is unbalanced: 2,823 farms observed in 2018 (out of 3,614 ever in panel).
 # Late entrants (joined 2019+) are NOT in baseline Table 1 by design — Table 1
 # reports pre-policy 2018 cross-section, period.
-stopifnot(nrow(df18) == 2823L,
-          dplyr::n_distinct(df18$hh_id) == 2823L)
+stopifnot(nrow(df18) == dplyr::n_distinct(df18$hh_id))
+if (!.elig) stopifnot(nrow(df18) == 2823L)
 
 svy18 <- survey::svydesign(
   ids     = ~hh_id,

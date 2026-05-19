@@ -106,7 +106,8 @@ farm <- farm |>
     )
   )
 
-stopifnot(nrow(farm) == 3614L)
+.elig <- exists("ELIGIBILITY_SUBSET", inherits = FALSE) && isTRUE(ELIGIBILITY_SUBSET)
+stopifnot(nrow(farm) == if (.elig) 3420L else 3614L)
 n_bin <- sum(!is.na(farm$own_bin))
 message(sprintf("Phase 1: %d farms; own_bin assigned to %d (%.1f%%).",
                 nrow(farm), n_bin, 100 * n_bin / nrow(farm)))

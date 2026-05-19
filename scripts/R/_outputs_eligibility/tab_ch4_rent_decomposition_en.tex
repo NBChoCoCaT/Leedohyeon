@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\caption{CH4 Rent Decomposition: Per-farm flat-rate vs Kirwan/Ciaian per-hectare benchmarks (Spec A)}
+\label{tab:ch4_rent_en}
+\begin{tabular}{lrrr}
+\toprule
+Bandwidth & rent\_cost & op\_cost\_ex\_rent & Pass-through (Korea) \\
+\midrule
+T1 (h = 500 m²) & -155,665 & -3,978,705* & -13.0\% \\
+        & (97,304) & (2,081,514) & \\
+N       & 760 & 760 & \\
+T2 (h = 1,000 m²) & -144,027 & -3,131,702* & -12.0\% \\
+        & (95,742) & (1,884,627) & \\
+N       & 1,567 & 1,567 & \\
+T3 (h = h*_mse) & -41,933 & 215,034 & -3.5\% \\
+        & (53,935) & (1,516,236) & \\
+N       & 5,548 & 5,548 & \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Cluster-robust SE (hh\_id) in parentheses. Pass-through = $\beta(\text{rent\_cost}) / 1{,}200{,}000$ KRW. Benchmarks: Kirwan (2009) JPE per-hectare US $\approx 25\%$; Ciaian et al. (2023) Land Use Policy per-hectare EU $46\% \sim 55\%$. Headline scenario classification (Spec A T3): MIXED — see per-bandwidth detail. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
+
