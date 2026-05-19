@@ -123,9 +123,9 @@ plot_mccrary <- function(rdd_obj, range_lo, range_hi, x_vals, lang) {
   sub <- sprintf("Robust T = %.4f, p = %.4f, N = %d",
                  rdd_obj$test$t_jk, rdd_obj$test$p_jk, rdd_obj$N$full)
   cap <- if (lang == "en")
-    "Vertical bars: confidence bands. Smooth lines: estimated densities. STATA anchor: T=1.4495 (04_robustness.log line 145)."
+    "Vertical bars: confidence bands. Smooth lines: estimated densities. Red dashed line marks the 0.5 ha (5,000 m^2) cutoff."
   else
-    "수직 바: 신뢰구간. 곡선: 추정 밀도. STATA 앵커: T=1.4495 (04_robustness.log line 145)."
+    "수직 바: 신뢰구간. 곡선: 추정 밀도. 빨간 점선: 0.5 ha (5,000 m^2) 컷오프."
 
   pp$Estplot +
     ggplot2::labs(title = ttl, subtitle = sub, caption = cap,
@@ -255,9 +255,9 @@ plot_event_study <- function(y_var, bw_label, lang) {
   else
     "year × D_treat 계수 (기준연도 2019, 생략). 정책 시행 2020년."
   cap <- if (lang == "en")
-    sprintf("Cluster-robust 95%% CI (hh_id). N = %d. STATA anchor: 07_eventstudy.log lines 85-89.", fit$nobs)
+    sprintf("Event-study coefficients on year x D_treat (2019 omitted as base). Cluster-robust 95%% CIs (hh_id). N = %d.", fit$nobs)
   else
-    sprintf("클러스터 강건 95%% CI (hh_id). N = %d. STATA 앵커: 07_eventstudy.log lines 85-89.", fit$nobs)
+    sprintf("연도 x D_treat 이벤트-스터디 계수 (2019 기준 생략). 클러스터 강건 95%% CI (hh_id). N = %d.", fit$nobs)
 
   # Format y-axis in millions (KRW) for readability instead of scientific notation
   fmt_millions <- function(x) {

@@ -424,7 +424,7 @@ hired_labor <- tibble(
 )
 
 # ---------------------------------------------------------------------------- #
-# Phase 8 — F1 monotonicity check + UNHEDGE gating decision                    #
+# Phase 8 — F1 monotonicity check + headline-gating decision                   #
 # ---------------------------------------------------------------------------- #
 # F1 fires iff (i) p(β_2 > 0) > .10 at T2 AND (ii) four-bin monotone broken at #
 # T2. Operationalize using area_own at T2.                                     #
@@ -440,7 +440,7 @@ p_pure_tenant_T2 <- area_own_T2 |> filter(own_bin == "1_pure_tenant") |> pull(p.
 est_T2 <- area_own_T2$estimate
 monotone_T2 <- all(diff(est_T2) <= 0)
 
-F1_fires <- (p_pure_tenant_T2 > 0.10) && !monotone_T2  # strict-AND boolean per Wave 1 X1
+F1_fires <- (p_pure_tenant_T2 > 0.10) && !monotone_T2  # strict-AND boolean trigger
 log_msg(sprintf("Phase 8 F1 check at T2: p_pure_tenant=%.4f, monotone=%s → F1_fires=%s",
                 p_pure_tenant_T2, monotone_T2, F1_fires))
 
@@ -478,7 +478,7 @@ alpha3_results <- list(
   ),
   # Provenance
   notes = list(
-    framework = "α3 AHM-extension (ADR-0001, ADR-0002 post-2026-05-18)",
+    framework = "α3 AHM-extension",
     seed = 20260504L,
     wealth_proxy_formula = "W_i = farm_income_2018 - debt_total_2018 (clean.rds-only; full net-worth deferred)",
     own_bin_breakpoints = "0 / 0.3 / 0.7 / 1 (5 bins; per 07_heterogeneity.R Phase 1)",
@@ -614,14 +614,14 @@ log_msg("Phase 11: tab_alpha3_results_en.tex saved.")
 # Phase 12 — Replication check update                                          #
 # ---------------------------------------------------------------------------- #
 # Add α3 cells to replication_check.txt: cross-validate area_own pure_tenant   #
-# T2 against the +1,089 m² (p=.033) headline from CLAUDE.md L62 (P3b-2 STATA). #
+# T2 against the +1,089 m² (p=.033) headline benchmark (area-only baseline).   #
 # ---------------------------------------------------------------------------- #
 
 ledger_lines <- c(
   "",
   "================================================================================",
-  paste0("[Wave 5 α3 cross-check] ", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
-  "Source: 10_alpha3_estimation.R; comparison vs CLAUDE.md L62 P3b-2 STATA headline.",
+  paste0("[α3 cross-check] ", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
+  "Source: 10_alpha3_estimation.R; comparison vs area-only baseline headline.",
   "================================================================================"
 )
 hdr_pure_tenant_T2 <- area_own_T2 |> filter(own_bin == "1_pure_tenant")
@@ -631,8 +631,8 @@ diff_p   <- abs(hdr_pure_tenant_T2$p.value - stata_truth$p)
 ledger_lines <- c(
   ledger_lines,
   sprintf("[CHECK 1] area_own × pure_tenant × T2:"),
-  sprintf("  Wave 5 R:    estimate = %.2f, p = %.4f", hdr_pure_tenant_T2$estimate, hdr_pure_tenant_T2$p.value),
-  sprintf("  CLAUDE.md L62 (P3b-2 STATA): estimate = %.2f, p = %.4f", stata_truth$est, stata_truth$p),
+  sprintf("  Current R: estimate = %.2f, p = %.4f", hdr_pure_tenant_T2$estimate, hdr_pure_tenant_T2$p.value),
+  sprintf("  Area-only baseline (benchmark): estimate = %.2f, p = %.4f", stata_truth$est, stata_truth$p),
   sprintf("  |diff_est| = %.4f (tol < 1.00); |diff_p| = %.4f (tol < 0.05)", diff_est, diff_p),
   sprintf("  STATUS: %s",
           if (diff_est < 1.0 && diff_p < 0.05) "PASS" else "INVESTIGATE")
