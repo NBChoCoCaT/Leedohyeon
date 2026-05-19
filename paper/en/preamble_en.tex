@@ -71,3 +71,9 @@
 
 % Bib-key TENTATIVE warning footer (visual reminder during draft)
 \newcommand{\tentativecite}[1]{\textcolor{negative}{\citep{#1}}}
+
+% Increase tolerance for line-breaking to eliminate small overfull hboxes
+% caused by long \texttt{} paths, citation keys, and hyphen-resistant math.
+\setlength{\emergencystretch}{3em}
+\tolerance=1000
+\hbadness=2000
