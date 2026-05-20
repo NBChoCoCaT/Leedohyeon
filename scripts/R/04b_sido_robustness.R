@@ -23,6 +23,9 @@
 # Outputs:
 #   _outputs_symmetric/sido_results.rds
 #   _outputs_symmetric/tab_sido_robustness_en.tex
+#   _outputs_symmetric/tab_sido_robustness_ko.tex
+#
+# Plan: quality_reports/plans/velvet-frolicking-glade.md (Phase A8 KO emission)
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -243,12 +246,22 @@ tbl <- results |>
     n_str    = formatC(n_obs, format = "d", big.mark = ",")
   )
 
-latex_block <- function(sub) {
+# Bilingual outcome labels (Korean: stack code id over readable label)
+outcome_label_ko <- c(
+  op_cost_ex_rent = "op\\_cost\\_ex\\_rent (농업경영비, 임차료 제외)",
+  off_farm_income = "off\\_farm\\_income (농외소득)",
+  consumption     = "consumption (가계소비지출)",
+  farm_income     = "farm\\_income (농업소득)"
+)
+
+latex_block <- function(sub, lang) {
   rows <- character()
   for (outc in outcomes) {
     sub_o <- sub |> dplyr::filter(outcome == outc) |> dplyr::arrange(bw_id)
-    rows <- c(rows, sprintf("\\multicolumn{4}{l}{\\textit{%s}} \\\\",
-                            gsub("_", "\\\\_", outc, fixed = TRUE)))
+    outc_disp <- if (lang == "ko" && !is.null(outcome_label_ko[[outc]]))
+                    outcome_label_ko[[outc]]
+                 else gsub("_", "\\\\_", outc, fixed = TRUE)
+    rows <- c(rows, sprintf("\\multicolumn{4}{l}{\\textit{%s}} \\\\", outc_disp))
     for (i in seq_len(nrow(sub_o))) {
       rows <- c(rows, sprintf("%s & %s & %s & %s \\\\",
                               sub_o$bw_id[i], sub_o$coef_str[i],
@@ -258,33 +271,60 @@ latex_block <- function(sub) {
   rows
 }
 
-tex_lines <- c(
-  "\\begin{table}[t]",
-  "\\centering",
-  paste0("\\caption{Sub-national (sido) robustness: \\texttt{sido\\_cd}$\\times$",
-         "\\texttt{year} FE; cluster = \\texttt{hh\\_id}.}"),
-  "\\label{tab:sido_robustness_en}",
-  "\\begin{tabular}{lrrr}",
-  "\\toprule",
-  "Bandwidth & Coef & SE & N \\\\",
-  "\\midrule",
-  "\\multicolumn{4}{l}{\\textbf{Spec A — full panel (Post = year $\\ge$ 2020)}} \\\\",
-  latex_block(tbl |> dplyr::filter(spec == "A")),
-  "\\midrule",
-  "\\multicolumn{4}{l}{\\textbf{Spec B — drop 2020 (Post = year $\\ge$ 2021)}} \\\\",
-  latex_block(tbl |> dplyr::filter(spec == "B")),
-  "\\bottomrule",
-  "\\end{tabular}",
-  "\\\\",
-  paste0("\\footnotesize\\textit{Province-by-year FE (\\texttt{sido\\_cd}$\\times$",
-         "\\texttt{year}) absorbs province-specific time shocks. ",
-         "FHES Wave 1 does not release sgg\\_cd (sub-district, ~250); sido ",
-         "(17 provinces; 16 in symmetric panel) is the finest available ",
-         "geography. Cluster-robust SE at \\texttt{hh\\_id} (2,776 clusters); ",
-         "Wild bootstrap deferred to P3. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}"),
-  "\\end{table}"
-)
-writeLines(tex_lines, file.path(out_dir, "tab_sido_robustness_en.tex"))
+write_sido_table <- function(lang, path) {
+  if (lang == "en") {
+    caption <- paste0("Sub-national (sido) robustness: \\texttt{sido\\_cd}$\\times$",
+                      "\\texttt{year} FE; cluster = \\texttt{hh\\_id}.")
+    label   <- "tab:sido_robustness_en"
+    header  <- "Bandwidth & Coef & SE & N \\\\"
+    spec_a  <- "\\multicolumn{4}{l}{\\textbf{Spec A — full panel (Post = year $\\ge$ 2020)}} \\\\"
+    spec_b  <- "\\multicolumn{4}{l}{\\textbf{Spec B — drop 2020 (Post = year $\\ge$ 2021)}} \\\\"
+    notes   <- paste0("\\footnotesize\\textit{Province-by-year FE (\\texttt{sido\\_cd}$\\times$",
+                      "\\texttt{year}) absorbs province-specific time shocks. ",
+                      "FHES Wave 1 does not release sgg\\_cd (sub-district, ~250); sido ",
+                      "(17 provinces; 16 in symmetric panel) is the finest available ",
+                      "geography. Cluster-robust SE at \\texttt{hh\\_id} (2,776 clusters); ",
+                      "Wild bootstrap deferred to P3. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}")
+  } else {
+    caption <- paste0("하위국가(광역시도) 강건성: \\texttt{sido\\_cd}$\\times$",
+                      "\\texttt{year} FE; 클러스터 = \\texttt{hh\\_id}.")
+    label   <- "tab:sido_robustness_ko"
+    header  <- "Bandwidth & 계수 & SE & N \\\\"
+    spec_a  <- "\\multicolumn{4}{l}{\\textbf{Spec A — 전체 패널 (Post = year $\\ge$ 2020)}} \\\\"
+    spec_b  <- "\\multicolumn{4}{l}{\\textbf{Spec B — 2020년 제외 (Post = year $\\ge$ 2021)}} \\\\"
+    notes   <- paste0("\\footnotesize\\textit{주: 광역시도-연도 FE (\\texttt{sido\\_cd}$\\times$",
+                      "\\texttt{year})로 광역시도별 시간충격 흡수. FHES Wave 1은 ",
+                      "sgg\\_cd (하위 시군구, 약 250개)를 공개하지 않으며, sido ",
+                      "(17개 광역; 대칭 패널 내 16개)가 사용 가능한 가장 세분화된 지리. ",
+                      "클러스터 강건 SE는 \\texttt{hh\\_id} (2,776 클러스터); ",
+                      "Wild 부트스트랩은 P3로 이관. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}")
+  }
+
+  tex <- c(
+    "\\begin{table}[t]",
+    "\\centering",
+    sprintf("\\caption{%s}", caption),
+    sprintf("\\label{%s}", label),
+    "\\begin{tabular}{lrrr}",
+    "\\toprule",
+    header,
+    "\\midrule",
+    spec_a,
+    latex_block(tbl |> dplyr::filter(spec == "A"), lang),
+    "\\midrule",
+    spec_b,
+    latex_block(tbl |> dplyr::filter(spec == "B"), lang),
+    "\\bottomrule",
+    "\\end{tabular}",
+    "\\\\",
+    notes,
+    "\\end{table}"
+  )
+  writeLines(tex, path, useBytes = (lang == "ko"))
+}
+
+write_sido_table("en", file.path(out_dir, "tab_sido_robustness_en.tex"))
+write_sido_table("ko", file.path(out_dir, "tab_sido_robustness_ko.tex"))
 
 # Console summary -------------------------------------------------------------
 sf <- sum(combined$sign_flip, na.rm = TRUE)

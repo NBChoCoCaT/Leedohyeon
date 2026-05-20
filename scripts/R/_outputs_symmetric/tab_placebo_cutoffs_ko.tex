@@ -1,0 +1,20 @@
+\begin{table}[ht]
+\centering
+\caption{위약(placebo) 컷오프: 비정책 임계값에서의 DiD-RD (Spec A, T2 대역폭 $h=1{,}000$~m\textsuperscript{2})}
+\label{tab:placebo-cutoffs-ko}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+컷오프 & op\_cost & off\_farm\_income & consumption & farm\_income \\
+\midrule
+0.3~ha (3,000 m\textsuperscript{2}) & -1,513,854 (1,672,646) & 1,387,457 (2,093,228) & -630,750 (938,848) & 1,790,028 (1,832,650) \\
+0.4~ha (4,000 m\textsuperscript{2}) & 555,940 (2,442,786) & 721,179 (2,104,117) & -1,945,052* (1,126,946) & 4,663,243 (3,537,448) \\
+0.5~ha (5,000 m\textsuperscript{2}) \textbf{[실제]} & -2,762,226 (1,967,784) & 3,519,757 (2,968,304) & 2,496,648* (1,495,564) & -2,185,209 (3,979,543) \\
+0.6~ha (6,000 m\textsuperscript{2}) & -6,116,932* (3,650,512) & 74,259 (2,354,227) & 554,089 (1,509,603) & 4,267,497 (3,075,047) \\
+0.7~ha (7,000 m\textsuperscript{2}) & 2,805,492 (3,545,596) & -187,063 (3,861,798) & -886,193 (1,447,175) & -6,818,406 (5,891,500) \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{주: $D_{\text{fake}} \times \text{Post}$ 계수 (소득/비용은 원, 면적은 m\textsuperscript{2}). 괄호 안 클러스터-강건 SE (hh\_id); * p$<.10$, ** p$<.05$, *** p$<.01$. 위약 컷오프 (0.3/0.4/0.6/0.7 ha)는 비정책 임계값에서 DiD-RD가 허위 효과를 탐지하는지 검증; 0.5 ha 행은 비교용 실제 소농직불금 컷오프.}
+\end{table}
+

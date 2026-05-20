@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{$s_0$ bin 경계 측정오차에 대한 F1 단조구배 민감도. T2 ($h = 1{,}000$)에서 3개 대안 bin 처리; 기준 범주 pure\_owner ($s_0 = 1$, 계수 $\equiv 0$).}
+\label{tab:fuzzy_bin_sensitivity_ko}
+\begin{tabular}{lrrrr}
+\toprule
+Spec & 순임차 & 저소유 & 혼합 & 고소유 \\
+\midrule
+\multicolumn{5}{l}{\textit{엄격 (기준안)} ($N = 1,240$)} \\
+계수 & 1,151** & 438** & 258 & -52 \\
+SE & (548) & (220) & (198) & (225) \\
+\multicolumn{5}{l}{\textit{도넛 [.27,.33]$\cup$[.67,.73]} ($N = 1,144$)} \\
+계수 & 1,152** & 574** & 141 & -103 \\
+SE & (546) & (257) & (176) & (222) \\
+\multicolumn{5}{l}{\textit{강건 25/75 bin} ($N = 1,240$)} \\
+계수 & 1,155** & 583** & 238 & -122 \\
+SE & (547) & (259) & (184) & (225) \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{주: 대칭 스크리닝 패널에서 \texttt{own\_bin}$\times$\texttt{D\_treat} 상호작용 계수, T2 bandwidth. 괄호 안 클러스터 강건 SE (\texttt{hh\_id}). 도넛은 $s_0$가 bin 경계 불확실성 구간 $[.27, .33]$ 또는 $[.67, .73]$에 속하는 2018년 가구를 제외 (\citealp{Roth2022_pretrends} 측정오차 논리). 강건 25/75 bin은 cutpoint를 $0.25$, $0.75$로 이동. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}

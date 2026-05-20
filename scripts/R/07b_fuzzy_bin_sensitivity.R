@@ -21,8 +21,10 @@
 # Outputs:
 #   _outputs_symmetric/fuzzy_bin_results.rds
 #   _outputs_symmetric/tab_fuzzy_bin_sensitivity_en.tex
+#   _outputs_symmetric/tab_fuzzy_bin_sensitivity_ko.tex
 #
 # Plan: quality_reports/plans/graceful-percolating-dragonfly.md (Step 3)
+#       quality_reports/plans/velvet-frolicking-glade.md (Phase A3 KO emission)
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -167,71 +169,102 @@ star <- function(p) {
                        ifelse(p < 0.10, "*", ""))))
 }
 
-bin_labels <- c(
-  "1_pure_tenant" = "Pure tenant",
-  "2_low_owner"   = "Low owner",
-  "3_mixed"       = "Mixed",
-  "4_high_owner"  = "High owner"
+# Bilingual spec / column labels
+spec_label_ko <- c(
+  "Strict (baseline)"           = "엄격 (기준안)",
+  "Donut [.27,.33]∪[.67,.73]"   = "도넛 [.27,.33]∪[.67,.73]",
+  "Robust 25/75 bins"           = "강건 25/75 bin"
 )
+bin_cols_en <- c("Pure tenant", "Low owner", "Mixed", "High owner")
+bin_cols_ko <- c("순임차", "저소유", "혼합", "고소유")
 
-tex_rows <- character()
-for (sp in c("Strict (baseline)", "Donut [.27,.33]∪[.67,.73]", "Robust 25/75 bins")) {
-  sub_s <- results |> dplyr::filter(spec == sp)
-  tex_rows <- c(tex_rows,
-                sprintf("\\multicolumn{5}{l}{\\textit{%s} ($N = %s$)} \\\\",
-                        gsub("∪", "$\\\\cup$", sp, fixed = TRUE),
-                        formatC(sub_s$n_obs[1], format = "d", big.mark = ",")))
-  vals <- character(4)
-  pvals <- character(4)
-  for (i in seq_along(c("1_pure_tenant","2_low_owner","3_mixed","4_high_owner"))) {
-    b <- c("1_pure_tenant","2_low_owner","3_mixed","4_high_owner")[i]
-    r <- sub_s |> dplyr::filter(bin == b)
-    if (nrow(r) == 0L || is.na(r$est[1])) {
-      vals[i] <- ""
-      pvals[i] <- ""
-    } else {
-      vals[i] <- paste0(fmt_num(r$est[1], 0), star(r$p[1]))
-      pvals[i] <- paste0("(", fmt_num(r$se[1], 0), ")")
+write_fuzzy_table <- function(lang, path) {
+  tex_rows <- character()
+  for (sp in c("Strict (baseline)", "Donut [.27,.33]∪[.67,.73]", "Robust 25/75 bins")) {
+    sub_s <- results |> dplyr::filter(spec == sp)
+    sp_disp <- if (lang == "ko") spec_label_ko[[sp]] else sp
+    tex_rows <- c(tex_rows,
+                  sprintf("\\multicolumn{5}{l}{\\textit{%s} ($N = %s$)} \\\\",
+                          gsub("∪", "$\\cup$", sp_disp, fixed = TRUE),
+                          formatC(sub_s$n_obs[1], format = "d", big.mark = ",")))
+    vals <- character(4)
+    pvals <- character(4)
+    for (i in seq_along(c("1_pure_tenant","2_low_owner","3_mixed","4_high_owner"))) {
+      b <- c("1_pure_tenant","2_low_owner","3_mixed","4_high_owner")[i]
+      r <- sub_s |> dplyr::filter(bin == b)
+      if (nrow(r) == 0L || is.na(r$est[1])) {
+        vals[i] <- ""; pvals[i] <- ""
+      } else {
+        vals[i]  <- paste0(fmt_num(r$est[1], 0), star(r$p[1]))
+        pvals[i] <- paste0("(", fmt_num(r$se[1], 0), ")")
+      }
     }
+    coef_label <- if (lang == "ko") "계수" else "Coef"
+    tex_rows <- c(tex_rows,
+                  sprintf("%s & %s & %s & %s & %s \\\\",
+                          coef_label, vals[1], vals[2], vals[3], vals[4]))
+    tex_rows <- c(tex_rows,
+                  sprintf("SE & %s & %s & %s & %s \\\\",
+                          pvals[1], pvals[2], pvals[3], pvals[4]))
   }
-  tex_rows <- c(tex_rows,
-                sprintf("Coef & %s & %s & %s & %s \\\\",
-                        vals[1], vals[2], vals[3], vals[4]))
-  tex_rows <- c(tex_rows,
-                sprintf("SE & %s & %s & %s & %s \\\\",
-                        pvals[1], pvals[2], pvals[3], pvals[4]))
+
+  if (lang == "en") {
+    caption <- paste0("F1 monotone-gradient sensitivity to $s_0$ bin-boundary ",
+                      "measurement error. Three alternative bin treatments at T2 ",
+                      "($h = 1{,}000$); reference category pure\\_owner ($s_0 = 1$, ",
+                      "coefficient $\\equiv 0$).")
+    label   <- "tab:fuzzy_bin_sensitivity_en"
+    header  <- sprintf("Spec & %s & %s & %s & %s \\\\",
+                       bin_cols_en[1], bin_cols_en[2], bin_cols_en[3], bin_cols_en[4])
+    notes   <- paste0("\\footnotesize\\textit{Coefficients on \\texttt{own\\_bin}$\\times$",
+                      "\\texttt{D\\_treat} interactions in the symmetric-screened panel, ",
+                      "T2 bandwidth. SE in parentheses, cluster-robust at \\texttt{hh\\_id}. ",
+                      "Donut drops 2018 households whose $s_0$ falls in the bin-boundary ",
+                      "uncertainty zones $[.27, .33]$ or $[.67, .73]$ ",
+                      "(\\citealp{Roth2022_pretrends} measurement-error logic). ",
+                      "Robust 25/75 bins shift cutpoints to $0.25$ and $0.75$. ",
+                      "* p$<$0.10, ** p$<$0.05, *** p$<$0.01.}")
+  } else {
+    caption <- paste0("$s_0$ bin 경계 측정오차에 대한 F1 단조구배 민감도. ",
+                      "T2 ($h = 1{,}000$)에서 3개 대안 bin 처리; ",
+                      "기준 범주 pure\\_owner ($s_0 = 1$, 계수 $\\equiv 0$).")
+    label   <- "tab:fuzzy_bin_sensitivity_ko"
+    header  <- sprintf("Spec & %s & %s & %s & %s \\\\",
+                       bin_cols_ko[1], bin_cols_ko[2], bin_cols_ko[3], bin_cols_ko[4])
+    notes   <- paste0("\\footnotesize\\textit{주: 대칭 스크리닝 패널에서 ",
+                      "\\texttt{own\\_bin}$\\times$\\texttt{D\\_treat} 상호작용 계수, ",
+                      "T2 bandwidth. 괄호 안 클러스터 강건 SE (\\texttt{hh\\_id}). ",
+                      "도넛은 $s_0$가 bin 경계 불확실성 구간 $[.27, .33]$ 또는 ",
+                      "$[.67, .73]$에 속하는 2018년 가구를 제외 ",
+                      "(\\citealp{Roth2022_pretrends} 측정오차 논리). ",
+                      "강건 25/75 bin은 cutpoint를 $0.25$, $0.75$로 이동. ",
+                      "* p$<$0.10, ** p$<$0.05, *** p$<$0.01.}")
+  }
+
+  tex <- c(
+    "\\begin{table}[t]",
+    "\\centering",
+    sprintf("\\caption{%s}", caption),
+    sprintf("\\label{%s}", label),
+    "\\begin{tabular}{lrrrr}",
+    "\\toprule",
+    header,
+    "\\midrule",
+    tex_rows,
+    "\\bottomrule",
+    "\\end{tabular}",
+    "\\\\",
+    notes,
+    "\\end{table}"
+  )
+  writeLines(tex, path, useBytes = (lang == "ko"))
 }
 
-tex_lines <- c(
-  "\\begin{table}[t]",
-  "\\centering",
-  paste0("\\caption{F1 monotone-gradient sensitivity to $s_0$ bin-boundary ",
-         "measurement error. Three alternative bin treatments at T2 ",
-         "($h = 1{,}000$); reference category pure\\_owner ($s_0 = 1$, ",
-         "coefficient $\\equiv 0$).}"),
-  "\\label{tab:fuzzy_bin_sensitivity_en}",
-  "\\begin{tabular}{lrrrr}",
-  "\\toprule",
-  "Spec & Pure tenant & Low owner & Mixed & High owner \\\\",
-  "\\midrule",
-  tex_rows,
-  "\\bottomrule",
-  "\\end{tabular}",
-  "\\\\",
-  paste0("\\footnotesize\\textit{Coefficients on \\texttt{own\\_bin}$\\times$",
-         "\\texttt{D\\_treat} interactions in the symmetric-screened panel, ",
-         "T2 bandwidth. SE in parentheses, cluster-robust at \\texttt{hh\\_id}. ",
-         "Donut drops 2018 households whose $s_0$ falls in the bin-boundary ",
-         "uncertainty zones $[.27, .33]$ or $[.67, .73]$ ",
-         "(\\citealp{Roth2022_pretrends} measurement-error logic). ",
-         "Robust 25/75 bins shift cutpoints to $0.25$ and $0.75$. ",
-         "* p$<$0.10, ** p$<$0.05, *** p$<$0.01.}"),
-  "\\end{table}"
-)
-writeLines(tex_lines, file.path(out_dir, "tab_fuzzy_bin_sensitivity_en.tex"))
+write_fuzzy_table("en", file.path(out_dir, "tab_fuzzy_bin_sensitivity_en.tex"))
+write_fuzzy_table("ko", file.path(out_dir, "tab_fuzzy_bin_sensitivity_ko.tex"))
 
 message(sprintf("07b_fuzzy_bin_sensitivity.R: 3 specs × 4 bins = 12 cells fit."))
-message(sprintf("  Output: fuzzy_bin_results.rds + tab_fuzzy_bin_sensitivity_en.tex"))
+message(sprintf("  Output: fuzzy_bin_results.rds + tab_fuzzy_bin_sensitivity_{en,ko}.tex"))
 
 # STOP CONDITION 3: F1 sign on pure_tenant should be preserved (positive) across all 3 specs
 signs <- c(strict_tenant_e > 0, donut_tenant_e > 0, rob_tenant_e > 0)

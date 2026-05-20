@@ -1,0 +1,18 @@
+\begin{table}[ht]
+\centering
+\caption{대역폭별 차등-탈락 placebo 검정 (Spec A)}
+\label{tab:attrition-placebo-full-ko}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Bandwidth & $h$ (m\textsuperscript{2}) & 추정치 & SE & $p$-값 & $N$ \\
+\midrule
+T1 & 500 & -0.023 & 0.171 & 0.892 & 142 \\
+T2 & 1,000 & -0.050 & 0.120 & 0.679 & 293 \\
+T3 & 2,097 & -0.042 & 0.082 & 0.610 & 651 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{주: 가구 수준 전체-패널 지표 $\mathbf{1}\{n_{\text{years}}=5\}$를 종속변수로 한 placebo RDD에서 $D_i$ (법정 자격) 계수. T3 대역폭은 \texttt{rdrobust} MSE-최적 선택. 클러스터 강건 SE (hh\_id). 자격 컷오프 좌우 전체-패널 coverage 동일 가설이 어느 대역폭에서도 기각되지 않음.}
+\end{table}
+

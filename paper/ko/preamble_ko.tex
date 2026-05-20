@@ -45,7 +45,8 @@
 \colorlet{accent2}{primary-gold}
 
 % Hyperref (loaded after xcolor so link colors resolve)
-\usepackage{hyperref}
+% unicode=true required for Korean bookmarks/TOC under XeLaTeX + kotex
+\usepackage[unicode]{hyperref}
 \hypersetup{
   colorlinks = true,
   linkcolor  = primary-blue,

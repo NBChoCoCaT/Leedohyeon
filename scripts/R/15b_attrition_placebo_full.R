@@ -6,8 +6,11 @@
 # to all three bandwidths reported in the main analysis.
 #
 # Output:
-#   _outputs_eligibility/attrition_placebo_full.rds
-#   _outputs_eligibility/tab_attrition_placebo_full_en.tex
+#   $OUT_DIR/attrition_placebo_full.rds
+#   $OUT_DIR/tab_attrition_placebo_full_en.tex
+#   $OUT_DIR/tab_attrition_placebo_full_ko.tex
+#
+# Plan: quality_reports/plans/velvet-frolicking-glade.md (Phase A5 KO emission)
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -76,21 +79,42 @@ for (i in seq_len(nrow(results))) {
   ))
 }
 
-tex <- paste0(
-  "\\begin{table}[ht]\n\\centering\n",
-  "\\caption{Differential-attrition placebo across bandwidths (Spec A)}\n",
-  "\\label{tab:attrition-placebo-full}\n\\small\n",
-  "\\begin{tabular}{lrrrrr}\n\\toprule\n",
-  "Bandwidth & $h$ (m\\textsuperscript{2}) & Estimate & SE & $p$-value & $N$ \\\\\n",
-  "\\midrule\n",
-  paste(rows, collapse = "\n"),
-  "\n\\bottomrule\n\\end{tabular}\n\\\\\n",
-  "\\footnotesize\\textit{Coefficient on $D_i$ (statutorily-eligible) in a placebo RDD on the household-level full-panel indicator $\\mathbf{1}\\{n_{\\text{years}}=5\\}$. ",
-  "T3 bandwidth selected via \\texttt{rdrobust} MSE-optimal. ",
-  "Cluster-robust SE (hh\\_id). Null of equal full-panel coverage across the eligibility cutoff is not rejected at any bandwidth.}\n",
-  "\\end{table}\n"
-)
-writeLines(tex, file.path(out_dir, "tab_attrition_placebo_full_en.tex"))
+write_attrition_table <- function(lang, path) {
+  if (lang == "en") {
+    caption <- "Differential-attrition placebo across bandwidths (Spec A)"
+    label   <- "tab:attrition-placebo-full"
+    header  <- "Bandwidth & $h$ (m\\textsuperscript{2}) & Estimate & SE & $p$-value & $N$ \\\\"
+    notes   <- paste0("\\footnotesize\\textit{Coefficient on $D_i$ (statutorily-eligible) in a ",
+                      "placebo RDD on the household-level full-panel indicator ",
+                      "$\\mathbf{1}\\{n_{\\text{years}}=5\\}$. ",
+                      "T3 bandwidth selected via \\texttt{rdrobust} MSE-optimal. ",
+                      "Cluster-robust SE (hh\\_id). Null of equal full-panel coverage ",
+                      "across the eligibility cutoff is not rejected at any bandwidth.}")
+  } else {
+    caption <- "대역폭별 차등-탈락 placebo 검정 (Spec A)"
+    label   <- "tab:attrition-placebo-full-ko"
+    header  <- "Bandwidth & $h$ (m\\textsuperscript{2}) & 추정치 & SE & $p$-값 & $N$ \\\\"
+    notes   <- paste0("\\footnotesize\\textit{주: 가구 수준 전체-패널 지표 ",
+                      "$\\mathbf{1}\\{n_{\\text{years}}=5\\}$를 종속변수로 한 placebo RDD에서 ",
+                      "$D_i$ (법정 자격) 계수. T3 대역폭은 \\texttt{rdrobust} MSE-최적 선택. ",
+                      "클러스터 강건 SE (hh\\_id). 자격 컷오프 좌우 전체-패널 coverage ",
+                      "동일 가설이 어느 대역폭에서도 기각되지 않음.}")
+  }
+  tex <- paste0(
+    "\\begin{table}[ht]\n\\centering\n",
+    sprintf("\\caption{%s}\n", caption),
+    sprintf("\\label{%s}\n\\small\n", label),
+    "\\begin{tabular}{lrrrrr}\n\\toprule\n",
+    header, "\n\\midrule\n",
+    paste(rows, collapse = "\n"),
+    "\n\\bottomrule\n\\end{tabular}\n\\\\\n",
+    notes, "\n\\end{table}\n"
+  )
+  writeLines(tex, path, useBytes = (lang == "ko"))
+}
+
+write_attrition_table("en", file.path(out_dir, "tab_attrition_placebo_full_en.tex"))
+write_attrition_table("ko", file.path(out_dir, "tab_attrition_placebo_full_ko.tex"))
 
 message(sprintf("15b_attrition_placebo_full.R: T1/T2/T3 attrition placebo computed."))
 print(results)
