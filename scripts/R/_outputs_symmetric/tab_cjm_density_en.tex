@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Cattaneo-Jansson-Ma (2020) density-discontinuity test at the 0.5\,ha cutoff (\texttt{rddensity} package, jackknife variance). Symmetric-screened 2018 baseline.}
+\label{tab:cjm_density_en}
+\begin{tabular}{llrrr}
+\toprule
+Window & $h$ (m\textsuperscript{2}) & $N$ & $t_{jk}$ & $p_{jk}$ \\
+\midrule
+full & all & 2,178 & 0.676 & 0.499 \\
+T1 (±500) & 500 & 142 & -1.852 & 0.064* \\
+T2 (±1,000) & 1,000 & 293 & -1.772 & 0.076* \\
+T3 (≈MSE 3,300) & 3,300 & 1,061 & 0.919 & 0.358 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Jackknife-variance density-discontinuity test of \citet{CalonicoCattaneoTitiunik2014_rdrobust}-style local-polynomial density estimation. The full sample, $\pm500$, $\pm 1{,}000$, and $\pm 3{,}300$ windows are reported in parallel. Jackknife p-value is robust to bandwidth choice and preferred over McCrary (2008) for narrow-window inference. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}

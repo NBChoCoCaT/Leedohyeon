@@ -1,0 +1,37 @@
+\begin{table}[t]
+\centering
+\caption{Covariate continuity at the 0.5\,ha cutoff (CCT 2014 \texttt{rdrobust}, triangular kernel, cluster = \texttt{hh\_id}). 2018 baseline cross-section.}
+\label{tab:cct_covariate_continuity_en}
+\begin{tabular}{lrrr}
+\toprule
+Bandwidth & Coef (robust) & SE & $N$ \\
+\midrule
+\multicolumn{4}{l}{\textit{age\_code\_base}} \\
+T1 ($h=500$) & 0.299 & (0.379) & 142 \\
+T2 ($h=1,000$) & 0.266 & (0.315) & 293 \\
+T3 ($h=1,627$) & 0.145 & (0.210) & 480 \\
+\multicolumn{4}{l}{\textit{farm\_type}} \\
+T1 ($h=500$) & 0.946 & (1.706) & 142 \\
+T2 ($h=1,000$) & -0.681 & (1.228) & 293 \\
+T3 ($h=1,523$) & -1.479* & (0.822) & 449 \\
+\multicolumn{4}{l}{\textit{type\_fulltime}} \\
+T1 ($h=500$) & 0.057 & (0.486) & 142 \\
+T2 ($h=1,000$) & -0.269 & (0.328) & 293 \\
+T3 ($h=1,554$) & -0.352* & (0.211) & 456 \\
+\multicolumn{4}{l}{\textit{own\_share\_pre}} \\
+T1 ($h=500$) & 0.060 & (0.166) & 142 \\
+T2 ($h=1,000$) & 0.130 & (0.135) & 293 \\
+T3 ($h=1,613$) & -0.011 & (0.092) & 476 \\
+\multicolumn{4}{l}{\textit{area\_owned\_2018}} \\
+T1 ($h=500$) & 1,142.522 & (1,584.988) & 142 \\
+T2 ($h=1,000$) & 1,248.293 & (1,101.498) & 293 \\
+T3 ($h=1,522$) & -441.111 & (739.728) & 449 \\
+\multicolumn{4}{l}{\textit{off\_inc\_2018}} \\
+T1 ($h=500$) & -1,941,823.253 & (6,372,928.771) & 142 \\
+T2 ($h=1,000$) & -5,290,487.756 & (4,371,873.648) & 293 \\
+T3 ($h=1,737$) & -4,160,397.784 & (2,566,226.301) & 518 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Robust bias-corrected coefficient (\citealp{CalonicoCattaneoTitiunik2014_rdrobust}) on each pre-determined household covariate evaluated at $rv_{2018,i} = 0$. $N$ is the effective sample within the chosen bandwidth (left + right of cutoff). T3 = MSE-optimal per outcome. Cluster-robust SE at \texttt{hh\_id}. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
