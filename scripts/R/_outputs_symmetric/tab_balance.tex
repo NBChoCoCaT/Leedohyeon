@@ -1,0 +1,22 @@
+\begin{table}
+\centering
+\begin{talltblr}[         %% tabularray outer open
+caption={Covariate Balance Near Cutoff (|rv\_2018| <= 1000 m\textasciicircum{}2, N = 293 at baseline)},
+note{}={* p \num{< 0.1}, ** p \num{< 0.05}, *** p \num{< 0.01}},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]Q[]Q[]Q[]Q[]Q[]Q[]Q[]Q[]Q[]},
+hline{2}={1-12}{solid, black, 0.05em},
+hline{4}={1-12}{solid, black, 0.05em},
+hline{1}={1-12}{solid, black, 0.08em},
+hline{6}={1-12}{solid, black, 0.08em},
+column{2-12}={}{halign=c},
+column{1}={}{halign=l},
+}                     %% tabularray inner close
+& op\_cost\_ex\_rent & op\_cost & off\_farm\_income & consumption & farm\_income & rent\_cost & area\_2018 & area\_own & type\_fulltime & sex\_code & edu\_code \\
+D\_treat & \num{-5696103.997} & \num{-5886607.047} & \num{2281102.216} & \num{731143.819} & \num{3596871.695} & \num{-190503.050}* & \num{-1011.721}*** & \num{-492.402}** & \num{0.167} & \num{-0.073}* & \num{2.967}* \\
+& (\num{6346304.213}) & (\num{6358270.410}) & (\num{1411130.238}) & (\num{1173326.688}) & (\num{3738072.137}) & (\num{102636.253}) & (\num{34.816}) & (\num{228.004}) & (\num{0.106}) & (\num{0.039}) & (\num{1.516}) \\
+Num.Obs. & \num{293} & \num{293} & \num{293} & \num{293} & \num{293} & \num{293} & \num{293} & \num{293} & \num{293} & \num{293} & \num{293} \\
+R2 & \num{0.003} & \num{0.003} & \num{0.008} & \num{0.001} & \num{0.003} & \num{0.013} & \num{0.744} & \num{0.017} & \num{0.008} & \num{0.013} & \num{0.013} \\
+\end{talltblr}
+\end{table}

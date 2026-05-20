@@ -1,0 +1,42 @@
+\begin{table}[t]
+\centering
+\caption{Tenant 중심 농지 전환: 이벤트 연구 분해 (총면적 / 자작 / 임차)}
+\label{tab:stabilization_ko}
+\begin{tabular}{lrrrr}
+\toprule
+\multicolumn{5}{l}{\textbf{총 경지면적 (m²)}} \\
+Bandwidth & 2018 & 2020 & 2021 & 2022 \\
+\midrule
+h = 500 & -190 & -10 & 237 & 23 \\
+    & (518) & (358) & (513) & (539) \\
+h = 1000 & -61 & 218 & 317 & 358 \\
+    & (278) & (222) & (300) & (310) \\
+h = 3300 & 33 & 176* & 392*** & 493*** \\
+    & (138) & (105) & (133) & (146) \\
+\midrule
+\multicolumn{5}{l}{\textbf{자작 면적 (m²)}} \\
+Bandwidth & 2018 & 2020 & 2021 & 2022 \\
+\midrule
+h = 500 & -184 & 252 & 315 & 240 \\
+    & (177) & (189) & (218) & (241) \\
+h = 1000 & -101 & 148 & 258 & 310* \\
+    & (146) & (130) & (174) & (187) \\
+h = 3300 & -12 & 144* & 239** & 320*** \\
+    & (70) & (77) & (97) & (102) \\
+\midrule
+\multicolumn{5}{l}{\textbf{임차 면적 (m²)}} \\
+Bandwidth & 2018 & 2020 & 2021 & 2022 \\
+\midrule
+h = 500 & -6 & -262 & -78 & -218 \\
+    & (464) & (392) & (551) & (565) \\
+h = 1000 & 39 & 69 & 59 & 48 \\
+    & (234) & (211) & (280) & (288) \\
+h = 3300 & 44 & 32 & 153 & 173 \\
+    & (121) & (85) & (114) & (131) \\
+\midrule
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{year $\times$ D\_treat 이벤트 연구 계수 (기준연도 2019). 괄호 안 클러스터 강건 SE (hh\_id). 평행추세 게이트: 2018 사전기간 계수 모두 $|t|<1$ (LN-10). Static panel DiD-RD on area\_total $\beta \approx 0$는 동적 패턴 은폐 (이벤트 연구가 paper \S5의 올바른 framing). own\_share 5-bin 이질성 분해 `tab_het_own_share_*.tex` 참조 — non-pure-owner 부분에 집중. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
+

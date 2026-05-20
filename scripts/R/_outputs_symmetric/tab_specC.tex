@@ -1,0 +1,29 @@
+\begin{table}[t]
+\centering
+\caption{Spec C — covariate-rich robustness: farm\_type$\times$Post + age\_code\_base$\times$Post interactions. Cluster = \texttt{hh\_id}.}
+\label{tab:specC}
+\begin{tabular}{lrrr}
+\toprule
+Bandwidth & Coef & SE & N \\
+\midrule
+\multicolumn{4}{l}{\textit{op\_cost\_ex\_rent}} \\
+T1 & -3,988,855 & (2,473,289) & 682 \\
+T2 & -2,543,233 & (2,097,995) & 1,429 \\
+T3 & -583,222 & (2,148,246) & 1,911 \\
+\multicolumn{4}{l}{\textit{off\_farm\_income}} \\
+T1 & -51,221 & (3,973,427) & 682 \\
+T2 & 2,532,783 & (2,733,180) & 1,429 \\
+T3 & 1,491,596 & (2,260,363) & 2,011 \\
+\multicolumn{4}{l}{\textit{consumption}} \\
+T1 & 1,436,527 & (2,103,166) & 682 \\
+T2 & 2,097,120 & (1,508,503) & 1,429 \\
+T3 & 2,743,647** & (1,180,858) & 2,363 \\
+\multicolumn{4}{l}{\textit{farm\_income}} \\
+T1 & 4,521,295 & (4,401,149) & 682 \\
+T2 & -1,512,343 & (3,642,390) & 1,429 \\
+T3 & -3,599,591 & (3,238,777) & 3,210 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Spec C adds farm\_type$\times$Post (9 farm-type levels) and age\_code\_base$\times$Post (5 age-cohort levels) interactions to Spec A, identifying the treatment effect off within-(stratum, time) variation. Cluster-robust SE at \texttt{hh\_id}; hh\_id + year FE absorbs household-level time-invariant traits and common time shocks. edu\_tier merge deferred to Phase 2. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}

@@ -203,7 +203,8 @@ exit_data <- df |>
   dplyr::mutate(exit_indicator = as.integer(n_years < 5L))
 
 .elig <- exists("ELIGIBILITY_SUBSET", inherits = FALSE) && isTRUE(ELIGIBILITY_SUBSET)
-stopifnot(nrow(exit_data) == if (.elig) 3420L else 3614L)
+.sym  <- exists("SYMMETRIC_SUBSET",  inherits = FALSE) && isTRUE(SYMMETRIC_SUBSET)
+stopifnot(nrow(exit_data) == if (.sym) 2776L else if (.elig) 3420L else 3614L)
 
 # RD on exit indicator with MSE-optimal bandwidth.
 rdr_exit <- tryCatch(

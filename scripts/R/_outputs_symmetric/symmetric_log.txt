@@ -1,0 +1,25 @@
+=== 01d_symmetric_clean.R log -- 2026-05-20 10:46:04.159218 ===
+
+Input:  /Users/leedo/Research/01_dissertation_PBDP/scripts/R/_outputs/clean_with_eligibility.rds
+Output: /Users/leedo/Research/01_dissertation_PBDP/scripts/R/_outputs_symmetric/clean.rds
+
+Sample waterfall (symmetric (ii)+(vi) screening on BOTH sides):
+  Start (full panel):       14,474 obs / 3,614 hh / 1,325 treated
+  After ii ∧ vi filter:     11,010 obs / 2,776 hh / 1,131 treated / 1,645 control
+  Dropped:                  3,464 obs / 838 hh (vs full panel)
+  Vs Wave 7 (_outputs_eligibility):
+    Treated unchanged:      1131 (Wave 7: 1,131)
+    Control delta:          644 (Wave 7: 2,289 -> Symmetric: 1645)
+  Treated share:            0.407 (Wave 7: 0.331; Wave 5 area-only: 0.367)
+
+Sanity checks (all PASS):
+  [v] D_eligible_obs_2018 == 1[rv_2018<=0] within subset (sharp)
+  [v] D_eligible_obs_2018 == D_area within subset (ii ∧ vi guaranteed)
+  [v] treated == 1,131 (unchanged from Wave 7 — symmetric filter does not
+       affect treated side since D_eligible = TRUE already requires ii ∧ vi)
+  [v] D_treat == D_eligible_obs_2018 (integer swap verified)
+  [v] D_Post == D_treat * Post
+  [v] Drv_Post == D_treat * rv_2018 * Post
+  [v] No NA in D_eligible_obs_2018 or rv_2018
+
+Backup: original area-only D_treat preserved as `D_treat_area_only` column.

@@ -1,0 +1,20 @@
+\begin{table}[ht]
+\centering
+\caption{Placebo cutoffs: DiD-RD at non-policy thresholds (Spec A, T2 bandwidth $h=1{,}000$~m\textsuperscript{2})}
+\label{tab:placebo-cutoffs}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Cutoff & op\_cost & off\_farm\_income & consumption & farm\_income \\
+\midrule
+0.3~ha (3,000 m\textsuperscript{2}) & -1,513,854 (1,672,646) & 1,387,457 (2,093,228) & -630,750 (938,848) & 1,790,028 (1,832,650) \\
+0.4~ha (4,000 m\textsuperscript{2}) & 555,940 (2,442,786) & 721,179 (2,104,117) & -1,945,052* (1,126,946) & 4,663,243 (3,537,448) \\
+0.5~ha (5,000 m\textsuperscript{2}) \textbf{[true]} & -2,762,226 (1,967,784) & 3,519,757 (2,968,304) & 2,496,648* (1,495,564) & -2,185,209 (3,979,543) \\
+0.6~ha (6,000 m\textsuperscript{2}) & -6,116,932* (3,650,512) & 74,259 (2,354,227) & 554,089 (1,509,603) & 4,267,497 (3,075,047) \\
+0.7~ha (7,000 m\textsuperscript{2}) & 2,805,492 (3,545,596) & -187,063 (3,861,798) & -886,193 (1,447,175) & -6,818,406 (5,891,500) \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Coefficient on $D_{\text{fake}} \times \text{Post}$ (KRW for income/cost; m\textsuperscript{2} for area). Cluster-robust SE (hh\_id) in parentheses; * p<.10, ** p<.05, *** p<.01. Placebo cutoffs (0.3/0.4/0.6/0.7 ha) test whether the DiD-RD detects spurious effects at non-policy thresholds; the 0.5 ha row is the true SFFP cutoff for comparison.}
+\end{table}
+

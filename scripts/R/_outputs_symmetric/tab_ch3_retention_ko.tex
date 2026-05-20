@@ -1,0 +1,50 @@
+\begin{table}[t]
+\centering
+\caption{CH3 잔류: 이탈 지표 RD + 농지면적 이벤트 연구}
+\label{tab:ch3_retention_ko}
+\textbf{Panel A: Exit RD}\\
+\begin{tabular}{lr}
+\toprule
+ & Coefficient \\
+\midrule
+D\_treat (RD jump) & 0.1443* \\
+ & (0.0846) \\
+N          & 689 \\
+\bottomrule
+\end{tabular}\\[1ex]
+\textbf{Panel B: area\_total Event-Study}\\
+\begin{tabular}{lrrrrr}
+\toprule
+Bandwidth & 2018 & 2019 (ref) & 2020 & 2021 & 2022 \\
+\midrule
+\multicolumn{6}{l}{\textit{area\_total (full cultivated area)}} \\
+\midrule
+h = 500 m² & -190 & (ref) & -10 & 237 & 23 \\
+       & (518) &  & (358) & (513) & (539) \\
+h = 1000 m² & -61 & (ref) & 218 & 317 & 358 \\
+       & (278) &  & (222) & (300) & (310) \\
+h = 3300 m² & 33 & (ref) & 176* & 392*** & 493*** \\
+       & (138) &  & (105) & (133) & (146) \\
+\midrule
+\multicolumn{6}{l}{\textit{area\_own (own-cultivated)}} \\
+\midrule
+h = 500 m² & -184 & (ref) & 252 & 315 & 240 \\
+       & (177) &  & (189) & (218) & (241) \\
+h = 1000 m² & -101 & (ref) & 148 & 258 & 310* \\
+       & (146) &  & (130) & (174) & (187) \\
+h = 3300 m² & -12 & (ref) & 144* & 239** & 320*** \\
+       & (70) &  & (77) & (97) & (102) \\
+\midrule
+\multicolumn{6}{l}{\textit{area\_rent (rented)}} \\
+\midrule
+h = 500 m² & -6 & (ref) & -262 & -78 & -218 \\
+       & (464) &  & (392) & (551) & (565) \\
+h = 1000 m² & 39 & (ref) & 69 & 59 & 48 \\
+       & (234) &  & (211) & (280) & (288) \\
+h = 3300 m² & 44 & (ref) & 32 & 153 & 173 \\
+       & (121) &  & (85) & (114) & (131) \\
+\bottomrule
+\end{tabular}\\
+\footnotesize\textit{Panel A: rdrobust(y=1[n\_years<5], x=rv\_2018, c=0, p=1, bwselect=mserd). Panel B: feols(area\_total $\sim$ i(year, D\_treat, ref=2019) | hh\_id+year). Near-cutoff attrition 사전점검: Δ=+0.7pp < 2pp 임계 (RD-bound 적합). * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
+

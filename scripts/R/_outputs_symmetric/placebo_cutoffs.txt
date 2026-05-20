@@ -1,0 +1,12 @@
+=== 13b_placebo_cutoffs.R — 2026-05-20 11:06:35.658727 ===
+
+Placebo cutoffs tested: 3000, 4000, 6000, 7000 m^2 (= 0.3/0.4/0.6/0.7 ha)
+True cutoff: 5000 m^2 (= 0.5 ha)
+Bandwidths: T1 (h=500), T2 (h=1000); Spec A only
+
+Significant placebo coefficients (p<.10) flagged below:
+
+  cutoff=3000 (0.3 ha), T1, farm_income: est=6,868,919 (SE 3,027,037), p=0.024, n=1160
+  cutoff=4000 (0.4 ha), T2, consumption: est=-1,945,052 (SE 1,126,946), p=0.085, n=1752
+  cutoff=6000 (0.6 ha), T2, op_cost: est=-6,116,932 (SE 3,650,512), p=0.095, n=1290
+  cutoff=7000 (0.7 ha), T1, off_farm_income: est=-12,160,746 (SE 6,090,419), p=0.048, n=574
