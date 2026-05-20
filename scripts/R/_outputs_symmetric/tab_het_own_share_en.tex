@@ -1,0 +1,52 @@
+\begin{table}[t]
+\centering
+\caption{own\_share × D\_Post heterogeneity: 5-bin × 4 outcome (Spec A)}
+\label{tab:het_own_share_en}
+\begin{tabular}{lrrrrr}
+\toprule
+\multicolumn{6}{l}{\textbf{Outcome: rent\_cost (KRW)}} \\
+Bandwidth & Pure tenant (own=0) & Low owner (0, 0.3) & Mixed [0.3, 0.7) & High owner [0.7, 1) & Pure owner (=1, ref) \\
+\midrule
+h=500 & -89,791 & -563,287** & -144,573** & -77,943* & 0 \\
+    & (295,943) & (279,396) & (66,049) & (41,106) & (0) \\
+h=1000 & 60,090 & -361,787* & -88,882 & -76,757** & 0 \\
+    & (223,231) & (190,589) & (64,113) & (36,836) & (0) \\
+h=3300 & -21,597 & -153,643** & -59,984** & -2,629 & 0 \\
+    & (60,229) & (74,849) & (29,364) & (19,235) & (0) \\
+\midrule
+\multicolumn{6}{l}{\textbf{Outcome: unit\_rent\_price (KRW/m², renters only)}} \\
+Bandwidth & Pure tenant (own=0) & Low owner (0, 0.3) & Mixed [0.3, 0.7) & High owner [0.7, 1) & Pure owner (=1, ref) \\
+\midrule
+h=500 & -43.39 & -129.50* & -47.46 & -44.62 & 0.00 \\
+    & (28.72) & (70.53) & (41.02) & (30.94) & (0.00) \\
+h=1000 & 208.29 & 64.69 & 111.36 & 271.54* & 0.00 \\
+    & (129.42) & (109.32) & (100.67) & (160.16) & (0.00) \\
+h=3300 & 18.36 & -20.94 & 4.64 & 9.73 & 0.00 \\
+    & (55.66) & (53.38) & (50.43) & (70.75) & (0.00) \\
+\midrule
+\multicolumn{6}{l}{\textbf{Outcome: area\_own (m²)}} \\
+Bandwidth & Pure tenant (own=0) & Low owner (0, 0.3) & Mixed [0.3, 0.7) & High owner [0.7, 1) & Pure owner (=1, ref) \\
+\midrule
+h=500 & 1,578* & 656** & 117 & -336 & 0 \\
+    & (858) & (302) & (219) & (293) & (0) \\
+h=1000 & 1,151** & 438** & 258 & -52 & 0 \\
+    & (548) & (220) & (198) & (225) & (0) \\
+h=3300 & 357** & 146* & 366** & -27 & 0 \\
+    & (150) & (88) & (176) & (116) & (0) \\
+\midrule
+\multicolumn{6}{l}{\textbf{Outcome: area\_rent (m²)}} \\
+Bandwidth & Pure tenant (own=0) & Low owner (0, 0.3) & Mixed [0.3, 0.7) & High owner [0.7, 1) & Pure owner (=1, ref) \\
+\midrule
+h=500 & -2,758 & -1,051*** & -859*** & -164 & 0 \\
+    & (2,445) & (392) & (266) & (228) & (0) \\
+h=1000 & -1,895 & -674** & -673*** & -220 & 0 \\
+    & (1,264) & (261) & (196) & (179) & (0) \\
+h=3300 & -484 & -384*** & -273 & 76 & 0 \\
+    & (325) & (122) & (169) & (103) & (0) \\
+\midrule
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Cluster-robust SE (hh\_id) in parentheses. Reference category: pure\_owner (own\_share=1, $\beta \equiv 0$). own\_bin fixed at 2018 baseline (time-invariant per-hh). unit\_rent\_price defined only for renter-obs (area\_rent$>0$). Scenario classification: $\gamma$ (own-cultivation dominant) -- H3 strong in pure\_owner; ``land accumulation'' narrative strengthened. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
+

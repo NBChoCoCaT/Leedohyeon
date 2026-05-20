@@ -1,0 +1,132 @@
+\begin{table}[t]
+\centering
+\caption{Outlier 강건성 사다리 — 결과변수: op_cost}
+\label{tab:rob_outlier_op_cost_ko}
+\begin{tabular}{lrrr}
+\toprule
+Row & T1 (h=500) & T2 (h=1000) & T3 (h=3300) \\
+\midrule
+Spec A, IHS asinh(y) & -0.0249 & -0.0367 & 0.0627 \\
+        & (0.1262) & (0.0928) & (0.0530) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec A, Winsor p1/p99 & -3,759,714 & -3,240,149 & 543,433 \\
+        & (2,195,557) & (2,194,529) & (1,550,423) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec A, Winsor p0.5/p99.5 & -3,712,803 & -2,760,362 & 1,237,267 \\
+        & (2,189,905) & (1,967,844) & (1,585,977) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec B, IHS asinh(y) & -0.0345 & -0.0321 & 0.0832 \\
+        & (0.1310) & (0.1034) & (0.0618) \\
+N       & 538 & 1,132 & 4,120 \\
+Spec B, Winsor p1/p99 & -4,512,878 & -4,217,351 & 189,213 \\
+        & (2,866,071) & (3,105,019) & (2,086,679) \\
+N       & 538 & 1,132 & 4,120 \\
+Spec B, Winsor p0.5/p99.5 & -4,514,452 & -4,126,210 & 879,410 \\
+        & (2,866,278) & (3,122,215) & (2,228,893) \\
+N       & 538 & 1,132 & 4,120 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{괄호 안 클러스터 강건 SE (hh_id). Bandwidth: T1=±500m², T2=±1000m², T3=±3300m². IHS는 asinh 척도; Winsor는 KRW. 24개 IHS+w99 Spec A 셀은 STATA 06_robustness_aux.log 대조. Winsor p0.5/p99.5 (AJAE robustness, outlier-spec v1.1 S2)는 R-only.}
+\end{table}
+
+
+\begin{table}[t]
+\centering
+\caption{Outlier 강건성 사다리 — 결과변수: off_farm_income}
+\label{tab:rob_outlier_off_farm_income_ko}
+\begin{tabular}{lrrr}
+\toprule
+Row & T1 (h=500) & T2 (h=1000) & T3 (h=3300) \\
+\midrule
+Spec A, IHS asinh(y) & -0.4567 & 0.6438 & -0.0497 \\
+        & (1.3919) & (1.0504) & (0.6227) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec A, Winsor p1/p99 & 2,627,126 & 3,383,551 & 348,333 \\
+        & (4,019,850) & (2,834,504) & (1,358,649) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec A, Winsor p0.5/p99.5 & 2,948,935 & 3,301,732 & 106,279 \\
+        & (4,068,284) & (2,854,579) & (1,397,230) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec B, IHS asinh(y) & -0.5463 & 0.6521 & -0.3888 \\
+        & (1.4178) & (1.1188) & (0.6744) \\
+N       & 538 & 1,132 & 4,120 \\
+Spec B, Winsor p1/p99 & 4,264,189 & 3,452,915 & -148,716 \\
+        & (4,225,118) & (2,992,134) & (1,529,228) \\
+N       & 538 & 1,132 & 4,120 \\
+Spec B, Winsor p0.5/p99.5 & 4,639,553 & 3,402,471 & -395,070 \\
+        & (4,291,877) & (3,022,961) & (1,569,221) \\
+N       & 538 & 1,132 & 4,120 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{괄호 안 클러스터 강건 SE (hh_id). Bandwidth: T1=±500m², T2=±1000m², T3=±3300m². IHS는 asinh 척도; Winsor는 KRW. 24개 IHS+w99 Spec A 셀은 STATA 06_robustness_aux.log 대조. Winsor p0.5/p99.5 (AJAE robustness, outlier-spec v1.1 S2)는 R-only.}
+\end{table}
+
+
+\begin{table}[t]
+\centering
+\caption{Outlier 강건성 사다리 — 결과변수: consumption}
+\label{tab:rob_outlier_consumption_ko}
+\begin{tabular}{lrrr}
+\toprule
+Row & T1 (h=500) & T2 (h=1000) & T3 (h=3300) \\
+\midrule
+Spec A, IHS asinh(y) & 0.0958 & 0.0797 & 0.0481 \\
+        & (0.0739) & (0.0574) & (0.0315) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec A, Winsor p1/p99 & 2,775,111 & 2,269,800 & 1,305,068 \\
+        & (1,914,388) & (1,478,199) & (797,321) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec A, Winsor p0.5/p99.5 & 2,785,550 & 2,343,398 & 1,311,298 \\
+        & (1,917,794) & (1,482,719) & (807,780) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec B, IHS asinh(y) & 0.1187 & 0.0861 & 0.0461 \\
+        & (0.0822) & (0.0631) & (0.0360) \\
+N       & 538 & 1,132 & 4,120 \\
+Spec B, Winsor p1/p99 & 3,376,088 & 2,650,486 & 1,306,883 \\
+        & (2,126,104) & (1,603,136) & (902,352) \\
+N       & 538 & 1,132 & 4,120 \\
+Spec B, Winsor p0.5/p99.5 & 3,379,397 & 2,725,092 & 1,330,602 \\
+        & (2,132,448) & (1,608,375) & (916,558) \\
+N       & 538 & 1,132 & 4,120 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{괄호 안 클러스터 강건 SE (hh_id). Bandwidth: T1=±500m², T2=±1000m², T3=±3300m². IHS는 asinh 척도; Winsor는 KRW. 24개 IHS+w99 Spec A 셀은 STATA 06_robustness_aux.log 대조. Winsor p0.5/p99.5 (AJAE robustness, outlier-spec v1.1 S2)는 R-only.}
+\end{table}
+
+
+\begin{table}[t]
+\centering
+\caption{Outlier 강건성 사다리 — 결과변수: farm_income}
+\label{tab:rob_outlier_farm_income_ko}
+\begin{tabular}{lrrr}
+\toprule
+Row & T1 (h=500) & T2 (h=1000) & T3 (h=3300) \\
+\midrule
+Spec A, IHS asinh(y) & -0.3053 & -0.1228 & -0.9446 \\
+        & (2.8050) & (2.3549) & (1.4046) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec A, Winsor p1/p99 & 1,574,000 & 1,100,478 & -711,998 \\
+        & (3,284,098) & (2,834,236) & (1,762,572) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec A, Winsor p0.5/p99.5 & 1,770,505 & 497,507 & -1,158,972 \\
+        & (3,336,226) & (2,939,060) & (1,880,208) \\
+N       & 682 & 1,429 & 5,192 \\
+Spec B, IHS asinh(y) & 0.4446 & 0.1274 & -1.7390 \\
+        & (2.8600) & (2.5639) & (1.6086) \\
+N       & 538 & 1,132 & 4,120 \\
+Spec B, Winsor p1/p99 & 2,570,440 & 144,045 & -1,979,269 \\
+        & (4,303,947) & (3,446,441) & (2,102,413) \\
+N       & 538 & 1,132 & 4,120 \\
+Spec B, Winsor p0.5/p99.5 & 2,895,140 & -705,582 & -2,719,261 \\
+        & (4,380,025) & (3,672,691) & (2,334,412) \\
+N       & 538 & 1,132 & 4,120 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{괄호 안 클러스터 강건 SE (hh_id). Bandwidth: T1=±500m², T2=±1000m², T3=±3300m². IHS는 asinh 척도; Winsor는 KRW. 24개 IHS+w99 Spec A 셀은 STATA 06_robustness_aux.log 대조. Winsor p0.5/p99.5 (AJAE robustness, outlier-spec v1.1 S2)는 R-only.}
+\end{table}
+
+

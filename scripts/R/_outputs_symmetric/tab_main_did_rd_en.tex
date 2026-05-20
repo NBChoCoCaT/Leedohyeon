@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\caption{DiD-RD: Spec A (2018-2022, Post = year >= 2020)}
+\label{tab:main_specA_en}
+\begin{tabular}{lrrrr}
+\toprule
+Bandwidth & op\_cost & off\_farm\_income & consumption & farm\_income \\
+\midrule
+T1 (h = 500 m$^2$) & -3,732,607 & 2,899,904 & 2,604,586 & 2,452,558 \\
+        & (2,189,530) & (4,246,065) & (1,944,378) & (3,646,410) \\
+N       & 708 & 708 & 708 & 708 \\
+T2 (h = 1,000 m$^2$) & -2,762,226 & 3,519,757 & 2,496,648 & -2,185,209 \\
+        & (1,967,784) & (2,968,304) & (1,495,564) & (3,979,543) \\
+N       & 1,477 & 1,477 & 1,477 & 1,477 \\
+T3 (h = $h^{*}_{\mathrm{mse}}$ (per outcome)) & -671,102 & 2,407,314 & 2,856,371* & -4,082,790 \\
+        & (2,221,359) & (2,436,436) & (1,171,338) & (3,212,361) \\
+N       & 1,903 & 2,071 & 2,436 & 3,308 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Cluster-robust SE (hh\_id) in parentheses; matches STATA reghdfe vce(cluster hhid\_num). Stars = Holm step-down adjusted p-value. Wild / fractional cluster bootstrap deferred to P3 (`04\_robust.R`). * p$<0.10, ** p$<0.05, *** p$<0.01$.}
+\end{table}
+

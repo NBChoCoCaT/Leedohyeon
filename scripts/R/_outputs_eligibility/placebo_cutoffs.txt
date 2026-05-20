@@ -1,4 +1,4 @@
-=== 13b_placebo_cutoffs.R — 2026-05-19 18:20:32.869964 ===
+=== 13b_placebo_cutoffs.R — 2026-05-20 10:49:51.128428 ===
 
 Placebo cutoffs tested: 3000, 4000, 6000, 7000 m^2 (= 0.3/0.4/0.6/0.7 ha)
 True cutoff: 5000 m^2 (= 0.5 ha)

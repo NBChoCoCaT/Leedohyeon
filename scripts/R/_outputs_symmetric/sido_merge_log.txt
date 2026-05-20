@@ -1,0 +1,26 @@
+=== 01e_add_sido.R log (post-hoc, fix log section) -- 2026-05-20 10:59:01.618662 ===
+
+Symmetric panel:  11010 obs / 2776 hh
+Linkage:          1.0000 (sido_cd non-NA)
+Distinct sido:    16 (Korea has 17; missing 11=Seoul)
+
+Sido distribution (hh-level, baseline 2018):
+# A tibble: 16 × 2
+   sido_cd     n
+   <chr>   <int>
+ 1 37        375
+ 2 36        340
+ 3 38        332
+ 4 31        314
+ 5 35        295
+ 6 34        288
+ 7 33        285
+ 8 32        269
+ 9 39        156
+10 23         27
+11 26         20
+12 22         18
+13 21         17
+14 24         17
+15 25         13
+16 29         10

@@ -1,0 +1,20 @@
+[10:49:42] ====================  10_alpha3_estimation.R START  ====================
+[10:49:42] R version: R version 4.5.3 (2026-03-11)
+[10:49:42] Phase 0: loaded inputs. panel 11010 rows × 62 cols.
+[10:49:42] Phase 1: area_own 4-bin × T1/T2/T3 grid extracted (15 rows).
+[10:49:42] Phase 2 (W5-3): off_farm_income 4-bin × 3-bw grid estimated (15 cells, 15 with valid estimates).
+[10:49:42] Phase 3: op_cost_ex_rent 4-bin × 3-bw grid estimated (15 cells, 15 valid).
+[10:49:42] Phase 4 (W5-4): W_i* threshold (pure-tenant median wealth at |rv|<=1000) = 6688054 KRW
+[10:49:42] Phase 4 (W5-4): SC2.5 cross-tab (10 rows). Monotonicity check at h=1000: 0.706 > 0.806 > 0.87 > 0.873 > 0.83
+[10:49:42] Phase 5 (W5-5): HonestDiD event-study setup for β_1 (area_own) and β_3 (op_cost_ex_rent).
+[10:49:45]   area_own: HonestDiD bounds computed (1 pre + 3 post periods)
+[10:49:49]   op_cost_ex_rent: HonestDiD bounds computed (1 pre + 3 post periods)
+[10:49:49] Phase 6 (W5-6): attrition placebo — estimate -0.0497 (p=0.679, n=293)
+[10:49:49] Phase 7 (W5-7): take_up_rate = 1.000 (100.0%) among D_treat==1 & Post==1 (n_eligible=2550)
+[10:49:49] Phase 8 F1 check at T2: p_pure_tenant=0.0366, monotone=FALSE → F1_fires=FALSE
+[10:49:49] Phase 9: alpha3_results.rds saved.
+[10:49:49] Phase 10: fig_f1_fourbin_gradient_T2_en.{pdf,png} saved.
+[10:49:50] Phase 10: fig_honestdid_sensitivity_b1_en.{pdf,png} saved.
+[10:49:50] Phase 11: tab_alpha3_results_en.tex saved.
+[10:49:50] Phase 12: replication_check.txt updated.
+[10:49:50] ====================  10_alpha3_estimation.R DONE  ====================

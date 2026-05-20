@@ -1,0 +1,32 @@
+\begin{table}[t]
+\centering
+\caption{P3c M1: 다중 정의 이탈 DiD — Form A (횡단면) + Form B (DiD 사전-추세 통제)}
+\label{tab:ch5_exit_definitions_ko}
+\textbf{Panel A: Form A — Cross-section RD via rdrobust}\\
+\begin{tabular}{lrrr}
+\toprule
+Estimator & T1 (h=500) & T2 (h=1,000) & T3 (h=3,300) \\
+\midrule
+Def 1 (n_years $<$ 5) & 0.1460 & 0.1527 & 0.1294** \\
+       & (0.1522) & (0.1127) & (0.0623) \\
+Def 2 raw & 0.2045 & 0.2286** & 0.1606*** \\
+       & (0.1336) & (0.0999) & (0.0558) \\
+Def 2' corrected [HEADLINE] & 0.0516 & 0.0933 & 0.0243 \\
+       & (0.0755) & (0.0597) & (0.0323) \\
+Def 4 completer (mirror) & -0.1460 & -0.1527 & -0.1294** \\
+       & (0.1522) & (0.1127) & (0.0623) \\
+\bottomrule
+\end{tabular}\\[1ex]
+\textbf{Panel B: Form B — DiD pre/post stacked (Def 2' only)}\\
+\begin{tabular}{lrrr}
+\toprule
+Estimator & T1 (h=500) & T2 (h=1,000) & T3 (h=3,300) \\
+\midrule
+Form B (DiD pre/post) [HEADLINE] & -0.1298 & -0.1664* & -0.0507 \\
+                                  & (0.1307) & (0.0971) & (0.0516) \\
+\bottomrule
+\end{tabular}\\[1ex]
+\textbf{시나리오 분류: β (mixed evidence)}\\
+\footnotesize\textit{Form A: rdrobust(y=exit\_def, x=rv\_2018, c=0, p=1, masspoints=off) 대역폭별. Form B: feols(exit $\sim$ D\_treat*period\_post + rv\_2018*period\_post, cluster=$\sim$hh\_id) 농가단위 사전/사후 적재 자료. Def 2' (보정, last\_year $\in$ \{2020, 2021\})이 헤드라인 — 후기 진입자 730 농가 제외 (last\_year=2022 \& n\_years$<$5). 기존 ch3\_exit MSE 대역폭 baseline +0.1517은 reconciliation 표 참조. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
+

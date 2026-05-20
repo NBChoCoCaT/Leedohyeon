@@ -137,10 +137,14 @@ See [`r-reviewer.md`](../agents/r-reviewer.md) Category 11 ("Numerical Disciplin
 | 조사연도 | `year` | integer | Panel time index |
 | 경지면적 (2018 baseline) | `rv_2018` | numeric (㎡) | Running variable, fixed at 2018 |
 | 경지면적 (annual) | `area_t` | numeric (㎡) | Time-varying, NOT running variable |
-| 농업경영비 | `op_cost` | numeric (KRW) | Primary outcome (lumpy investment) |
-| 농외소득 | `off_farm_income` | numeric (KRW) | Auxiliary outcome 1 (Sandmo) |
-| 가계소비지출 | `consumption` | numeric (KRW) | Auxiliary outcome 2 (Blundell-Pistaferri) |
-| 농업소득 | `farm_income` | numeric (KRW) | Omnibus outcome |
+| 농업경영비 (rent 제외) | `op_cost_ex_rent` | numeric (KRW) | **Primary outcome (lumpy-investment (S,s) test)** — role swapped 2026-05-20 per Phase 1 Blockers Q1B (cleaner identification: rent-net signal removes Kirwan pass-through contamination from the lumpy-capital response). 2026-05-06 LEARN entry's `op_cost` as primary is now historical. |
+| 농업경영비 전체 | `op_cost` | numeric (KRW) | Auxiliary — rent-inclusive omnibus comparator; reported alongside in `tab_main_did_rd_en.tex` |
+| 농외소득 | `off_farm_income` | numeric (KRW) | Primary outcome (precautionary labor / Sandmo channel) |
+| 가계소비지출 | `consumption` | numeric (KRW) | Primary outcome (Blundell-Pistaferri smoothing) |
+| 농업소득 | `farm_income` | numeric (KRW) | Primary outcome (omnibus) |
+| 임차료 | `rent_cost` | numeric (KRW) | CH4 channel decomposition (Kirwan/Ciaian incidence) |
+| 임차 면적 | `area_rent` | numeric (㎡) | CH4 composition margin (capitalization-avoidance) |
+| 단위 임차료 | `unit_rent_price` | numeric (KRW/㎡) | CH4 bargaining margin (= rent_cost / area_rent) |
 | 처치 더미 | `D_treat` | logical | `rv_2018 ≤ 0` (raw col `D`; centered) |
 | 시점 더미 | `Post` | logical | `year ≥ 2020` |
 | 표본가중치 | `weight_national` | numeric | National-rep weight (see §6 stage rule) |

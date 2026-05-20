@@ -1,0 +1,8 @@
+=== 11b_multi_rv_density.R — 2026-05-20 11:10:56.266173 ===
+
+Running variable                                     N     t-stat    p-value |t|<1.96     PASS
+--------------------------------------------------------------------------------------------
+area_2018 (cutoff 5,000 m²)                      2178     0.6762     0.4989      YES     PASS
+
+Interpretation: |t|<1.96 ↔ density-discontinuity null is NOT rejected at α=0.05.
+PASS = no evidence of manipulation at the eligibility margin.

@@ -14,7 +14,8 @@ suppressPackageStartupMessages({
 })
 set.seed(20260504L)
 
-out_dir <- here::here("scripts", "R", "_outputs_eligibility")
+out_dir <- if (exists("OUT_DIR", inherits = FALSE)) OUT_DIR else
+  here::here("scripts", "R", "_outputs_eligibility")
 df <- readRDS(file.path(out_dir, "clean.rds"))
 
 # Baseline cross-section (2018) for density tests

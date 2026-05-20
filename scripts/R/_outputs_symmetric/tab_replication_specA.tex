@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{Replication of STATA 02\_analysis.log Spec A (per-outcome MSE-optimal bandwidth)}
+\label{tab:replication_specA}
+\begin{tabular}{lrrrrc}
+\toprule
+ & \multicolumn{2}{c}{STATA term paper} & \multicolumn{2}{c}{R replication} & \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Outcome & Est. & SE & Est. & SE & Match \\
+\midrule
+op_cost & 256,103 & (1,464,431) & 715,360 & (1,664,900) & FAIL \\
+off_farm_income & 223,304 & (1,951,840) & -551,204 & (1,502,287) & FAIL \\
+consumption & 1,254,742 & (789,824) & 1,260,755 & (751,728) & FAIL \\
+farm_income & -3,584,777 & (2,368,291) & -2,422,331 & (2,561,270) & FAIL \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Cluster-robust SE (hh\_id) in parentheses. Each outcome at its own MSE-optimal bandwidth (STATA log lines 280/289/298/307). Match: PASS if est diff $\le$ 0.1\% of STATA est AND SE diff $\le$ 1\% of STATA SE.}
+\end{table}
+

@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\caption{CH4 임차료 분해: per-farm flat-rate vs Kirwan/Ciaian per-hectare 벤치마크 (Spec A)}
+\label{tab:ch4_rent_ko}
+\begin{tabular}{lrrr}
+\toprule
+Bandwidth & 임차료 (rent\_cost) & 경영비 - 임차료 (op\_cost\_ex\_rent) & 패스-스루 (한국) \\
+\midrule
+T1 (h = 500 m²) & -164,927* & -3,567,680 & -13.7\% \\
+        & (98,526) & (2,190,391) & \\
+N       & 682 & 682 & \\
+T2 (h = 1,000 m²) & -139,904 & -2,622,322 & -11.7\% \\
+        & (100,232) & (1,955,296) & \\
+N       & 1,429 & 1,429 & \\
+T3 (h = h*_mse) & -13,538 & 753,343 & -1.1\% \\
+        & (55,129) & (1,665,892) & \\
+N       & 5,192 & 5,192 & \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{괄호 안 클러스터 강건 SE (hh\_id). 패스-스루 = $\beta(\text{rent\_cost}) / 1{,}200{,}000$ KRW. 벤치마크: Kirwan (2009) JPE 미국 per-hectare $\approx 25\%$; Ciaian et al. (2023) Land Use Policy 유럽 per-hectare $46\% \sim 55\%$. 헤드라인 시나리오 분류 (Spec A T3): MIXED — see per-bandwidth detail. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
+

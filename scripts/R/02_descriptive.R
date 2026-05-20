@@ -56,8 +56,9 @@ stopifnot(fs::file_exists(clean_path))
 
 df <- readRDS(clean_path)
 .elig <- exists("ELIGIBILITY_SUBSET", inherits = FALSE) && isTRUE(ELIGIBILITY_SUBSET)
-stopifnot(nrow(df) == if (.elig) 13689L else 14474L,
-          dplyr::n_distinct(df$hh_id) == if (.elig) 3420L else 3614L)
+.sym  <- exists("SYMMETRIC_SUBSET",  inherits = FALSE) && isTRUE(SYMMETRIC_SUBSET)
+stopifnot(nrow(df) == if (.sym) 11010L else if (.elig) 13689L else 14474L,
+          dplyr::n_distinct(df$hh_id) == if (.sym) 2776L else if (.elig) 3420L else 3614L)
 
 # `haven` keeps labelled vectors; coerce to plain numeric so modelsummary /
 # survey don't trip on labelled() class while still preserving Korean labels
@@ -87,7 +88,7 @@ df18 <- df_num |> dplyr::filter(year == 2018L)
 # Late entrants (joined 2019+) are NOT in baseline Table 1 by design — Table 1
 # reports pre-policy 2018 cross-section, period.
 stopifnot(nrow(df18) == dplyr::n_distinct(df18$hh_id))
-if (!.elig) stopifnot(nrow(df18) == 2823L)
+if (!.elig && !.sym) stopifnot(nrow(df18) == 2823L)
 
 svy18 <- survey::svydesign(
   ids     = ~hh_id,
@@ -96,8 +97,8 @@ svy18 <- survey::svydesign(
 )
 
 # Variables for Table 1.
-t1_vars_continuous <- c("op_cost", "off_farm_income", "consumption", "farm_income",
-                        "area_2018", "area_own", "imputed_payment")
+t1_vars_continuous <- c("op_cost_ex_rent", "op_cost", "off_farm_income", "consumption",
+                        "farm_income", "rent_cost", "area_2018", "area_own", "imputed_payment")
 t1_vars_factor     <- c("type_fulltime", "sex_code", "edu_code")   # categorical proxies
 
 # Compute weighted means + SDs per D_treat group + difference test.

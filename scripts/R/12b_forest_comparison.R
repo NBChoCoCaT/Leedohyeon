@@ -11,7 +11,8 @@ suppressPackageStartupMessages({
 set.seed(20260504L)
 
 out_orig <- here::here("scripts", "R", "_outputs")
-out_elig <- here::here("scripts", "R", "_outputs_eligibility")
+out_elig <- if (exists("OUT_DIR", inherits = FALSE)) OUT_DIR else
+  here::here("scripts", "R", "_outputs_eligibility")
 mr_orig <- readRDS(file.path(out_orig, "main_results.rds"))
 mr_elig <- readRDS(file.path(out_elig, "main_results.rds"))
 
