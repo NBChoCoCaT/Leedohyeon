@@ -1,20 +1,20 @@
 \begin{table}[t]
 \centering
-\caption{Wild Cluster Bootstrap (B=999, Rademacher): 14 Headline Cells}
+\caption{Wild Cluster Bootstrap (B=9,999, Rademacher): 14 Headline Cells}
 \label{tab:wild_bootstrap_en}
 \textbf{Panel A: 8 P2 replication cells (per-outcome STATA bandwidth)}\\
 \begin{tabular}{lllrrrr}
 \toprule
 Spec & Outcome & h (m\textsuperscript{2}) & Estimate (KRW) & p\_cluster & p\_wild & p\_wild\_holm \\
 \midrule
-Spec A & op\_cost & 3305 & 715,360 & 0.6675 & 0.6927 & 1.0000 \\
-Spec A & off\_farm\_income & 3716 & -551,204 & 0.7137 & 0.7207 & 1.0000 \\
-Spec A & consumption & 3931 & 1,260,755 & 0.0937* & 0.0811* & 0.3243 \\
-Spec A & farm\_income & 3268 & -2,422,331 & 0.3444 & 0.3744 & 1.0000 \\
-Spec B & op\_cost & 3636 & 651,967 & 0.7581 & 0.7788 & 1.0000 \\
-Spec B & off\_farm\_income & 3835 & -955,159 & 0.5698 & 0.5786 & 1.0000 \\
-Spec B & consumption & 3817 & 1,046,852 & 0.2318 & 0.2232 & 0.8929 \\
-Spec B & farm\_income & 4221 & -2,882,243 & 0.3262 & 0.3554 & 1.0000 \\
+Spec A & op\_cost & 3305 & 715,360 & 0.6675 & 0.6732 & 1.0000 \\
+Spec A & off\_farm\_income & 3716 & -551,204 & 0.7137 & 0.7206 & 1.0000 \\
+Spec A & consumption & 3931 & 1,260,755 & 0.0937* & 0.0926* & 0.3704 \\
+Spec A & farm\_income & 3268 & -2,422,331 & 0.3444 & 0.3671 & 1.0000 \\
+Spec B & op\_cost & 3636 & 651,967 & 0.7581 & 0.7680 & 1.0000 \\
+Spec B & off\_farm\_income & 3835 & -955,159 & 0.5698 & 0.5819 & 1.0000 \\
+Spec B & consumption & 3817 & 1,046,852 & 0.2318 & 0.2391 & 0.9565 \\
+Spec B & farm\_income & 4221 & -2,882,243 & 0.3262 & 0.3665 & 1.0000 \\
 \bottomrule
 \end{tabular}\\[1ex]
 \textbf{Panel B: 6 P3b-1 CH4 main cells (Spec A × fixed bandwidth)}\\
@@ -22,14 +22,14 @@ Spec B & farm\_income & 4221 & -2,882,243 & 0.3262 & 0.3554 & 1.0000 \\
 \toprule
 Spec & Outcome & Bandwidth & Estimate (KRW) & p\_cluster & p\_wild \\
 \midrule
-Spec A & rent\_cost & T1 (h=500) & -164,927 & 0.0959* & 0.1141 \\
-Spec A & rent\_cost & T2 (h=1000) & -139,904 & 0.1636 & 0.1602 \\
-Spec A & rent\_cost & T3 (h=3300) & -13,538 & 0.8060 & 0.8108 \\
-Spec A & op\_cost\_ex\_rent & T1 (h=500) & -3,567,680 & 0.1051 & 0.0410** \\
-Spec A & op\_cost\_ex\_rent & T2 (h=1000) & -2,622,322 & 0.1807 & 0.2162 \\
-Spec A & op\_cost\_ex\_rent & T3 (h=3300) & 753,343 & 0.6512 & 0.6707 \\
+Spec A & rent\_cost & T1 (h=500) & -164,927 & 0.0959* & 0.1071 \\
+Spec A & rent\_cost & T2 (h=1000) & -139,904 & 0.1636 & 0.1760 \\
+Spec A & rent\_cost & T3 (h=3300) & -13,538 & 0.8060 & 0.8051 \\
+Spec A & op\_cost\_ex\_rent & T1 (h=500) & -3,567,680 & 0.1051 & 0.0481** \\
+Spec A & op\_cost\_ex\_rent & T2 (h=1000) & -2,622,322 & 0.1807 & 0.2020 \\
+Spec A & op\_cost\_ex\_rent & T3 (h=3300) & 753,343 & 0.6512 & 0.6775 \\
 \bottomrule
 \end{tabular}\\
-\footnotesize\textit{Wild cluster bootstrap via manual Rademacher refit (B=999, `fwildclusterboot` unavailable on R 4.5.3 CRAN binary). Cluster: hh\_id. Reference STATA boottest in 11\_multiple\_testing.log uses common hA\_min bandwidth (Step 5 rwolf2 fallback), NOT per-outcome bandwidth --- direct ±0.01 tolerance comparison deferred. Reported p\_wild is new R-only inference at per-outcome MSE bandwidth. Holm stepdown across 4 outcomes per spec. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\footnotesize\textit{Wild cluster bootstrap via manual Rademacher refit (B=9999, `fwildclusterboot` unavailable on R 4.5.3 CRAN binary). Cluster: hh\_id. Reference STATA boottest in 11\_multiple\_testing.log uses common hA\_min bandwidth (Step 5 rwolf2 fallback), NOT per-outcome bandwidth — direct ±0.01 tolerance comparison deferred. Reported p\_wild is new R-only inference at per-outcome MSE bandwidth. Holm stepdown across 4 outcomes per spec. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
 \end{table}
 

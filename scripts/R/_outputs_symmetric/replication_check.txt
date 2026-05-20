@@ -78,3 +78,51 @@ Source: 10_alpha3_estimation.R; comparison vs area-only baseline headline.
   Area-only baseline (benchmark): estimate = 1089.00, p = 0.0330
   |diff_est| = 62.4345 (tol < 1.00); |diff_p| = 0.0036 (tol < 0.05)
   STATUS: INVESTIGATE
+
+=== P3b-6 Wild Bootstrap (B=999, Rademacher, refit-based) — 2026-05-20 15:07:21.247538 ===
+
+## 8 P2 replication cells (per-outcome STATA bandwidth, Wild p-value + Holm)
+
+  Spec A op_cost             h=3305  est=     715359.67  p_cluster=0.6675  p_wild=0.6927  p_wild_holm=1.0000
+  Spec A off_farm_income     h=3716  est=    -551204.48  p_cluster=0.7137  p_wild=0.7207  p_wild_holm=1.0000
+  Spec A consumption         h=3931  est=    1260754.78  p_cluster=0.0937  p_wild=0.0811  p_wild_holm=0.3243
+  Spec A farm_income         h=3268  est=   -2422330.81  p_cluster=0.3444  p_wild=0.3744  p_wild_holm=1.0000
+  Spec B op_cost             h=3636  est=     651967.25  p_cluster=0.7581  p_wild=0.7788  p_wild_holm=1.0000
+  Spec B off_farm_income     h=3835  est=    -955159.02  p_cluster=0.5698  p_wild=0.5786  p_wild_holm=1.0000
+  Spec B consumption         h=3817  est=    1046851.83  p_cluster=0.2318  p_wild=0.2232  p_wild_holm=0.8929
+  Spec B farm_income         h=4221  est=   -2882242.52  p_cluster=0.3262  p_wild=0.3554  p_wild_holm=1.0000
+
+## 6 P3b-1 CH4 main cells (Spec A × T1/T2/T3 × {rent_cost, op_cost_ex_rent})
+
+  Spec A rent_cost           T1 h=500  est=    -164926.97  p_cluster=0.0959  p_wild=0.1141
+  Spec A rent_cost           T2 h=1000  est=    -139904.09  p_cluster=0.1636  p_wild=0.1602
+  Spec A rent_cost           T3 h=3300  est=     -13538.41  p_cluster=0.8060  p_wild=0.8108
+  Spec A op_cost_ex_rent     T1 h=500  est=   -3567679.91  p_cluster=0.1051  p_wild=0.0410
+  Spec A op_cost_ex_rent     T2 h=1000  est=   -2622322.37  p_cluster=0.1807  p_wild=0.2162
+  Spec A op_cost_ex_rent     T3 h=3300  est=     753342.60  p_cluster=0.6512  p_wild=0.6707
+
+Note: STATA 11_multiple_testing.log Wild p-values use common hA_min bandwidth (Step 5 rwolf2 fallback), NOT per-outcome bandwidth. Direct ±0.01 tolerance comparison requires running Wild at common bandwidth (deferred). Reported p_wild values are at per-outcome MSE bandwidth (Step 2 STATA spec), providing new R-only inference for paper §3 robustness.
+
+=== P3b-6 Wild Bootstrap (B=9999, Rademacher, refit-based) — 2026-05-20 15:18:36.300446 ===
+
+## 8 P2 replication cells (per-outcome STATA bandwidth, Wild p-value + Holm)
+
+  Spec A op_cost             h=3305  est=     715359.67  p_cluster=0.6675  p_wild=0.6732  p_wild_holm=1.0000
+  Spec A off_farm_income     h=3716  est=    -551204.48  p_cluster=0.7137  p_wild=0.7206  p_wild_holm=1.0000
+  Spec A consumption         h=3931  est=    1260754.78  p_cluster=0.0937  p_wild=0.0926  p_wild_holm=0.3704
+  Spec A farm_income         h=3268  est=   -2422330.81  p_cluster=0.3444  p_wild=0.3671  p_wild_holm=1.0000
+  Spec B op_cost             h=3636  est=     651967.25  p_cluster=0.7581  p_wild=0.7680  p_wild_holm=1.0000
+  Spec B off_farm_income     h=3835  est=    -955159.02  p_cluster=0.5698  p_wild=0.5819  p_wild_holm=1.0000
+  Spec B consumption         h=3817  est=    1046851.83  p_cluster=0.2318  p_wild=0.2391  p_wild_holm=0.9565
+  Spec B farm_income         h=4221  est=   -2882242.52  p_cluster=0.3262  p_wild=0.3665  p_wild_holm=1.0000
+
+## 6 P3b-1 CH4 main cells (Spec A × T1/T2/T3 × {rent_cost, op_cost_ex_rent})
+
+  Spec A rent_cost           T1 h=500  est=    -164926.97  p_cluster=0.0959  p_wild=0.1071
+  Spec A rent_cost           T2 h=1000  est=    -139904.09  p_cluster=0.1636  p_wild=0.1760
+  Spec A rent_cost           T3 h=3300  est=     -13538.41  p_cluster=0.8060  p_wild=0.8051
+  Spec A op_cost_ex_rent     T1 h=500  est=   -3567679.91  p_cluster=0.1051  p_wild=0.0481
+  Spec A op_cost_ex_rent     T2 h=1000  est=   -2622322.37  p_cluster=0.1807  p_wild=0.2020
+  Spec A op_cost_ex_rent     T3 h=3300  est=     753342.60  p_cluster=0.6512  p_wild=0.6775
+
+Note: STATA 11_multiple_testing.log Wild p-values use common hA_min bandwidth (Step 5 rwolf2 fallback), NOT per-outcome bandwidth. Direct ±0.01 tolerance comparison requires running Wild at common bandwidth (deferred). Reported p_wild values are at per-outcome MSE bandwidth (Step 2 STATA spec), providing new R-only inference for paper §3 robustness.

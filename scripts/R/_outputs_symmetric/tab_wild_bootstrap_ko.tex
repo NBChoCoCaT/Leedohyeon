@@ -7,14 +7,14 @@
 \toprule
 Spec & 결과변수 & h (m²) & 추정치 (KRW) & p\_cluster & p\_wild & p\_wild\_holm \\
 \midrule
-Spec A & 농업경영비 & 3305 & 715,360 & 0.6675 & 0.6927 & 1.0000 \\
-Spec A & 농외소득 & 3716 & -551,204 & 0.7137 & 0.7207 & 1.0000 \\
-Spec A & 가계소비지출 & 3931 & 1,260,755 & 0.0937* & 0.0811* & 0.3243 \\
-Spec A & 농업소득 & 3268 & -2,422,331 & 0.3444 & 0.3744 & 1.0000 \\
-Spec B & 농업경영비 & 3636 & 651,967 & 0.7581 & 0.7788 & 1.0000 \\
-Spec B & 농외소득 & 3835 & -955,159 & 0.5698 & 0.5786 & 1.0000 \\
-Spec B & 가계소비지출 & 3817 & 1,046,852 & 0.2318 & 0.2232 & 0.8929 \\
-Spec B & 농업소득 & 4221 & -2,882,243 & 0.3262 & 0.3554 & 1.0000 \\
+Spec A & 농업경영비 & 3305 & 715,360 & 0.6675 & 0.6732 & 1.0000 \\
+Spec A & 농외소득 & 3716 & -551,204 & 0.7137 & 0.7206 & 1.0000 \\
+Spec A & 가계소비지출 & 3931 & 1,260,755 & 0.0937* & 0.0926* & 0.3704 \\
+Spec A & 농업소득 & 3268 & -2,422,331 & 0.3444 & 0.3671 & 1.0000 \\
+Spec B & 농업경영비 & 3636 & 651,967 & 0.7581 & 0.7680 & 1.0000 \\
+Spec B & 농외소득 & 3835 & -955,159 & 0.5698 & 0.5819 & 1.0000 \\
+Spec B & 가계소비지출 & 3817 & 1,046,852 & 0.2318 & 0.2391 & 0.9565 \\
+Spec B & 농업소득 & 4221 & -2,882,243 & 0.3262 & 0.3665 & 1.0000 \\
 \bottomrule
 \end{tabular}\\[1ex]
 \textbf{Panel B: 6 P3b-1 CH4 본 추정 셀 (Spec A × 고정 bandwidth)}\\
@@ -22,14 +22,14 @@ Spec B & 농업소득 & 4221 & -2,882,243 & 0.3262 & 0.3554 & 1.0000 \\
 \toprule
 Spec & 결과변수 & Bandwidth & 추정치 (KRW) & p\_cluster & p\_wild \\
 \midrule
-Spec A & 임차료 & T1 (h=500) & -164,927 & 0.0959* & 0.1141 \\
-Spec A & 임차료 & T2 (h=1000) & -139,904 & 0.1636 & 0.1602 \\
-Spec A & 임차료 & T3 (h=3300) & -13,538 & 0.8060 & 0.8108 \\
-Spec A & 경영비-임차료 & T1 (h=500) & -3,567,680 & 0.1051 & 0.0410** \\
-Spec A & 경영비-임차료 & T2 (h=1000) & -2,622,322 & 0.1807 & 0.2162 \\
-Spec A & 경영비-임차료 & T3 (h=3300) & 753,343 & 0.6512 & 0.6707 \\
+Spec A & 임차료 & T1 (h=500) & -164,927 & 0.0959* & 0.1071 \\
+Spec A & 임차료 & T2 (h=1000) & -139,904 & 0.1636 & 0.1760 \\
+Spec A & 임차료 & T3 (h=3300) & -13,538 & 0.8060 & 0.8051 \\
+Spec A & 경영비-임차료 & T1 (h=500) & -3,567,680 & 0.1051 & 0.0481** \\
+Spec A & 경영비-임차료 & T2 (h=1000) & -2,622,322 & 0.1807 & 0.2020 \\
+Spec A & 경영비-임차료 & T3 (h=3300) & 753,343 & 0.6512 & 0.6775 \\
 \bottomrule
 \end{tabular}\\
-\footnotesize\textit{Wild 클러스터 부트스트랩: manual Rademacher refit (B=999, `fwildclusterboot` R 4.5.3 CRAN binary 미제공). Cluster: hh\_id. STATA boottest (11\_multiple\_testing.log)은 공통 hA\_min bandwidth 사용 (Step 5 rwolf2 fallback), per-outcome bandwidth와 달라 ±0.01 tolerance 직접 비교는 deferred. 보고된 p\_wild는 per-outcome MSE bandwidth에서의 신규 R-only inference. Spec별 4 outcome Holm stepdown. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\footnotesize\textit{Wild 클러스터 부트스트랩: manual Rademacher refit (B=9999, `fwildclusterboot` R 4.5.3 CRAN binary 미제공). Cluster: hh\_id. STATA boottest (11\_multiple\_testing.log)은 공통 hA\_min bandwidth 사용 (Step 5 rwolf2 fallback), per-outcome bandwidth와 달라 ±0.01 tolerance 직접 비교는 deferred. 보고된 p\_wild는 per-outcome MSE bandwidth에서의 신규 R-only inference. Spec별 4 outcome Holm stepdown. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
 \end{table}
 

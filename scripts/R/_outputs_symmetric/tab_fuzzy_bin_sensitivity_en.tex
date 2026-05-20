@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{F1 monotone-gradient sensitivity to $s_0$ bin-boundary measurement error. Three alternative bin treatments at T2 ($h = 1{,}000$); reference category pure\_owner ($s_0 = 1$, coefficient $\equiv 0$).}
+\label{tab:fuzzy_bin_sensitivity_en}
+\begin{tabular}{lrrrr}
+\toprule
+Spec & Pure tenant & Low owner & Mixed & High owner \\
+\midrule
+\multicolumn{5}{l}{\textit{Strict (baseline)} ($N = 1,240$)} \\
+Coef & 1,151** & 438** & 258 & -52 \\
+SE & (548) & (220) & (198) & (225) \\
+\multicolumn{5}{l}{\textit{Donut [.27,.33]$\cup$[.67,.73]} ($N = 1,144$)} \\
+Coef & 1,152** & 574** & 141 & -103 \\
+SE & (546) & (257) & (176) & (222) \\
+\multicolumn{5}{l}{\textit{Robust 25/75 bins} ($N = 1,240$)} \\
+Coef & 1,155** & 583** & 238 & -122 \\
+SE & (547) & (259) & (184) & (225) \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{Coefficients on \texttt{own\_bin}$\times$\texttt{D\_treat} interactions in the symmetric-screened panel, T2 bandwidth. SE in parentheses, cluster-robust at \texttt{hh\_id}. Donut drops 2018 households whose $s_0$ falls in the bin-boundary uncertainty zones $[.27, .33]$ or $[.67, .73]$ (\citealp{Roth2022_pretrends} measurement-error logic). Robust 25/75 bins shift cutpoints to $0.25$ and $0.75$. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}
