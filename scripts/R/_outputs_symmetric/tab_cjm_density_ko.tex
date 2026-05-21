@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{0.5\,ha 컷오프에서 Cattaneo-Jansson-Ma (2020) 밀도 불연속 검정 (\texttt{rddensity} 패키지, jackknife 분산). 대칭 스크리닝 2018년 기준연도 단면.}
+\label{tab:cjm_density_ko}
+\begin{tabular}{llrrr}
+\toprule
+Window & $h$ (m\textsuperscript{2}) & $N$ & $t_{jk}$ & $p_{jk}$ \\
+\midrule
+전체 & all & 2,178 & 0.676 & 0.499 \\
+T1 ($\pm$500) & 500 & 142 & -1.852 & 0.064* \\
+T2 ($\pm$1,000) & 1,000 & 293 & -1.772 & 0.076* \\
+T3 ($\approx$MSE 3,300) & 3,300 & 1,061 & 0.919 & 0.358 \\
+\bottomrule
+\end{tabular}
+\\
+\footnotesize\textit{주: \citet{CalonicoCattaneoTitiunik2014_rdrobust} 방식의 국소 다항 밀도 추정에 기반한 jackknife 분산 밀도 불연속 검정. 전체 표본, $\pm 500$, $\pm 1{,}000$, $\pm 3{,}300$ 윈도우를 병렬 보고. Jackknife p-값은 bandwidth 선택에 강건하며 좁은 윈도우 추론에서 McCrary (2008)보다 권장됨. * p$<$0.10, ** p$<$0.05, *** p$<$0.01.}
+\end{table}

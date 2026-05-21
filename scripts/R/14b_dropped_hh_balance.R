@@ -7,8 +7,11 @@
 # covariates. Defends the subset construction against selection-bias critique.
 #
 # Output:
-#   _outputs_eligibility/dropped_balance.rds
-#   _outputs_eligibility/tab_dropped_balance_en.tex
+#   $OUT_DIR/dropped_balance.rds
+#   $OUT_DIR/tab_dropped_balance_en.tex
+#   $OUT_DIR/tab_dropped_balance_ko.tex
+#
+# Plan: quality_reports/plans/velvet-frolicking-glade.md (Phase A6 KO emission)
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -84,8 +87,8 @@ fmt_p <- function(p) {
                        sprintf("%.3f", p))))
 }
 
-# Row construction
-var_labels <- c(
+# Row construction — bilingual labels
+var_labels_en <- c(
   area_2018       = "Cultivated area 2018 (m²)",
   area_owned_2018 = "Owned farmland 2018 (m²)",
   off_inc_2018    = "Household off-farm income 2018 (KRW)",
@@ -98,6 +101,20 @@ var_labels <- c(
   area_own        = "Own-cultivated area (m²)",
   area_rent       = "Rented-in area (m²)"
 )
+var_labels_ko <- c(
+  area_2018       = "경지 면적 2018 (m²)",
+  area_owned_2018 = "자작 농지 2018 (m²)",
+  off_inc_2018    = "가구 농외소득 2018 (원)",
+  op_cost         = "농업경영비 (원)",
+  off_farm_income = "농외소득 (원)",
+  consumption     = "가계소비지출 (원)",
+  farm_income     = "농업소득 (원)",
+  age_code_base   = "세대주 연령 (등급 1--6)",
+  own_share       = "자작 비율 $s_0$",
+  area_own        = "자작 면적 (m²)",
+  area_rent       = "임차 면적 (m²)"
+)
+var_labels <- var_labels_en  # default for the long-pivot below
 
 balance_long <- balance |>
   tidyr::pivot_longer(-group, names_to = c("variable", ".value"),
@@ -107,39 +124,70 @@ balance_long <- balance |>
   dplyr::mutate(variable_label = unname(var_labels[variable])) |>
   dplyr::filter(!is.na(variable_label))
 
-rows <- character()
-for (i in seq_len(nrow(balance_long))) {
-  r <- balance_long[i, ]
-  digits <- if (r$variable %in% c("own_share")) 3 else 0
-  rows <- c(rows, sprintf(
-    "%s & %s (%s) & %s (%s) & %s & %s \\\\",
-    r$variable_label,
-    fmt(r$mean_eligible, digits),
-    fmt(r$sd_eligible,   digits),
-    fmt(r$mean_dropped, digits),
-    fmt(r$sd_dropped,   digits),
-    fmt(r$diff_mean, digits),
-    fmt_p(r$p_value)
-  ))
+build_rows <- function(labels) {
+  rows <- character()
+  for (i in seq_len(nrow(balance_long))) {
+    r <- balance_long[i, ]
+    digits <- if (r$variable %in% c("own_share")) 3 else 0
+    var_disp <- unname(labels[r$variable])
+    rows <- c(rows, sprintf(
+      "%s & %s (%s) & %s (%s) & %s & %s \\\\",
+      var_disp,
+      fmt(r$mean_eligible, digits),
+      fmt(r$sd_eligible,   digits),
+      fmt(r$mean_dropped, digits),
+      fmt(r$sd_dropped,   digits),
+      fmt(r$diff_mean, digits),
+      fmt_p(r$p_value)
+    ))
+  }
+  rows
 }
 
-tex <- paste0(
-  "\\begin{table}[ht]\n\\centering\n",
-  "\\caption{Balance: statutorily-eligible (1,131 hh, retained) vs.\\ ",
-  "treated-but-ineligible (194 hh, dropped), pre-period 2018--2019 means (SD)}\n",
-  "\\label{tab:dropped-balance}\n\\small\n",
-  "\\begin{tabular}{lrrrr}\n\\toprule\n",
-  " & Eligible & Dropped & Diff. & Welch \\\\\n",
-  "Variable & ($n_{hh}=1{,}131$) & ($n_{hh}=194$) & (E$-$D) & $t$-test $p$ \\\\\n",
-  "\\midrule\n",
-  paste(rows, collapse = "\n"),
-  "\n\\bottomrule\n\\end{tabular}\n\\\\\n",
-  "\\footnotesize\\textit{Pre-period (2018--2019) means with SD in parentheses, computed on the area-treated cohort (area$_{2018}\\le 5{,}000$~m²) ",
-  "stratified by FHES-observable statutory eligibility (criteria ii and vi). Difference column reports Eligible $-$ Dropped means; ",
-  "Welch's two-sample $t$-test $p$-values reported in rightmost column.}\n",
-  "\\end{table}\n"
-)
-writeLines(tex, file.path(out_dir, "tab_dropped_balance_en.tex"))
+write_dropped_table <- function(lang, path) {
+  if (lang == "en") {
+    labels <- var_labels_en
+    caption <- paste0("Balance: statutorily-eligible (1,131 hh, retained) vs.\\ ",
+                      "treated-but-ineligible (194 hh, dropped), pre-period ",
+                      "2018--2019 means (SD)")
+    label   <- "tab:dropped-balance"
+    hdr1    <- " & Eligible & Dropped & Diff. & Welch \\\\"
+    hdr2    <- "Variable & ($n_{hh}=1{,}131$) & ($n_{hh}=194$) & (E$-$D) & $t$-test $p$ \\\\"
+    notes   <- paste0("\\footnotesize\\textit{Pre-period (2018--2019) means with SD in ",
+                      "parentheses, computed on the area-treated cohort (area$_{2018}\\le 5{,}000$~m²) ",
+                      "stratified by FHES-observable statutory eligibility (criteria ii and vi). ",
+                      "Difference column reports Eligible $-$ Dropped means; ",
+                      "Welch's two-sample $t$-test $p$-values reported in rightmost column.}")
+  } else {
+    labels <- var_labels_ko
+    caption <- paste0("균형 검정: 법정 자격(1,131 농가, 유지) 대 ",
+                      "처치-자격미달(194 농가, 제외), 사전기간 2018--2019 평균 (표준편차)")
+    label   <- "tab:dropped-balance-ko"
+    hdr1    <- " & 자격 & 제외 & 차이 & Welch \\\\"
+    hdr2    <- "변수 & ($n_{hh}=1{,}131$) & ($n_{hh}=194$) & (자격$-$제외) & $t$-검정 $p$ \\\\"
+    notes   <- paste0("\\footnotesize\\textit{주: 면적-처치 cohort ",
+                      "(area$_{2018}\\le 5{,}000$~m²)에서 사전기간 (2018--2019) 평균 ",
+                      "(괄호 안 표준편차)을 FHES 관측 가능 법정 자격(요건 ii, vi) 기준으로 ",
+                      "층화. 차이 열은 자격 $-$ 제외 평균; Welch 2표본 $t$-검정 $p$-값은 ",
+                      "오른쪽 끝 열에 보고.}")
+  }
+  rows <- build_rows(labels)
+  tex <- paste0(
+    "\\begin{table}[ht]\n\\centering\n",
+    sprintf("\\caption{%s}\n", caption),
+    sprintf("\\label{%s}\n\\small\n", label),
+    "\\begin{tabular}{lrrrr}\n\\toprule\n",
+    hdr1, "\n", hdr2, "\n",
+    "\\midrule\n",
+    paste(rows, collapse = "\n"),
+    "\n\\bottomrule\n\\end{tabular}\n\\\\\n",
+    notes, "\n\\end{table}\n"
+  )
+  writeLines(tex, path, useBytes = (lang == "ko"))
+}
+
+write_dropped_table("en", file.path(out_dir, "tab_dropped_balance_en.tex"))
+write_dropped_table("ko", file.path(out_dir, "tab_dropped_balance_ko.tex"))
 
 # Console summary
 sig_diffs <- ttests_df |> dplyr::filter(!is.na(p_value) & p_value < 0.05)

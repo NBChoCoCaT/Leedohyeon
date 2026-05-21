@@ -11,8 +11,11 @@
 # Spec: A (2018-2022, Post=year≥2020) only.
 #
 # Output:
-#   _outputs_eligibility/placebo_cutoffs.rds
-#   _outputs_eligibility/tab_placebo_cutoffs_en.tex
+#   $OUT_DIR/placebo_cutoffs.rds
+#   $OUT_DIR/tab_placebo_cutoffs_en.tex
+#   $OUT_DIR/tab_placebo_cutoffs_ko.tex
+#
+# Plan: quality_reports/plans/velvet-frolicking-glade.md (Phase A7 KO emission)
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -133,23 +136,45 @@ for (i in seq_len(nrow(t2_table))) {
                           r$cutoff_lbl, r$op_cost, r$off_farm_income,
                           r$consumption, r$farm_income))
 }
+# Replace the EN "[true]" marker with Korean for the KO table.
+rows_ko <- gsub("\\textbf{[true]}", "\\textbf{[실제]}", rows, fixed = TRUE)
 
-tex <- paste0(
-  "\\begin{table}[ht]\n\\centering\n",
-  "\\caption{Placebo cutoffs: DiD-RD at non-policy thresholds (Spec A, T2 bandwidth $h=1{,}000$~m\\textsuperscript{2})}\n",
-  "\\label{tab:placebo-cutoffs}\n\\small\n",
-  "\\begin{tabular}{lrrrr}\n\\toprule\n",
-  "Cutoff & op\\_cost & off\\_farm\\_income & consumption & farm\\_income \\\\\n",
-  "\\midrule\n",
-  paste(rows, collapse = "\n"),
-  "\n\\bottomrule\n\\end{tabular}\n\\\\\n",
-  "\\footnotesize\\textit{Coefficient on $D_{\\text{fake}} \\times \\text{Post}$ (KRW for income/cost; m\\textsuperscript{2} for area). ",
-  "Cluster-robust SE (hh\\_id) in parentheses; * p<.10, ** p<.05, *** p<.01. ",
-  "Placebo cutoffs (0.3/0.4/0.6/0.7 ha) test whether the DiD-RD detects spurious effects at non-policy thresholds; ",
-  "the 0.5 ha row is the true SFFP cutoff for comparison.}\n",
-  "\\end{table}\n"
-)
-writeLines(tex, file.path(out_dir, "tab_placebo_cutoffs_en.tex"))
+write_placebo_table <- function(lang, path, body) {
+  if (lang == "en") {
+    caption <- "Placebo cutoffs: DiD-RD at non-policy thresholds (Spec A, T2 bandwidth $h=1{,}000$~m\\textsuperscript{2})"
+    label   <- "tab:placebo-cutoffs"
+    header  <- "Cutoff & op\\_cost & off\\_farm\\_income & consumption & farm\\_income \\\\"
+    notes   <- paste0("\\footnotesize\\textit{Coefficient on $D_{\\text{fake}} \\times \\text{Post}$ ",
+                      "(KRW for income/cost; m\\textsuperscript{2} for area). ",
+                      "Cluster-robust SE (hh\\_id) in parentheses; * p<.10, ** p<.05, *** p<.01. ",
+                      "Placebo cutoffs (0.3/0.4/0.6/0.7 ha) test whether the DiD-RD detects ",
+                      "spurious effects at non-policy thresholds; the 0.5 ha row is the true ",
+                      "SFFP cutoff for comparison.}")
+  } else {
+    caption <- "위약(placebo) 컷오프: 비정책 임계값에서의 DiD-RD (Spec A, T2 대역폭 $h=1{,}000$~m\\textsuperscript{2})"
+    label   <- "tab:placebo-cutoffs-ko"
+    header  <- "컷오프 & op\\_cost & off\\_farm\\_income & consumption & farm\\_income \\\\"
+    notes   <- paste0("\\footnotesize\\textit{주: $D_{\\text{fake}} \\times \\text{Post}$ 계수 ",
+                      "(소득/비용은 원, 면적은 m\\textsuperscript{2}). 괄호 안 클러스터-강건 SE ",
+                      "(hh\\_id); * p<.10, ** p<.05, *** p<.01. 위약 컷오프 ",
+                      "(0.3/0.4/0.6/0.7 ha)는 비정책 임계값에서 DiD-RD가 허위 효과를 탐지하는지 ",
+                      "검증; 0.5 ha 행은 비교용 실제 소농직불금 컷오프.}")
+  }
+  tex <- paste0(
+    "\\begin{table}[ht]\n\\centering\n",
+    sprintf("\\caption{%s}\n", caption),
+    sprintf("\\label{%s}\n\\small\n", label),
+    "\\begin{tabular}{lrrrr}\n\\toprule\n",
+    header, "\n\\midrule\n",
+    paste(body, collapse = "\n"),
+    "\n\\bottomrule\n\\end{tabular}\n\\\\\n",
+    notes, "\n\\end{table}\n"
+  )
+  writeLines(tex, path, useBytes = (lang == "ko"))
+}
+
+write_placebo_table("en", file.path(out_dir, "tab_placebo_cutoffs_en.tex"), rows)
+write_placebo_table("ko", file.path(out_dir, "tab_placebo_cutoffs_ko.tex"), rows_ko)
 
 # Summary log
 log_lines <- c(
