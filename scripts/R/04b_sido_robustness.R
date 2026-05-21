@@ -260,7 +260,7 @@ latex_block <- function(sub, lang) {
     sub_o <- sub |> dplyr::filter(outcome == outc) |> dplyr::arrange(bw_id)
     outc_disp <- if (lang == "ko" && !is.null(outcome_label_ko[[outc]]))
                     outcome_label_ko[[outc]]
-                 else gsub("_", "\\\\_", outc, fixed = TRUE)
+                 else gsub("_", "\\_", outc, fixed = TRUE)
     rows <- c(rows, sprintf("\\multicolumn{4}{l}{\\textit{%s}} \\\\", outc_disp))
     for (i in seq_len(nrow(sub_o))) {
       rows <- c(rows, sprintf("%s & %s & %s & %s \\\\",

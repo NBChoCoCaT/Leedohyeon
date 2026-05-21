@@ -150,7 +150,7 @@ When citing Korean institutions or policy details in English drafts, use the can
 | Analysis pipeline | `scripts/R/01_clean.R` → `05_robust.R` | ⏳ Pending |
 | AEA DCAS synthetic generator (Step 4 P5) | `scripts/R/synthetic/` | ✅ Complete (2026-05-07) |
 | **English draft v1** (primary, paper/en) | `paper/en/main.tex` (bootstrapped from Korean v1) | ⏳ Pending |
-| Korean derived (auxiliary, paper/ko) | `paper/ko/main.tex` (re-synced from `paper/en/` post-stabilization; KAEA + thesis chapter) | ⏳ Deferred until paper/en stable |
+| Korean derived (auxiliary, paper/ko) | `paper/ko/main.tex` (re-synced from `paper/en/` post-stabilization; KAEA + thesis chapter) | ✅ Wave 10.5 mirrored 2026-05-21 PR #29 (main.tex 497 lines, 51 pages, audit + verify-claims PASS; `online_appendix.tex` Wave 2 pending) |
 | First submission target | AJAE | ⏳ Pending |
 
 Defense slides (`Slides/`, `Quarto/`) and `HelloWorld` samples remain in repo for later reactivation.
