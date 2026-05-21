@@ -160,7 +160,7 @@ write_cct_table <- function(lang, path) {
   for (cov in covariates) {
     sub_c <- tbl |> dplyr::filter(covariate == cov) |> dplyr::arrange(bw_id)
     cov_disp <- if (lang == "ko") cov_label_ko[[cov]]
-                else gsub("_", "\\\\_", cov, fixed = TRUE)
+                else gsub("_", "\\_", cov, fixed = TRUE)
     rows <- c(rows,
               sprintf("\\multicolumn{4}{l}{\\textit{%s}} \\\\", cov_disp))
     for (i in seq_len(nrow(sub_c))) {
